@@ -1,0 +1,52 @@
+created:
+    - app/Http/Controllers/Api/UserController.php
+    - app/Http/Controllers/Api/ExamController.php
+    - app/Http/Controllers/Api/SubExamController.php
+    - app/Http/Controllers/Api/QuestionController.php
+    - app/Http/Controllers/Api/OptionController.php
+    - database/factories/ExamFactory.php
+    - database/factories/SubExamFactory.php
+    - database/factories/QuestionFactory.php
+    - database/factories/OptionFactory.php
+    - database/migrations/2023_01_15_142546_create_exams_table.php
+    - database/migrations/2023_01_15_142547_create_sub_exams_table.php
+    - database/migrations/2023_01_15_142548_create_questions_table.php
+    - database/migrations/2023_01_15_142549_create_options_table.php
+    - database/migrations/2023_01_15_142550_create_exam_user_table.php
+    - app/Models/Exam.php
+    - app/Models/SubExam.php
+    - app/Models/Question.php
+    - app/Models/Option.php
+    - tests/Feature/Http/Controllers/Api/UserControllerTest.php
+    - tests/Feature/Http/Controllers/Api/ExamControllerTest.php
+    - tests/Feature/Http/Controllers/Api/SubExamControllerTest.php
+    - tests/Feature/Http/Controllers/Api/QuestionControllerTest.php
+    - tests/Feature/Http/Controllers/Api/OptionControllerTest.php
+    - app/Http/Requests/UserStoreRequest.php
+    - app/Http/Requests/UserUpdateRequest.php
+    - app/Http/Requests/ExamStoreRequest.php
+    - app/Http/Requests/ExamUpdateRequest.php
+    - app/Http/Requests/SubExamStoreRequest.php
+    - app/Http/Requests/SubExamUpdateRequest.php
+    - app/Http/Requests/QuestionStoreRequest.php
+    - app/Http/Requests/QuestionUpdateRequest.php
+    - app/Http/Requests/OptionStoreRequest.php
+    - app/Http/Requests/OptionUpdateRequest.php
+    - app/Http/Resources/UserCollection.php
+    - app/Http/Resources/UserResource.php
+    - app/Http/Resources/ExamCollection.php
+    - app/Http/Resources/ExamResource.php
+    - app/Http/Resources/SubExamCollection.php
+    - app/Http/Resources/SubExamResource.php
+    - app/Http/Resources/QuestionCollection.php
+    - app/Http/Resources/QuestionResource.php
+    - app/Http/Resources/OptionCollection.php
+    - app/Http/Resources/OptionResource.php
+updated:
+    - routes/api.php
+models:
+    User: {  }
+    Exam: { name: text, relationships: { belongsToMany: App\Models\User } }
+    SubExam: { name: text, note: 'decimal nullable', exam_id: 'id foreign', relationships: { belongsTo: Exam, hasMany: Question } }
+    Question: { question: text, voice: 'text nullable', sub_exam_id: 'id foreign', relationships: { belongsTo: SubExam, hasMany: Option } }
+    Option: { answer: text, status: 'boolean:false', question_id: 'id foreign', relationships: { belongsTo: Question } }
