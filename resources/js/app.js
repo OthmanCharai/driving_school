@@ -4,15 +4,19 @@ import './helpers/style'
 
 
 import {createApp} from 'vue'
-import VueSlick from 'vue-slick'
-
-
+import { i18nVue } from 'laravel-vue-i18n'
+ 
 import App from './App.vue'
 
 import Landing from "./Components/Landing/landing.vue"
 
 
 
-createApp(Landing)
+createApp(Landing).use(i18nVue, {
+    resolve: async lang => {
+        const langs = import.meta.glob('../../lang/*.json');
+        return await langs[`../../lang/${lang}.json`]();
+    }
+})
 
 .mount("#app")
