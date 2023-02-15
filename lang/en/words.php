@@ -9,8 +9,12 @@ return [
     "login"=>"Login",
     "language"=>"Language",
     "test-exams"=>"Practice Test",
-    "register"=>"Register"
+    "user"=>"user",
+    "start-exam"=>'Start Exam',
+    "register"=>"Register",
+    'free'=>'free',
+    'not-free'=>'not free'
     ]
     
-    ]
+]
 ?>

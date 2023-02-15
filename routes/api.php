@@ -26,17 +26,17 @@ Route::post('register', [AuthController::class,'register']);
 
 Route::middleware(['jwt.verify'])->group(static function (){
 
-    Route::apiResource('user', App\Http\Controllers\Api\UserController::class);
 
-    Route::apiResource('exam', App\Http\Controllers\Api\ExamController::class);
-
-    Route::apiResource('sub-exam', App\Http\Controllers\Api\SubExamController::class);
-
-    Route::apiResource('question', App\Http\Controllers\Api\QuestionController::class);
-
-    Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
 });
+Route::apiResource('user', App\Http\Controllers\Api\UserController::class);
 
+Route::apiResource('exam', App\Http\Controllers\Api\ExamController::class);
+
+Route::apiResource('sub-exam', App\Http\Controllers\Api\SubExamController::class);
+
+Route::apiResource('question', App\Http\Controllers\Api\QuestionController::class);
+
+Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
 
 
 

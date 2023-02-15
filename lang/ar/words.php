@@ -9,7 +9,11 @@
             "login"=>"تسجيل دخول",
             "language"=>"اللغة",
             "test-exams"=>" امتحان تجريبي",
-            'register'=>"تسجيل الآن"
+            'register'=>"تسجيل الآن",
+            "user"=>"مستخدم",
+            "start-exam"=>'Start Exam',
+            'free'=>'مجاني',
+            'not-free'=>'غير مجاني'
         ]
 
     ]

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ExamResource extends JsonResource
 {
@@ -17,7 +18,13 @@ class ExamResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'is_free'=>$this->is_free,
+            'image'=>/*($this->image)?Storage::disk('public')->url($this->image):*/$this->image,
             'users' => UserCollection::make($this->whenLoaded('users')),
+            'sub_exams' => SubExamCollection::make($this->whenLoaded('sub_exams')),
+            "users_count"=>$this->whenLoaded('users', function () {
+                return $this->users_count;
+            })
         ];
     }
 }

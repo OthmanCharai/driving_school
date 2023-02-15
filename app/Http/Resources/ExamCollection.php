@@ -16,6 +16,7 @@ class ExamCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
+            'count' => $this->collection->count(),
         ];
     }
 }

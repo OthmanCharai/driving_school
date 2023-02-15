@@ -22,7 +22,7 @@ class ExamController extends Controller
      */
     public function index(Request $request): ExamCollection
     {
-        $exams = Exam::all();
+        $exams = Exam::with('users')->get();
 
         return new ExamCollection($exams);
     }
@@ -45,6 +45,7 @@ class ExamController extends Controller
      */
     public function show(Request $request, Exam $exam): ExamResource
     {
+        $exam->load('sub_exams');
         return new ExamResource($exam);
     }
 

@@ -1,8 +1,9 @@
-<template lang="">
-    <div>
-        How To Install Vue 3 in Laravel 9 with Vite - TechvBlogs
+<template>
+    <div id="app">
+      
+      <router-view />
     </div>
-</template>
+  </template>
 <script setup>
 
 </script>

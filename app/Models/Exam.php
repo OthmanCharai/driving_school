@@ -24,6 +24,8 @@ class Exam extends Model
      */
     protected $fillable = [
         'name',
+        'image',
+        "is_free"
     ];
 
     /**
@@ -46,7 +48,7 @@ class Exam extends Model
     /**
      * @return HasMany
      */
-    public function subExam(): HasMany
+    public function sub_exams(): HasMany
     {
         return $this->hasMany(SubExam::class);
     }

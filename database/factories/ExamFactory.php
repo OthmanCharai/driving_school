@@ -24,6 +24,8 @@ class ExamFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            "image"=>$this->faker->imageUrl('500','500'),
+            "is_free"=>array_rand([true,false])
         ];
     }
 }
