@@ -6,8 +6,9 @@
             >
                 {{ question.question }}
             </div>
-            <div v-for="item in question.options" @click="selectedOption">
+            <div v-for="item in question.options">
                 <ExamOption
+                    @click="selectOption(item.id)"
                     :isActive="selectedOption === item.id"
                     :value="item.answer"
                     :key="item.id"
@@ -29,8 +30,8 @@ import { ref } from "vue";
 import { useExamStore } from "@/stores/exam";
 import { storeToRefs } from "pinia";
 
-const { selectedOption } = useExamStore();
-const { selectOption } = storeToRefs(useExamStore());
+const { selectOption } = useExamStore();
+const { selectedOption } = storeToRefs(useExamStore());
 
 defineProps({
     question: {

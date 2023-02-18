@@ -47,6 +47,10 @@ export const useExamStore = defineStore("exam", () => {
         currentSubExamIndex.value += 1;
     }
 
+    function selectOption(newSelectedOption) {
+        selectedOption.value = newSelectedOption;
+    }
+
     return {
         currentQuestionIndex,
         currentSubExamIndex,
@@ -56,5 +60,6 @@ export const useExamStore = defineStore("exam", () => {
         currentQuestion,
         currentSubExam,
         selectedOption,
+        selectOption,
     };
 });
