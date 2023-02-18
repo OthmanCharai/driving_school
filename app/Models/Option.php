@@ -39,6 +39,9 @@ class Option extends Model
         'question_id' => 'integer',
     ];
 
+    protected $hidden = [
+        'status',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
