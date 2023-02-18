@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useExamStore = defineStore("exam", () => {
@@ -6,15 +6,16 @@ export const useExamStore = defineStore("exam", () => {
     const currentSubExamIndex = ref(0);
     const subExams = ref(null);
 
+    const currentSubExam = computed(() => {
+        if (!subExams.value) return;
+        return subExams.value[currentSubExamIndex.value];
+    });
+
     const currentQuestion = computed(() => {
         const currentQuestionIndexValue = currentQuestionIndex.value;
         if (currentQuestionIndexValue === -1) return null;
-
-        const currentSubExam = subExams[currentSubExamIndex];
-        return currentSubExam?.questions[currentQuestionIndexValue];
+        return currentSubExam.value?.questions[currentQuestionIndexValue];
     });
-
-    
 
     function showNextQuestion() {
         const currentQuestionIndexValue = currentQuestionIndex.value;
@@ -52,5 +53,6 @@ export const useExamStore = defineStore("exam", () => {
         showNextQuestion,
         showNextSubExam,
         currentQuestion,
+        currentSubExam,
     };
 });

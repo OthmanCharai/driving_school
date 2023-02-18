@@ -2,7 +2,7 @@
     <div class="exam-page">
         <exam-nav-barre></exam-nav-barre>
         <!-- Main content -->
-        <main class="container mx-auto px-4 py-32">
+        <main class=" px-[20rem] py-32">
             <sub-exam :exam="currentSubExam" :examIndex="currentSubExamIndex" />
         </main>
     </div>
@@ -21,18 +21,12 @@ import { storeToRefs } from "pinia";
 
 const { exam, getExam } = useExam();
 
-const { subExams } = storeToRefs(useExamStore());
-
-let currentSubExam = ref(null);
-let currentSubExamIndex = ref(1);
+const { subExams, currentSubExam, currentSubExamIndex } = storeToRefs(useExamStore());
 
 const route = useRoute();
 onMounted(async () => {
     await getExam(route.params.id);
-    // console.log();
     const subExamsList = exam.value.data.sub_exams.data;
-    currentSubExam.value = subExams[0];
-    console.log(subExamsList.length);
     subExams.value = subExamsList;
 });
 </script>
