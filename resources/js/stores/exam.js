@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 export const useExamStore = defineStore("exam", () => {
     const currentQuestionIndex = ref(-1);
     const currentSubExamIndex = ref(0);
+    const selectedOption = ref(0);
     const subExams = ref(null);
 
     const currentSubExam = computed(() => {
@@ -54,5 +55,6 @@ export const useExamStore = defineStore("exam", () => {
         showNextSubExam,
         currentQuestion,
         currentSubExam,
+        selectedOption,
     };
 });
