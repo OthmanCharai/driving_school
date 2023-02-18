@@ -96,8 +96,8 @@ class SubExamController extends Controller
                        return $item->options->where('id',$response['option_id'])->first();
                    })->first();
                    $option=$question->options->where('id',$response['option_id'])->first();
-                   $displayed_data[$sub_exam->id][]=[
-                     $question->id=>($option->status)?"true":"false"
+                   $displayed_data[$sub_exam->name][]=[
+                     ($option->status)?"true":"false"
                    ];
 
                     if($option->status)

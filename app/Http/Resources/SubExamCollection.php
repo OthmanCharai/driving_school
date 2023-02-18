@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 
 class SubExamCollection extends ResourceCollection
 {
@@ -11,12 +12,11 @@ class SubExamCollection extends ResourceCollection
      * Transform the resource collection into an array.
      *
      * @param  Request  $request
-     * @return array
+     * @return Collection
      */
-    public function toArray($request): array
+    public function toArray($request): Collection
     {
-        return [
-            'data' => $this->collection,
-        ];
+        return $this->collection;
+        ;
     }
 }
