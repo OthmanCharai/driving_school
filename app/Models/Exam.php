@@ -48,7 +48,7 @@ class Exam extends Model
     /**
      * @return HasMany
      */
-    public function sub_exams(): HasMany
+    public function subExam(): HasMany
     {
         return $this->hasMany(SubExam::class);
     }
