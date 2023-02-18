@@ -1,23 +1,25 @@
-import './bootstrap';
-// import style 
-import './helpers/style'
+import "./bootstrap";
+// import style
+import "./helpers/style";
 
-import {createApp} from 'vue';
-import { i18nVue } from 'laravel-vue-i18n';
-import router from './routes/index'
+import { createApp } from "vue";
+import { i18nVue } from "laravel-vue-i18n";
+import router from "./routes/index";
+import { createPinia } from "pinia";
 
+import App from "./App.vue";
 
- 
-import App from './App.vue';
+import Landing from "./Pages/Landing/landing.vue";
 
-import Landing from "./Pages/Landing/landing.vue";  
+const pinia = createPinia();
 
-
-createApp(App).use(i18nVue, {
-    resolve: async lang => {
-        const langs = import.meta.glob('../../lang/*.json');
-        return await langs[`../../lang/${lang}.json`]();
-    }
-})
-.use(router)
-.mount("#app")
+createApp(App)
+    .use(i18nVue, {
+        resolve: async (lang) => {
+            const langs = import.meta.glob("../../lang/*.json");
+            return await langs[`../../lang/${lang}.json`]();
+        },
+    })
+    .use(router)
+    .use(pinia)
+    .mount("#app");

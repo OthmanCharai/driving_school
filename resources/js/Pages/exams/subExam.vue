@@ -1,5 +1,10 @@
 <script setup>
+import { ref } from "vue";
+
 const props = defineProps(["exam", "examIndex"]);
+
+const isSubExamStarted = ref(false);
+const currentQuestion = ref(null);
 </script>
 
 <template>
