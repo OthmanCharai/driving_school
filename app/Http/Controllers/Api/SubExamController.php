@@ -11,13 +11,14 @@ use App\Models\SubExam;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SubExamController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+       // $this->middleware('auth:api');
     }
     /**
      * @param Request $request
@@ -75,5 +76,37 @@ class SubExamController extends Controller
         $subExam->delete();
 
         return response()->json('sub exam deleted with success',200)->setStatusCode(200);
+    }
+
+
+    public function score(Request $request)
+    {
+        $counter=0;
+        $displayed_data=[];
+        foreach ($request->data as $data){
+
+            try {
+                $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
+                foreach ($data['response'] as $response){
+                   $question= $sub_exam->questions->filter(function ($item) use ($response){
+                       return $item->options->where('id',$response['option_id'])->first();
+                   })->first();
+                   $option=$question->options->where('id',$response['option_id'])->first();
+                   $displayed_data[$sub_exam->id][]=[
+                     $question->id=>($option->status)?"true":"false"
+                   ];
+
+                    if($option->status)
+                        $counter++;
+
+                }
+
+            }catch (NotFoundHttpException $e){
+                return \response()->json($e->getMessage(),404);
+            }
+        }
+        $displayed_data['score']=$counter;
+        return response()->json($displayed_data);
+
     }
 }

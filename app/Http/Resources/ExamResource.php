@@ -21,7 +21,7 @@ class ExamResource extends JsonResource
             'is_free'=>$this->is_free,
             'image'=>/*($this->image)?Storage::disk('public')->url($this->image):*/$this->image,
             'users' => UserCollection::make($this->whenLoaded('users')),
-            'sub_exams' => SubExamCollection::make($this->whenLoaded('sub_exams')),
+            'sub_exams' => SubExamCollection::make($this->whenLoaded('subExam')),
             "users_count"=>$this->whenLoaded('users', function () {
                 return $this->users_count;
             })

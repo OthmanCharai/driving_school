@@ -8,6 +8,7 @@ use App\Http\Requests\ExamUpdateRequest;
 use App\Http\Resources\ExamCollection;
 use App\Http\Resources\ExamResource;
 use App\Models\Exam;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -45,7 +46,7 @@ class ExamController extends Controller
      */
     public function show(Request $request, Exam $exam): ExamResource
     {
-        $exam->load('sub_exams');
+        $exam->load('subExam.questions.options');
 
         return new ExamResource($exam);
     }
@@ -65,13 +66,11 @@ class ExamController extends Controller
     /**
      * @param Request $request
      * @param Exam $exam
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, Exam $exam): Response
+    public function destroy(Request $request, Exam $exam): JsonResponse
     {
-
         $exam->delete();
-
         return response()->json('exam deleted with success','200',)->setStatusCode(200);
     }
 }
