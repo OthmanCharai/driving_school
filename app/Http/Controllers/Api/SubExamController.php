@@ -79,7 +79,11 @@ class SubExamController extends Controller
     }
 
 
-    public function score(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function score(Request $request): JsonResponse
     {
         $counter=0;
         $displayed_data=[];
