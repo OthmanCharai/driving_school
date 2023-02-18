@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SubExamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +39,7 @@ Route::apiResource('question', App\Http\Controllers\Api\QuestionController::clas
 
 Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
 
-
+Route::post('score',[SubExamController::class,'score']);
 
 
 

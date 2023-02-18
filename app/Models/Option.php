@@ -28,6 +28,9 @@ class Option extends Model
         'question_id',
     ];
 
+    protected $hidden = ['status'];
+
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -39,9 +42,7 @@ class Option extends Model
         'question_id' => 'integer',
     ];
 
-    protected $hidden = [
-        'status',
-    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -17,7 +17,6 @@ class OptionResource extends JsonResource
         return [
             'id' => $this->id,
             'answer' => $this->answer,
-            'status' => $this->status,
             'question' => $this->question,
         ];
     }
