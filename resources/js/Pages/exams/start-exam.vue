@@ -2,7 +2,7 @@
     <div class="exam-page">
         <exam-nav-barre></exam-nav-barre>
         <!-- Main content -->
-        <main class="container mx-auto px-4 py-32">
+        <main class=" px-[20rem] py-32">
             <sub-exam :exam="currentSubExam" :examIndex="currentSubExamIndex" />
         </main>
     </div>
@@ -16,18 +16,17 @@ import { onMounted } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import useExam from "./../../composables/exams";
+import { useExamStore } from "@/stores/exam";
+import { storeToRefs } from "pinia";
+
 const { exam, getExam } = useExam();
 
-let currentSubExam = ref(null);
-let currentSubExamIndex = ref(1);
+const { subExams, currentSubExam, currentSubExamIndex } = storeToRefs(useExamStore());
 
 const route = useRoute();
 onMounted(async () => {
     await getExam(route.params.id);
-    // console.log();
-    const subExams = exam.value.data.sub_exams.data;
-    currentSubExam.value = subExams[0];
-    console.log(currentSubExam.value);
+    const subExamsList = exam.value.data.sub_exams.data;
+    subExams.value = subExamsList;
 });
 </script>
-<style></style>
