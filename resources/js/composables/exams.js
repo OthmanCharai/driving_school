@@ -24,7 +24,7 @@ export default function useExam(){
         })
    }
    const getExam=async(id)=>{
-      axios.get('../api/exam/'+id)
+      axios.get('/api/exam/'+id)
       .then(response=>{
        
         exam.value=response.data;

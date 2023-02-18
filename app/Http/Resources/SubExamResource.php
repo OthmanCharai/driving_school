@@ -20,7 +20,7 @@ class SubExamResource extends JsonResource
             'name' => $this->name,
             'note' => $this->note,
             'exam' => ExamCollection::make($this->whenLoaded('exam')),
-            'questions' => QuestionCollection::make($this->whenLoaded('questions')),
+            'questions' =>$this->questions->load('options'),
         ];
     }
 }

@@ -13,7 +13,9 @@ return [
     "start-exam"=>'Start Exam',
     "register"=>"Register",
     'free'=>'free',
-    'not-free'=>'not free'
+    'not-free'=>'not free',
+    "next-question"=>"Next Question",
+    "end-exam"=>"End Exam"
     ]
     
 ]

@@ -1,10 +1,22 @@
 <template lang="">
-    <div class="top-bar ">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         
-            <button class="btn btn-outline-success my-2 my-sm-0 float-left" type="submit">
-                Sign In
-            </button>
+    <div class="exam-nav">
+        <nav class="navbar bg-primary">
+            <div class="container-fluid">
+                <button
+                    class="btn btn-secondary p-3"
+                    id="end_quiz"
+                    type="submit"
+                >
+                    إنهاء الاختبار
+                </button>
+                <button
+                    class="btn btn-secondary p-2 text-end mx-5 text-center"
+                    type="button"
+                >
+                    الوقت المتبقي
+                    <span class="bg-primary mx-1 p-1" id="timer">0</span>
+                </button>
+            </div>
         </nav>
     </div>
 </template>
@@ -12,17 +24,5 @@
 export default {};
 </script>
 <style>
-.top-bar {
-    width: 100%;
-    background: #112d4e;
-    display: inline-block;
-    text-align: end;
-    font-size: 36px;
-    font-weight: 100;
-    color: #2f8efb;
-    height: 100px;
-    line-height: 100px;
-   
-    position: relative;
-}
+
 </style>

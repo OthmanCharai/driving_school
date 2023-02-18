@@ -46,6 +46,7 @@ class ExamController extends Controller
     public function show(Request $request, Exam $exam): ExamResource
     {
         $exam->load('sub_exams');
+
         return new ExamResource($exam);
     }
 

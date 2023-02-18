@@ -30,7 +30,7 @@
 
                     <!--======= MENU =========-->
                     <div class="col-md-9 col-sm-9">
-                        <div class="collapse navbar-collapse" id="nav-res">
+                        <div class=" navbar-collapse" id="nav-res">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown active">
                                     <router-link :to="{name:'home'}">
