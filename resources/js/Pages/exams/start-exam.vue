@@ -16,7 +16,12 @@ import { onMounted } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import useExam from "./../../composables/exams";
+import { useExamStore } from "@/stores/exam";
+import { storeToRefs } from "pinia";
+
 const { exam, getExam } = useExam();
+
+const { subExams } = storeToRefs(useExamStore());
 
 let currentSubExam = ref(null);
 let currentSubExamIndex = ref(1);
@@ -25,9 +30,9 @@ const route = useRoute();
 onMounted(async () => {
     await getExam(route.params.id);
     // console.log();
-    const subExams = exam.value.data.sub_exams.data;
+    const subExamsList = exam.value.data.sub_exams.data;
     currentSubExam.value = subExams[0];
-    console.log(currentSubExam.value);
+    console.log(subExamsList.length);
+    subExams.value = subExamsList;
 });
 </script>
-<style></style>

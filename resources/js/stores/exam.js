@@ -6,21 +6,38 @@ export const useExamStore = defineStore("exam", () => {
     const currentSubExamIndex = ref(0);
     const subExams = ref(null);
 
+    const currentQuestion = computed(() => {
+        const currentQuestionIndexValue = currentQuestionIndex.value;
+        if (currentQuestionIndexValue === -1) return null;
+
+        const currentSubExam = subExams[currentSubExamIndex];
+        return currentSubExam?.questions[currentQuestionIndexValue];
+    });
+
+    
+
     function showNextQuestion() {
         const currentQuestionIndexValue = currentQuestionIndex.value;
-        const subExamsValue = subExams.value;
+        const subExamsList = subExams.value;
         if (currentQuestionIndexValue === -1) {
             currentQuestionIndex.value = 0;
             return;
         }
+
         // check if last question
         const questionsCount =
-            subExamsValue[currentQuestionIndexValue]?.questions?.length;
+            subExamsList[currentSubExamIndex.value]?.questions?.length;
         if (questionsCount === currentQuestionIndexValue + 1) {
+            // IN last exam?
+            if (subExamsList.length === currentSubExamIndex.value + 1) {
+                // Calculate score
+                return;
+            }
             currentSubExamIndex.value += 1;
-            currentQuestionIndexValue.value = -1;
+            currentQuestionIndex.value = -1;
             return;
         }
+
         currentQuestionIndex.value += 1;
     }
 
@@ -34,5 +51,6 @@ export const useExamStore = defineStore("exam", () => {
         subExams,
         showNextQuestion,
         showNextSubExam,
+        currentQuestion,
     };
 });
