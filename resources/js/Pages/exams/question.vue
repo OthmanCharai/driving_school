@@ -1,8 +1,9 @@
 <template lang="">
+
     <div class="flex h-[80%] gap-10 w-full">
         <div class="flex-1 mr-44 h-40 w-full ml-10">
             <div
-                class="row question rounded-lg h-32 mt-2 text-white items-center justify-center"
+                class="row question rounded-lg h-32 mt-2 text-white flex items-center justify-center"
             >
                 {{ question.question }}
             </div>
@@ -12,13 +13,14 @@
                     :isActive="selectedOption === item.id"
                     :value="item.answer"
                     :key="item.id"
+                    
                 />
             </div>
         </div>
         <div class="col-md-6">
             <img
-                src="https://tailwindcss.com/_next/static/media/social-card-large.a6e71726.jpg"
-                class="w-full h-full"
+                :src="question.image"
+                class="w-full h-2/3 border-3 border-blue-400"
                 alt="Image"
             />
         </div>
