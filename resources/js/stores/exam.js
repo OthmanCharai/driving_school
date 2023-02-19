@@ -2,12 +2,29 @@ import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { submitAnswers } from "@/services/exam";
 
+const fakeData = {
+    "Ms. Catalina Dach": [
+        ["true"],
+        ["true"],
+        ["false"],
+        ["true"],
+        ["true"],
+        ["true"],
+        ["true"],
+        ["true"],
+        ["true"],
+        ["true"],
+    ],
+    score: 9,
+};
+
 export const useExamStore = defineStore("exam", () => {
     const currentQuestionIndex = ref(-1);
     const currentSubExamIndex = ref(0);
     const selectedOption = ref(0);
     const subExams = ref(null);
     const answers = ref([]);
+    const quizResult = ref(fakeData);
 
     const currentSubExam = computed(() => {
         if (!subExams.value) return;
@@ -41,8 +58,15 @@ export const useExamStore = defineStore("exam", () => {
     }
 
     async function showResults() {
-        let data = await submitAnswers(answers);
+        try{
+            let data = await submitAnswers(answers.value);
+
+        }catch(e){
+
+        }
+
         console.log(data);
+        quizResult.value = fakeData;
     }
 
     function showNextQuestion() {

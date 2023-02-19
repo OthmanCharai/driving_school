@@ -1,6 +1,5 @@
-import "./bootstrap";
 // import style
-import "./helpers/style";
+import "./bootstrap";
 
 import { createApp } from "vue";
 import { i18nVue } from "laravel-vue-i18n";
