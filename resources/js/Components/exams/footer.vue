@@ -2,6 +2,11 @@
 import { useExamStore } from "@/stores/exam";
 
 const { showNextQuestion } = useExamStore();
+
+const next = () => {
+    showNextQuestion();
+    next();
+}
 </script>
 <template lang="">
     <footer class="question w-full fixed bottom-0 flex items-center justify-centerd h-32 ">

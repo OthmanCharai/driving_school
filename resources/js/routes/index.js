@@ -4,6 +4,7 @@ import NotFound from "./../Pages/not-founded.vue";
 import ExamIndex from "./../Pages/exams/index.vue";
 import ExamStart from './../Pages/exams/start-exam.vue';
 import Question from "./../Pages/exams/question.vue"
+import examResult from "./../Pages/exams/examResult.vue"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +28,11 @@ const router = createRouter({
       path:'/exam/:id/question/:id',
       name:'question',
       component:Question
+    },
+    {
+      path:'/exam-result',
+      name:'question',
+      component:examResult
     },
     {
         path: '/:catchAll(.*)',
