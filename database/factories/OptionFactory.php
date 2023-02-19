@@ -24,7 +24,7 @@ class OptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'answer' => $this->faker->text,
+            'answer' => $this->faker->sentence(3),
             'status' => $this->faker->boolean,
             'question_id' => Question::factory(),
         ];

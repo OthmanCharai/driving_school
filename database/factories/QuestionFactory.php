@@ -24,9 +24,10 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'question' => $this->faker->text,
-            'voice' => $this->faker->text,
+            'question' => $this->faker->sentence(4),
+            'voice' => $this->faker->sentence(4),
             'sub_exam_id' => SubExam::factory(),
+            'image'=>$this->faker->imageUrl('500','500')
         ];
     }
 }

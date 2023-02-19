@@ -1,8 +1,6 @@
 import { ref, reactive } from "vue";
 import axios from "axios";
-
 const exam = ref({});
-
 const exams = ref({});
 export default function useExam() {
     const getExams = () => {

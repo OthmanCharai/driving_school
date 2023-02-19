@@ -20,6 +20,7 @@ class QuestionResource extends JsonResource
             'voice' => $this->voice,
             'sub_exam_id' => $this->sub_exam_id,
             'options' =>$this->options,
+            'image'=>$this->image
         ];
     }
 }
