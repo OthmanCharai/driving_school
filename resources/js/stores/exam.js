@@ -1,24 +1,44 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { submitAnswers } from "@/services/exam";
+import { useRouter } from "vue-router";
 
-const fakeData = {
-    "Ms. Catalina Dach": [
-        ["true"],
-        ["true"],
-        ["false"],
-        ["true"],
-        ["true"],
-        ["true"],
-        ["true"],
-        ["true"],
-        ["true"],
-        ["true"],
-    ],
-    score: 9,
-};
+const fakeData = [
+    {
+        "Ms. Catalina Dach": [
+            [true],
+            [true],
+            [false],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+        ],
+        score: 9,
+    },
+    {
+        "Ms. Catalina Dach": [
+            [true],
+            [true],
+            [false],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+            [true],
+        ],
+        score: 9,
+    },
+];
 
 export const useExamStore = defineStore("exam", () => {
+    const router = useRouter();
+
     const currentQuestionIndex = ref(-1);
     const currentSubExamIndex = ref(0);
     const selectedOption = ref(0);
@@ -58,15 +78,13 @@ export const useExamStore = defineStore("exam", () => {
     }
 
     async function showResults() {
-        try{
+        try {
             let data = await submitAnswers(answers.value);
+        } catch (e) {}
 
-        }catch(e){
-
-        }
-
-        console.log(data);
         quizResult.value = fakeData;
+        // router.push({ name: "examResult" });
+        window.location.href = '/examResult'
     }
 
     function showNextQuestion() {

@@ -29,7 +29,7 @@ const router = createRouter({
             component: Question,
         },
         {
-            path: "/exam-result",
+            path: "/examResult",
             name: "examResult",
             component: () => import("./../Pages/exams/examResult/index.vue"),
         },
