@@ -1,5 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
+import { submitAnswers } from "@/services/exam";
 
 export const useExamStore = defineStore("exam", () => {
     const currentQuestionIndex = ref(-1);
@@ -39,6 +40,11 @@ export const useExamStore = defineStore("exam", () => {
         // todo : change for prev
     }
 
+    async function showResults() {
+        let data = await submitAnswers(answers);
+        console.log(data);
+    }
+
     function showNextQuestion() {
         saveCurrentQuestionAnswer();
         const currentQuestionIndexValue = currentQuestionIndex.value;
@@ -51,11 +57,11 @@ export const useExamStore = defineStore("exam", () => {
         // check if last question
         const questionsCount =
             subExamsList[currentSubExamIndex.value]?.questions?.length;
+
         if (questionsCount === currentQuestionIndexValue + 1) {
             // IN last exam?
             if (subExamsList.length === currentSubExamIndex.value + 1) {
-                // Calculate score
-                return;
+                return showResults();
             }
             currentSubExamIndex.value += 1;
             currentQuestionIndex.value = -1;
