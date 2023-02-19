@@ -6,6 +6,7 @@ export const useExamStore = defineStore("exam", () => {
     const currentSubExamIndex = ref(0);
     const selectedOption = ref(0);
     const subExams = ref(null);
+    const answers = ref([]);
 
     const currentSubExam = computed(() => {
         if (!subExams.value) return;
@@ -18,7 +19,28 @@ export const useExamStore = defineStore("exam", () => {
         return currentSubExam.value?.questions[currentQuestionIndexValue];
     });
 
+    function saveCurrentQuestionAnswer() {
+        const currentQuestionIndexValue = currentQuestionIndex.value;
+        if (currentQuestionIndexValue === -1) {
+            const currentExamID = currentSubExam.value.id;
+            answers.value.push({
+                sub_exam_id: currentExamID,
+                response: [],
+            });
+            return;
+        }
+
+        const response = {
+            question_id: currentQuestion.value.id,
+            option_id: selectedOption.value,
+        };
+
+        answers.value[currentSubExamIndex.value].response.push(response);
+        // todo : change for prev
+    }
+
     function showNextQuestion() {
+        saveCurrentQuestionAnswer();
         const currentQuestionIndexValue = currentQuestionIndex.value;
         const subExamsList = subExams.value;
         if (currentQuestionIndexValue === -1) {
@@ -61,5 +83,6 @@ export const useExamStore = defineStore("exam", () => {
         currentSubExam,
         selectedOption,
         selectOption,
+        answers,
     };
 });
