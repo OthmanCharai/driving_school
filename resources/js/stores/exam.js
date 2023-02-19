@@ -58,8 +58,7 @@ export const useExamStore = defineStore("exam", () => {
         const questionsCount =
             subExamsList[currentSubExamIndex.value]?.questions?.length;
 
-        if (1 === currentQuestionIndexValue + 1) {
-            return showResults();
+        if (questionsCount === currentQuestionIndexValue + 1) {
             // IN last exam?
             if (subExamsList.length === currentSubExamIndex.value + 1) {
                 return showResults();
