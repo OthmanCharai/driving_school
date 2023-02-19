@@ -30,19 +30,17 @@
 
                     <!--======= MENU =========-->
                     <div class="col-md-9 col-sm-9">
-                        <div class=" navbar-collapse" id="nav-res">
+                        <div class="navbar-collapse" id="nav-res">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown active">
-                                    <router-link :to="{name:'home'}">
+                                    <router-link :to="{ name: 'home' }">
                                         {{ $t("words.landing.home") }}
                                     </router-link>
-                                   
                                 </li>
                                 <li class="dropdown">
-                                    <router-link :to="{name:'exams'}">
+                                    <router-link :to="{ name: 'exams' }">
                                         {{ $t("words.landing.exams") }}
                                     </router-link>
-                                  
                                 </li>
                                 <li class="dropdown">
                                     <a href="#portfolio" class="dropdown-toggle"
@@ -50,9 +48,10 @@
                                     </a>
                                 </li>
                                 <li class="dropdown">
-                                    <a href="#pricing" class="dropdown-toggle"
-                                        >{{ $t("words.landing.contact") }}
-                                    </a>
+                                    <router-link :to="{ name: 'contact' }">
+                                        {{ $t("words.contact.contact") }}
+                                    </router-link>
+                                  
                                 </li>
                                 <!--                                         <li class="dropdown"> <a href="#inspectors" class="dropdown-toggle">{{ $t('words.landing.login') }}</a></li>
  -->
@@ -64,5 +63,7 @@
         </div>
     </header>
 </template>
-<script setup></script>
+<script setup>
+
+</script>
 <style lang="css" scoped></style>

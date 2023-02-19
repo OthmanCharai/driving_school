@@ -1,5 +1,6 @@
 <template lang="">
     <div id="wrap" class="wide">
+
         <top-bar></top-bar>
         <!--======= HEADER =========-->
         <LandingHeader />

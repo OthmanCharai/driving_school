@@ -88,29 +88,26 @@ class SubExamController extends Controller
         $counter=0;
         $displayed_data=[];
         foreach ($request->data as $data){
-
             try {
                 $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                   $question= $sub_exam->questions->filter(function ($item) use ($response){
-                       return $item->options->where('id',$response['option_id'])->first();
-                   })->first();
-                   $option=$question->options->where('id',$response['option_id'])->first();
-                   $displayed_data[$sub_exam->name][]=[
-                     ($option->status)?"true":"false"
-                   ];
-
-                    if($option->status)
-                        $counter++;
-
+                    if($response['option_id']){
+                        $question= $sub_exam->questions->filter(function ($item) use ($response){
+                            return $item->options->where('id',$response['option_id'])->first();
+                        })->first();
+                        $option=$question->options->where('id',$response['option_id'])->first();
+                        $displayed_data[$sub_exam->name][]=[
+                            ($option->status)?"true":"false"
+                        ];
+                        if($option->status)
+                            $counter++;
+                    }
                 }
-
             }catch (NotFoundHttpException $e){
                 return \response()->json($e->getMessage(),404);
             }
         }
         $displayed_data['score']=$counter;
         return response()->json($displayed_data);
-
     }
 }
