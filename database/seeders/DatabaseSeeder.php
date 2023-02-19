@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
              ->has(SubExam::factory()
                  ->has(Question::factory()
                      ->has(Option::factory()->count(4))
-                     ->count(20))
-                 ->count(10))
+                     ->count(2))
+                 ->count(2))
              ->create();
 
 
