@@ -4,7 +4,7 @@ import NotFound from "./../Pages/not-founded.vue";
 import ExamIndex from "./../Pages/exams/index.vue";
 import ExamStart from './../Pages/exams/start-exam.vue';
 import Question from "./../Pages/exams/question.vue"
-import examResult from "./../Pages/exams/examResult.vue";
+import examResult from "./../Pages/exams/examResult/index.vue";
 import Contact from "./../Pages/Contact/index.vue"
 
 const router = createRouter({
