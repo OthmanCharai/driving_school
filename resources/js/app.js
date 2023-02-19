@@ -1,4 +1,3 @@
-// import style
 import "./bootstrap";
 
 import { createApp } from "vue";
@@ -7,8 +6,6 @@ import router from "./routes/index";
 import { createPinia } from "pinia";
 
 import App from "./App.vue";
-
-import Landing from "./Pages/Landing/landing.vue";
 
 const pinia = createPinia();
 

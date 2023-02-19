@@ -2,42 +2,41 @@
 /* 		Mian Js Start ( Drive Me - Driving School Management HTML5 Theme )
  /*-----------------------------------------------------------------------------------*/
 $(document).ready(function ($) {
-
     /*-----------------------------------------------------------------------------------*/
     /*   PRELOADER
      /*-----------------------------------------------------------------------------------*/
     $(window).bind("load", function () {
-        $('.work-in-progress').fadeOut(100);
+        $(".work-in-progress").fadeOut(100);
     });
 
-    "use strict"
+    ("use strict");
     /*-----------------------------------------------------------------------------------*/
     /*    STICKY NAVIGATION
      /*-----------------------------------------------------------------------------------*/
-    $(".sticky").sticky({topSpacing: 0});
+    $(".sticky").sticky({ topSpacing: 0 });
     /*-----------------------------------------------------------------------------------*/
 
     /*    DATE PICKER
      /*-----------------------------------------------------------------------------------*/
     $("#datepicker").datepicker({
-        inline: true
+        inline: true,
     });
     /*-----------------------------------------------------------------------------------*/
     /*  ISOTOPE PORTFOLIO
      /*-----------------------------------------------------------------------------------*/
-    var $container = $('.portfolio-wrapper .items');
+    var $container = $(".portfolio-wrapper .items");
     $container.imagesLoaded(function () {
         $container.isotope({
-            itemSelector: '.item',
-            layoutMode: 'fitRows'
+            itemSelector: ".item",
+            layoutMode: "fitRows",
         });
     });
-    $('.filter li a').on("click", function () {
-        $('.filter li a').removeClass('active');
-        $(this).addClass('active');
-        var selector = $(this).attr('data-filter');
+    $(".filter li a").on("click", function () {
+        $(".filter li a").removeClass("active");
+        $(this).addClass("active");
+        var selector = $(this).attr("data-filter");
         $container.isotope({
-            filter: selector
+            filter: selector,
         });
         return false;
     });
@@ -45,24 +44,24 @@ $(document).ready(function ($) {
     /*-----------------------------------------------------------------------------------*/
     /* 	BANNER SLIDER
      /*-----------------------------------------------------------------------------------*/
-    $('.flexslider').flexslider({
+    $(".flexslider").flexslider({
         animation: "fade",
         slideshow: true, //Boolean: Animate slider automatically
         slideshowSpeed: 6000, //Integer: Set the speed of the slideshow cycling, in milliseconds
         animationSpeed: 400, //Integer: Set the speed of animations, in milliseconds
         pauseOnAction: true, //Boolean: Pause the slideshow when interacting with control elements, highly recommended.
-        pauseOnHover: true            //Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+        pauseOnHover: true, //Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
     });
 
     /*-----------------------------------------------------------------------------------*/
     /* 	WOW ANIMATION
      /*-----------------------------------------------------------------------------------*/
     var wow = new WOW({
-        boxClass: 'wow', // animated element css class (default is wow)
-        animateClass: 'animated', // animation css class (default is animated)
+        boxClass: "wow", // animated element css class (default is wow)
+        animateClass: "animated", // animation css class (default is animated)
         offset: 10, // distance to the element when triggering the animation (default is 0)
         mobile: false, // trigger animations on mobile devices (default is true)
-        live: true       // act on asynchronously loaded content (default is true)
+        live: true, // act on asynchronously loaded content (default is true)
     });
     wow.init();
 
@@ -71,8 +70,8 @@ $(document).ready(function ($) {
      /*-----------------------------------------------------------------------------------*/
     jQuery.stellar({
         horizontalScrolling: false,
-        scrollProperty: 'scroll',
-        positionProperty: 'position'
+        scrollProperty: "scroll",
+        positionProperty: "position",
     });
 
     /*-----------------------------------------------------------------------------------*/
@@ -80,14 +79,16 @@ $(document).ready(function ($) {
      /*-----------------------------------------------------------------------------------*/
     $("#testi-slide").owlCarousel({
         rtl: true,
-        autoplay: true, //Set AutoPlay to 6 seconds 
+        autoplay: true, //Set AutoPlay to 6 seconds
         items: 1,
         loop: true,
         nav: false, // Show next and prev buttons
         dots: true,
-        navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"]
+        navText: [
+            "<i class='fa fa-chevron-left'></i>",
+            "<i class='fa fa-chevron-right'></i>",
+        ],
     });
-
 
     /*-----------------------------------------------------------------------------------*/
     /*    COURSES SLIDER
@@ -101,18 +102,18 @@ $(document).ready(function ($) {
         autoplayHoverPause: true,
         smartSpeed: 100,
         responsive: {
-            0: {items: 1},
-            1200: {items: 4},
-            979: {items: 3},
-            768: {items: 2},
-            480: {items: 1}
-        }
+            0: { items: 1 },
+            1200: { items: 4 },
+            979: { items: 3 },
+            768: { items: 2 },
+            480: { items: 1 },
+        },
     });
 
     /*-----------------------------------------------------------------------------------*/
     /*    NEWS SLIDER
      /*-----------------------------------------------------------------------------------*/
-    $('#news-slide').owlCarousel({
+    $("#news-slide").owlCarousel({
         rtl: true,
         dots: true,
         nav: false,
@@ -121,37 +122,42 @@ $(document).ready(function ($) {
         autoplayHoverPause: true,
         smartSpeed: 100,
         responsive: {
-            0: {items: 1},
-            1200: {items: 2},
-            980: {items: 1},
-            768: {items: 1},
-            480: {items: 1}
-        }
+            0: { items: 1 },
+            1200: { items: 2 },
+            980: { items: 1 },
+            768: { items: 1 },
+            480: { items: 1 },
+        },
     });
-
 
     /*-----------------------------------------------------------------------------------*/
     /*  WIDE AND BOX  LAYOUT 
      /*-----------------------------------------------------------------------------------*/
-    $('.add-box').on('click', function (e) {
+    $(".add-box").on("click", function (e) {
         e.preventDefault();
-        $('#wrap').removeClass("wide").addClass("boxed");
-        $('body').css({'background': 'rgba(0, 0, 0, 0.9) none repeat scroll 0 0'});
+        $("#wrap").removeClass("wide").addClass("boxed");
+        $("body").css({
+            background: "rgba(0, 0, 0, 0.9) none repeat scroll 0 0",
+        });
     });
-    $('.add-wide').on('click', function (e) {
+    $(".add-wide").on("click", function (e) {
         e.preventDefault();
-        $('#wrap').removeClass("boxed").addClass("wide");
-        $('body').css({'background': '#ffffff none repeat scroll 0 0'});
+        $("#wrap").removeClass("boxed").addClass("wide");
+        $("body").css({ background: "#ffffff none repeat scroll 0 0" });
     });
 
     /*-----------------------------------------------------------------------------------*/
     /*  SCROLL DOWN TO DIV
      /*-----------------------------------------------------------------------------------*/
-    $('.navbar-nav a[href^=#]').click(function (event) {
+    $(".navbar-nav a[href^=#]").click(function (event) {
         event.preventDefault();
-        var header_height = $('.navbar-nav').outerHeight();
-        $('html,body').animate({
-            scrollTop: $(this.hash).offset().top - header_height}, 1000);
+        var header_height = $(".navbar-nav").outerHeight();
+        $("html,body").animate(
+            {
+                scrollTop: $(this.hash).offset().top - header_height,
+            },
+            1000
+        );
     });
 
     /*-----------------------------------------------------------------------------------*/
@@ -159,54 +165,58 @@ $(document).ready(function ($) {
      /*-----------------------------------------------------------------------------------*/
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
-            $('.scroll-top').fadeIn();
+            $(".scroll-top").fadeIn();
         } else {
-            $('.scroll-top').fadeOut();
+            $(".scroll-top").fadeOut();
         }
     });
-//Click event to scroll to top
-    $('.scroll-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 800);
+    //Click event to scroll to top
+    $(".scroll-top").click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 800);
         return false;
     });
-    $('.theme-title').click(function () {
-        $('html, body').animate({scrollTop: 0}, 800);
+    $(".theme-title").click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 800);
         return false;
     });
-    $('.text-slider .get-form').click(function (event) {
+    $(".text-slider .get-form").click(function (event) {
         event.preventDefault();
-        $('html, body').animate({scrollTop: jQuery("#find-course").offset().top - 150}, 1e3);
+        $("html, body").animate(
+            { scrollTop: jQuery("#find-course").offset().top - 150 },
+            1e3
+        );
     });
 });
 /*-----------------------------------------------------------------------------------*/
 /*    POPUP VIDEO
  /*-----------------------------------------------------------------------------------*/
-$('.popup-vedio').magnificPopup({
-    type: 'inline',
+$(".popup-vedio").magnificPopup({
+    type: "inline",
     fixedContentPos: false,
     fixedBgPos: true,
-    overflowY: 'auto',
+    overflowY: "auto",
     closeBtnInside: true,
     preloader: true,
     midClick: true,
     removalDelay: 300,
-    mainClass: 'my-mfp-slide-bottom'
+    mainClass: "my-mfp-slide-bottom",
 });
-$('.gallery-pop').magnificPopup({
-    delegate: 'a',
-    type: 'image',
-    tLoading: 'Loading image #%curr%...',
-    mainClass: 'mfp-img-mobile',
+$(".gallery-pop").magnificPopup({
+    delegate: "a",
+    type: "image",
+    tLoading: "Loading image #%curr%...",
+    mainClass: "mfp-img-mobile",
     gallery: {
         enabled: true,
         navigateByImgClick: true,
-        preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+        preload: [0, 1], // Will preload 0 - before current, and 1 after the current image
     },
     image: {
         tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
         titleSrc: function (item) {
-            return item.el.attr('title') + '';
-        }}
+            return item.el.attr("title") + "";
+        },
+    },
 });
 function validateForm() {
     var x = document.forms["newsletter"]["newsletter"].value;
@@ -269,54 +279,75 @@ function validateForm() {
 // ---------------------------------------------------------------------------------------
 $(function () {
     if ($("#contact_form").length) {
-        $("#contact_form .form-control").tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
-        $('#contact_form .form-control').blur(function () {
-            $(this).tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
+        $("#contact_form .form-control")
+            .tooltip({ placement: "top", trigger: "manual" })
+            .tooltip("hide");
+        $("#contact_form .form-control").blur(function () {
+            $(this)
+                .tooltip({ placement: "top", trigger: "manual" })
+                .tooltip("hide");
         });
         $("#contact_form #btn_submit").click(function () {
-// validate and process form
-// first hide any error messages
-//$('#contact_form .error').hide();
+            // validate and process form
+            // first hide any error messages
+            //$('#contact_form .error').hide();
 
-// name field
+            // name field
             var name = $("#contact_form input#name").val();
             if (name == "" || name == "Name") {
-                $("#contact_form input#name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#contact_form input#name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#contact_form input#name").focus();
-                $("#contact_form input#name").addClass('highlight');
+                $("#contact_form input#name").addClass("highlight");
                 return false;
             } else {
-                $("#contact_form input#name").removeClass('highlight');
+                $("#contact_form input#name").removeClass("highlight");
             }
 
-// email field
+            // email field
             var email = $("#contact_form input#email").val();
-            var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+            var filter =
+                /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
             //console.log(filter.test(email));
             if (!filter.test(email)) {
-                $("#contact_form input#email").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#contact_form input#email")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#contact_form input#email").focus();
-                $("#contact_form input#email").addClass('highlight');
+                $("#contact_form input#email").addClass("highlight");
                 return false;
             } else {
-                $("#contact_form input#email").removeClass('highlight');
+                $("#contact_form input#email").removeClass("highlight");
             }
 
-// company, website field
+            // company, website field
             var company = $("#contact_form input#company").val();
             var website = $("#contact_form input#website").val();
             // message textarea
             var message = $("#contact_form textarea#message").val();
             if (message == "" || message == "Message") {
-                $("#contact_form textarea#message").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#contact_form textarea#message")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#contact_form textarea#message").focus();
-                $("#contact_form textarea#message").addClass('highlight');
+                $("#contact_form textarea#message").addClass("highlight");
                 return false;
             } else {
-                $("#contact_form textarea#message").removeClass('highlight');
+                $("#contact_form textarea#message").removeClass("highlight");
             }
 
-            var dataString = 'name=' + name + '&email=' + email + '&company=' + company + '&website=' + website + '&message=' + message;
+            var dataString =
+                "name=" +
+                name +
+                "&email=" +
+                email +
+                "&company=" +
+                company +
+                "&website=" +
+                website +
+                "&message=" +
+                message;
             //alert (dataString);return false;
 
             $.ajax({
@@ -324,9 +355,11 @@ $(function () {
                 url: "php/contact-form.php",
                 data: dataString,
                 success: function () {
-                    $('#contact_form').prepend("<div class=\"alert alert-success fade in\"><button class=\"close\" data-dismiss=\"alert\" type=\"button\">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>");
-                    $('#contact_form')[0].reset();
-                }
+                    $("#contact_form").prepend(
+                        '<div class="alert alert-success fade in"><button class="close" data-dismiss="alert" type="button">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>'
+                    );
+                    $("#contact_form")[0].reset();
+                },
             });
             return false;
         });
@@ -336,9 +369,13 @@ $(function () {
 // ---------------------------------------------------------------------------------------
 $(function () {
     if ($("#find_course").length) {
-        $("#find_course .form-control").tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
-        $('#find_course .form-control').blur(function () {
-            $(this).tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
+        $("#find_course .form-control")
+            .tooltip({ placement: "top", trigger: "manual" })
+            .tooltip("hide");
+        $("#find_course .form-control").blur(function () {
+            $(this)
+                .tooltip({ placement: "top", trigger: "manual" })
+                .tooltip("hide");
         });
         $("#find_course #btn_submit").click(function () {
             // validate and process form
@@ -348,84 +385,112 @@ $(function () {
             // name field
             var name = $("#find_course input#name").val();
             if (name == "" || name == "Name") {
-                $("#find_course input#name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course input#name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course input#name").focus();
-                $("#find_course input#name").addClass('highlight');
+                $("#find_course input#name").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#name").removeClass('highlight');
+                $("#find_course input#name").removeClass("highlight");
             }
 
             // email field
             var email = $("#find_course input#email").val();
-            var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+            var filter =
+                /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
             //console.log(filter.test(email));
             if (!filter.test(email)) {
-                $("#find_course input#email").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course input#email")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course input#email").focus();
-                $("#find_course input#email").addClass('highlight');
+                $("#find_course input#email").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#email").removeClass('highlight');
+                $("#find_course input#email").removeClass("highlight");
             }
 
             // phone
             var phone = $("#find_course input#phone").val();
             if (phone == "" || phone == "123") {
-                $("#find_course input#phone").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course input#phone")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course input#phone").focus();
-                $("#find_course input#phone").addClass('highlight');
+                $("#find_course input#phone").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#phone").removeClass('highlight');
+                $("#find_course input#phone").removeClass("highlight");
             }
 
             // date
             var date = $("#find_course input#datepicker").val();
             if (date == "" || date == "") {
-                $("#find_course input#datepicker").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course input#datepicker")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course input#datepicker").focus();
-                $("#find_course input#datepicker").addClass('highlight');
+                $("#find_course input#datepicker").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#datepicker").removeClass('highlight');
+                $("#find_course input#datepicker").removeClass("highlight");
             }
 
             // select1
             var select1 = $("#find_course select#select1").val();
             if (select1 == "" || select1 == "Course Type") {
-                $("#find_course select#select1").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course select#select1")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course select#select1").focus();
-                $("#find_course select#select1").addClass('highlight');
+                $("#find_course select#select1").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#select1").removeClass('highlight');
+                $("#find_course input#select1").removeClass("highlight");
             }
 
             // select2
             var select2 = $("#find_course select#select2").val();
             if (select2 == "" || select2 == "Car Type") {
-                $("#find_course select#select2").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course select#select2")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course select#select2").focus();
-                $("#find_course select#select2").addClass('highlight');
+                $("#find_course select#select2").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#select2").removeClass('highlight');
+                $("#find_course input#select2").removeClass("highlight");
             }
 
             // select3
             var select3 = $("#find_course select#select3").val();
             if (select3 == "" || select3 == "Time") {
-                $("#find_course select#select3").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#find_course select#select3")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#find_course select#select3").focus();
-                $("#find_course select#select3").addClass('highlight');
+                $("#find_course select#select3").addClass("highlight");
                 return false;
             } else {
-                $("#find_course input#select3").removeClass('highlight');
+                $("#find_course input#select3").removeClass("highlight");
             }
 
-
-            var dataString = 'name=' + name + '&email=' + email + '&phone=' + phone + '&date=' + date + '&select1=' + select1 + '&select2=' + select2 + '&select3=' + select3;
+            var dataString =
+                "name=" +
+                name +
+                "&email=" +
+                email +
+                "&phone=" +
+                phone +
+                "&date=" +
+                date +
+                "&select1=" +
+                select1 +
+                "&select2=" +
+                select2 +
+                "&select3=" +
+                select3;
             //alert (dataString);return false;
 
             $.ajax({
@@ -433,10 +498,12 @@ $(function () {
                 url: "php/find-course-form.php",
                 data: dataString,
                 success: function () {
-                    $('#find_course').prepend("<div class=\"alert alert-success fade in\"><button class=\"close\" data-dismiss=\"alert\" type=\"button\">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>");
-                    $('#find_course')[0].reset();
+                    $("#find_course").prepend(
+                        '<div class="alert alert-success fade in"><button class="close" data-dismiss="alert" type="button">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>'
+                    );
+                    $("#find_course")[0].reset();
                     // window.location.href = "05_courses-list.html";
-                }
+                },
             });
             return false;
         });
@@ -446,9 +513,13 @@ $(function () {
 // ---------------------------------------------------------------------------------------
 $(function () {
     if ($("#user_billing").length) {
-        $("#user_billing .form-control").tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
-        $('#user_billing .form-control').blur(function () {
-            $(this).tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
+        $("#user_billing .form-control")
+            .tooltip({ placement: "top", trigger: "manual" })
+            .tooltip("hide");
+        $("#user_billing .form-control").blur(function () {
+            $(this)
+                .tooltip({ placement: "top", trigger: "manual" })
+                .tooltip("hide");
         });
         $("#paypal_payment").click(function () {
             // validate and process form
@@ -458,75 +529,110 @@ $(function () {
             // name field
             var name = $("#user_billing input#ub_name").val();
             if (name == "" || name == "Name") {
-                $("#user_billing input#ub_name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_name").focus();
-                $("#user_billing input#ub_name").addClass('highlight');
+                $("#user_billing input#ub_name").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name").removeClass('highlight');
+                $("#user_billing input#ub_name").removeClass("highlight");
             }
 
             // surname field
             var surname = $("#user_billing input#ub_name_surname").val();
             if (surname == "" || surname == "Surname") {
-                $("#user_billing input#ub_name_surname").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_name_surname")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_name_surname").focus();
-                $("#user_billing input#ub_name_surname").addClass('highlight');
+                $("#user_billing input#ub_name_surname").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name_surname").removeClass('highlight');
+                $("#user_billing input#ub_name_surname").removeClass(
+                    "highlight"
+                );
             }
 
             // phone field
             var phone = $("#user_billing input#ub_phone").val();
             if (phone == "" || phone == "Your Phone") {
-                $("#user_billing input#ub_phone").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_phone")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_phone").focus();
-                $("#user_billing input#ub_phone").addClass('highlight');
+                $("#user_billing input#ub_phone").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name_surname").removeClass('highlight');
+                $("#user_billing input#ub_name_surname").removeClass(
+                    "highlight"
+                );
             }
 
             // email field
             var email = $("#user_billing input#ub_email").val();
-            var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+            var filter =
+                /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
             //console.log(filter.test(email));
             if (!filter.test(email)) {
-                $("#user_billing input#ub_email").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_email")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_email").focus();
-                $("#user_billing input#ub_email").addClass('highlight');
+                $("#user_billing input#ub_email").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_email").removeClass('highlight');
+                $("#user_billing input#ub_email").removeClass("highlight");
             }
 
             // course name
-            var course_name = $("#user_billing select#ub_course_name option:selected").text();
+            var course_name = $(
+                "#user_billing select#ub_course_name option:selected"
+            ).text();
             var course_name_id = $("#user_billing select#ub_course_name").val();
             if (course_name == "" || course_name == "Course Name") {
-                $("#user_billing select#ub_course_name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing select#ub_course_name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing select#ub_course_name").focus();
-                $("#user_billing select#ub_course_name").addClass('highlight');
+                $("#user_billing select#ub_course_name").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_course_name").removeClass('highlight');
+                $("#user_billing input#ub_course_name").removeClass(
+                    "highlight"
+                );
             }
 
             // course date
             var date = $("#user_billing input#datepicker").val();
             if (date == "" || date == "DD/MM/YY") {
-                $("#user_billing input#datepicker").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#datepicker")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#datepicker").focus();
-                $("#user_billing input#datepicker").addClass('highlight');
+                $("#user_billing input#datepicker").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#datepicker").removeClass('highlight');
+                $("#user_billing input#datepicker").removeClass("highlight");
             }
 
             // message textarea
             var message = $("#user_billing textarea#ub_message").val();
-            var dataString = 'name=' + name + '&surname=' + surname + '&phone=' + phone + '&email=' + email + '&course_name=' + course_name + '&date=' + date + '&message=' + message;
+            var dataString =
+                "name=" +
+                name +
+                "&surname=" +
+                surname +
+                "&phone=" +
+                phone +
+                "&email=" +
+                email +
+                "&course_name=" +
+                course_name +
+                "&date=" +
+                date +
+                "&message=" +
+                message;
             //alert (dataString);return false;
 
             $.ajax({
@@ -534,10 +640,14 @@ $(function () {
                 url: "php/paypal-payment.php",
                 data: dataString,
                 success: function () {
-                    $('#user_billing').prepend("<div class=\"alert alert-success fade in\"><button class=\"close\" data-dismiss=\"alert\" type=\"button\">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>");
-                    $('#user_billing')[0].reset();
-                    window.location.href = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=' + course_name_id;
-                }
+                    $("#user_billing").prepend(
+                        '<div class="alert alert-success fade in"><button class="close" data-dismiss="alert" type="button">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>'
+                    );
+                    $("#user_billing")[0].reset();
+                    window.location.href =
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=" +
+                        course_name_id;
+                },
             });
             return false;
         });
@@ -547,9 +657,13 @@ $(function () {
 // ---------------------------------------------------------------------------------------
 $(function () {
     if ($("#user_billing").length) {
-        $("#user_billing .form-control").tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
-        $('#user_billing .form-control').blur(function () {
-            $(this).tooltip({placement: 'top', trigger: 'manual'}).tooltip('hide');
+        $("#user_billing .form-control")
+            .tooltip({ placement: "top", trigger: "manual" })
+            .tooltip("hide");
+        $("#user_billing .form-control").blur(function () {
+            $(this)
+                .tooltip({ placement: "top", trigger: "manual" })
+                .tooltip("hide");
         });
         $("#offline_payment").click(function () {
             // validate and process form
@@ -559,75 +673,110 @@ $(function () {
             // name field
             var name = $("#user_billing input#ub_name").val();
             if (name == "" || name == "Name") {
-                $("#user_billing input#ub_name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_name").focus();
-                $("#user_billing input#ub_name").addClass('highlight');
+                $("#user_billing input#ub_name").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name").removeClass('highlight');
+                $("#user_billing input#ub_name").removeClass("highlight");
             }
 
             // surname field
             var surname = $("#user_billing input#ub_name_surname").val();
             if (surname == "" || surname == "Surname") {
-                $("#user_billing input#ub_name_surname").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_name_surname")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_name_surname").focus();
-                $("#user_billing input#ub_name_surname").addClass('highlight');
+                $("#user_billing input#ub_name_surname").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name_surname").removeClass('highlight');
+                $("#user_billing input#ub_name_surname").removeClass(
+                    "highlight"
+                );
             }
 
             // phone field
             var phone = $("#user_billing input#ub_phone").val();
             if (phone == "" || phone == "Your Phone") {
-                $("#user_billing input#ub_phone").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_phone")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_phone").focus();
-                $("#user_billing input#ub_phone").addClass('highlight');
+                $("#user_billing input#ub_phone").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_name_surname").removeClass('highlight');
+                $("#user_billing input#ub_name_surname").removeClass(
+                    "highlight"
+                );
             }
 
             // email field
             var email = $("#user_billing input#ub_email").val();
-            var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+            var filter =
+                /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
             //console.log(filter.test(email));
             if (!filter.test(email)) {
-                $("#user_billing input#ub_email").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#ub_email")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#ub_email").focus();
-                $("#user_billing input#ub_email").addClass('highlight');
+                $("#user_billing input#ub_email").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_email").removeClass('highlight');
+                $("#user_billing input#ub_email").removeClass("highlight");
             }
 
             // course name
             //var course_name = $("#user_billing select#ub_course_name").val();
-            var course_name = $("#user_billing select#ub_course_name option:selected").text();
+            var course_name = $(
+                "#user_billing select#ub_course_name option:selected"
+            ).text();
             if (course_name == "" || course_name == "Course Name") {
-                $("#user_billing select#ub_course_name").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing select#ub_course_name")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing select#ub_course_name").focus();
-                $("#user_billing select#ub_course_name").addClass('highlight');
+                $("#user_billing select#ub_course_name").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#ub_course_name").removeClass('highlight');
+                $("#user_billing input#ub_course_name").removeClass(
+                    "highlight"
+                );
             }
 
             // course date
             var date = $("#user_billing input#datepicker").val();
             if (date == "" || date == "DD/MM/YY") {
-                $("#user_billing input#datepicker").tooltip({placement: 'bottom', trigger: 'manual'}).tooltip('show');
+                $("#user_billing input#datepicker")
+                    .tooltip({ placement: "bottom", trigger: "manual" })
+                    .tooltip("show");
                 $("#user_billing input#datepicker").focus();
-                $("#user_billing input#datepicker").addClass('highlight');
+                $("#user_billing input#datepicker").addClass("highlight");
                 return false;
             } else {
-                $("#user_billing input#datepicker").removeClass('highlight');
+                $("#user_billing input#datepicker").removeClass("highlight");
             }
 
             // message textarea
             var message = $("#user_billing textarea#ub_message").val();
-            var dataString = 'name=' + name + '&surname=' + surname + '&phone=' + phone + '&email=' + email + '&course_name=' + course_name + '&date=' + date + '&message=' + message;
+            var dataString =
+                "name=" +
+                name +
+                "&surname=" +
+                surname +
+                "&phone=" +
+                phone +
+                "&email=" +
+                email +
+                "&course_name=" +
+                course_name +
+                "&date=" +
+                date +
+                "&message=" +
+                message;
             //alert (dataString);return false;
 
             $.ajax({
@@ -635,14 +784,13 @@ $(function () {
                 url: "php/offline-payment.php",
                 data: dataString,
                 success: function () {
-                    $('#user_billing').prepend("<div class=\"alert alert-success fade in\"><button class=\"close\" data-dismiss=\"alert\" type=\"button\">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>");
-                    $('#user_billing')[0].reset();
-                }
+                    $("#user_billing").prepend(
+                        '<div class="alert alert-success fade in"><button class="close" data-dismiss="alert" type="button">&times;</button><strong>Contact Form Submitted!</strong> We will be in touch soon.</div>'
+                    );
+                    $("#user_billing")[0].reset();
+                },
             });
             return false;
         });
     }
 });
-
-
-
