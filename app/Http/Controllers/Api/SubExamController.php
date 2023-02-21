@@ -84,37 +84,44 @@ class SubExamController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function score(Request $request): JsonResponse
+    public function score(Request $request)
     {
         $counter=0;
         $displayed_data=[];
         foreach ($request->data as $data){
+            $min_score=0;
             try {
                 $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                    if($response['option_id']=!0){
+                    if($response['option_id']==null){
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+                            "false"
+                        ];
+                    }
+                    if($response['option_id']!=null){
                         $question= $sub_exam->questions->filter(function ($item) use ($response){
                             return $item->options->where('id',$response['option_id'])->first();
                         })->first();
+
                         $option=$question->options->where('id',$response['option_id'])->first();
-                        $displayed_data[$sub_exam->name][]=[
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
                             ($option->status)?"true":"false"
                         ];
-                        if($option->status)
+                        if($option->status){
                             $counter++;
-                    }else{
-                        $displayed_data[$sub_exam->name][]=[
-                           "false"
-                        ];
+                            $min_score++;
+                        }
                     }
                 }
+                $displayed_data['subExams'][$sub_exam->name]['minScore']= $min_score;
             }catch (NotFoundHttpException $e){
                 return \response()->json($e->getMessage(),404);
             }
         }
         $displayed_data['score']=$counter;
+        $displayed_data['created_at']=now()->toDateString();
         $score=Score::create(['score'=>json_encode($displayed_data)]);
-        return response()->json(['data'=>$score->id],200);
+        return response()->json(['data'=>$score],200);
     }
 
     /**
