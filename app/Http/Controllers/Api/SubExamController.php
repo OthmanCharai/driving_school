@@ -7,6 +7,7 @@ use App\Http\Requests\SubExamStoreRequest;
 use App\Http\Requests\SubExamUpdateRequest;
 use App\Http\Resources\SubExamCollection;
 use App\Http\Resources\SubExamResource;
+use App\Models\Score;
 use App\Models\SubExam;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -91,7 +92,7 @@ class SubExamController extends Controller
             try {
                 $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                    if($response['option_id']){
+                    if($response['option_id']=!0){
                         $question= $sub_exam->questions->filter(function ($item) use ($response){
                             return $item->options->where('id',$response['option_id'])->first();
                         })->first();
@@ -108,6 +109,17 @@ class SubExamController extends Controller
             }
         }
         $displayed_data['score']=$counter;
-        return response()->json($displayed_data);
+        $score=Score::create(['score'=>json_encode($displayed_data)]);
+        return response()->json(['data'=>$score->id],200);
+    }
+
+    /**
+     * @param Score $score
+     * @return JsonResponse
+     */
+    public function get_score(Score $score): JsonResponse
+    {
+
+        return \response()->json(json_decode($score->score),200);
     }
 }

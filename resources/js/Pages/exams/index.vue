@@ -1,6 +1,5 @@
 <template lang="">
     <div id="wrap" class="wide">
-
         <top-bar></top-bar>
         <!--======= HEADER =========-->
         <LandingHeader />
@@ -23,8 +22,6 @@
                         </p>
                         <hr />
                     </div>
-                  
-
 
                     <!--======= RODUCTS =========-->
                     <section class="products">
@@ -35,7 +32,11 @@
                             <exam-card
                                 v-for="exam in exams.data"
                                 :exam="exam"
-                                :users_count="(exam.users_count==null)?0:exam.users_count"
+                                :users_count="
+                                    exam.users_count == null
+                                        ? 0
+                                        : exam.users_count
+                                "
                             >
                             </exam-card>
                         </ul>
@@ -69,7 +70,7 @@ import LandingHeader from "./../../Components/Landing/header.vue";
 import banner from "./../../Components/Landing/banner.vue";
 import content from "./../../Components/Landing/content.vue";
 import FooterVue from "./../../Components/Landing/footer.vue";
-import subBanner from "./../../Components/Landing/sub-banner.vue";
+import topBar from "../../Components/Landing/top-bar.vue";
 import examCard from "./../../Components/exams/exam-card.vue";
 import useExam from "./../../composables/exams";
 import { onMounted } from "vue";
@@ -78,7 +79,6 @@ const { getExams, exams } = useExam();
 
 onMounted(() => {
     getExams();
-    
 });
 </script>
 <style lang=""></style>
