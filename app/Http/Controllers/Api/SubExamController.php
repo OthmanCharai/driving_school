@@ -94,7 +94,7 @@ class SubExamController extends Controller
                 $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
                     if($response['option_id']==null){
-                        $displayed_data['subExams'][$sub_exam->name][]=[
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
                             "false"
                         ];
                     }
@@ -104,7 +104,7 @@ class SubExamController extends Controller
                         })->first();
 
                         $option=$question->options->where('id',$response['option_id'])->first();
-                        $displayed_data['subExams'][$sub_exam->name][]=[
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
                             ($option->status)?"true":"false"
                         ];
                         if($option->status){
@@ -113,14 +113,13 @@ class SubExamController extends Controller
                         }
                     }
                 }
-                $displayed_data['subExams'][$sub_exam->name][]=[
-                    "minScore"=>$min_score
-                ];
+                $displayed_data['subExams'][$sub_exam->name]['minScore']= $min_score;
             }catch (NotFoundHttpException $e){
                 return \response()->json($e->getMessage(),404);
             }
         }
         $displayed_data['score']=$counter;
+        $displayed_data['created_at']=now()->toDateString();
         $score=Score::create(['score'=>json_encode($displayed_data)]);
         return response()->json(['data'=>$score],200);
     }
