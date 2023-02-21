@@ -42,7 +42,7 @@ Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
 Route::post('score',[SubExamController::class,'score']);
 
 Route::post('contact',[\App\Http\Controllers\HomeController::class,'contact']);
-
+Route::get('score/{score}',[SubExamController::class,'get_score']);
 
 
 
