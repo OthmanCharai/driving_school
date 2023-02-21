@@ -102,6 +102,10 @@ class SubExamController extends Controller
                         ];
                         if($option->status)
                             $counter++;
+                    }else{
+                        $displayed_data[$sub_exam->name][]=[
+                           "false"
+                        ];
                     }
                 }
             }catch (NotFoundHttpException $e){
