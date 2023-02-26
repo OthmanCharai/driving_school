@@ -3,7 +3,7 @@
         <div class="relative w-[50%] !bg-red-200 h-[30rem]" ref="imageWrapper">
             <img
                 class="w-full h-full"
-                :src="imageSrc"
+                :src="question.image"
                 @load="onImageLoad"
                 ref="image"
             />
@@ -12,7 +12,7 @@
                 ref="dropzoneRefs"
                 @dragover.prevent
                 @drop="onCircleDrop($event)"
-                v-for="circle in dropzones"
+                v-for="circle in question.dropzones"
                 :key="circle.id"
                 :style="{
                     left: circle.x_position + '%',
@@ -26,7 +26,7 @@
         </div>
         <div class="flex gap-x-2 gap-y-2">
             <Circle
-                v-for="(circle, index) of options"
+                v-for="(circle, index) of question.options"
                 @mouseup="checkForIntersection"
                 class="`mr-[${index}px]` text-3xl rounded-full bg-blue-500 w-20 h-20 flex justify-center items-center text-white"
                 :style="{ marginRight: `${index * 10}rem` }"
@@ -48,7 +48,7 @@ const props = defineProps({
     question: Object,
 });
 
-const { dropzones, options, image:imageSrc } = props.question;
+// const { dropzones, options, image:imageSrc } = props.question;
 const { selectedOption } = storeToRefs(useExamStore());
 
 const imageWrapper = ref(null);
@@ -115,6 +115,7 @@ const fillDropzone = (dropzone, option_id) => {
 
 const checkForIntersection = ({ event, circle, circleID }) => {
     const dropzonesDivs = dropzoneRefs.value;
+    const { dropzones } = props.question;
     const circleRect = circle.getBoundingClientRect();
 
     for (let j = 0; j < dropzonesDivs.length; j++) {
@@ -134,6 +135,7 @@ const checkForIntersection = ({ event, circle, circleID }) => {
 };
 
 const onCircleDrop = (event) => {
+    const { dropzones } = props.question;
     const circleId = draggedCircleId.value;
     const circle = dropzones.find((c) => c.id == circleId);
     if (circle) {
