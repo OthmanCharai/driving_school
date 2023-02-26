@@ -6,7 +6,7 @@ export const useTimerStore = defineStore("timer", () => {
     let timeInterval = null;
 
     function resetTimer() {
-        timeLeft.value = 8;
+        timeLeft.value = 1000
         if (timeInterval) {
             clearInterval(timeInterval);
         }

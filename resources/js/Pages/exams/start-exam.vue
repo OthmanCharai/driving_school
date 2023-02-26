@@ -4,7 +4,6 @@
         <!-- Main content -->
         <main class="px-[20rem] py-32">
             <sub-exam :exam="currentSubExam" :examIndex="currentSubExamIndex" />
-            <!-- <custom-shit /> -->
         </main>
     </div>
     <exam-footer></exam-footer>
@@ -13,7 +12,6 @@
 import subExam from "./subExam.vue";
 import ExamNavBarre from "./../../Components/exams/nav-bar.vue";
 import ExamFooter from "./../../Components/exams/footer.vue";
-import CustomShit from "./../../Components/exams/CustomShit.vue";
 import { onMounted } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -33,4 +31,5 @@ onMounted(async () => {
     const subExamsList = exam.value.sub_exams;
     subExams.value = subExamsList;
 });
+
 </script>

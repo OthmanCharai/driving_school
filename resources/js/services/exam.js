@@ -16,6 +16,9 @@ const submitAnswers = (answers) =>
         config
     );
 
+const getExamResult = (id) => axios.get(`/api/score/${id}`, config);
+
 export default {
     submitAnswers,
+    getExamResult,
 };

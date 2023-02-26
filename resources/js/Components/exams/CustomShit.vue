@@ -1,37 +1,42 @@
 <template>
-    <div class="relative w-[40rem] !bg-red-200" ref="imageWrapper">
-        <img
-            class="w-full h-full"
-            :src="imageSrc"
-            @load="onImageLoad"
-            ref="image"
-        />
-        <div
-            class="circle w-20 h-20"
-            @dragover.prevent
-            @drop="onCircleDrop($event)"
-            v-for="circle in dropZones"
-            :key="circle.id"
-            :style="{ left: circle.xPos + '%', top: circle.yPos + '%' }"
-        >
+    <div class="items-center flex flex-col d gap-4">
+        <div class="relative w-[50%] !bg-red-200 h-[30rem]" ref="imageWrapper">
+            <img
+                class="w-full h-full"
+                :src="imageSrc"
+                @load="onImageLoad"
+                ref="image"
+            />
             <div
-                class="circle-outline border border-dashed border-white rounded-full"
-            ></div>
+                class="circle w-20 h-20"
+                ref="dropzoneRefs"
+                @dragover.prevent
+                @drop="onCircleDrop($event)"
+                v-for="circle in dropZones"
+                :key="circle.id"
+                :style="{ left: circle.xPos + '%', top: circle.yPos + '%' }"
+            >
+                <div
+                    class="circle-outline border border-dashed border-white rounded-full"
+                ></div>
+            </div>
         </div>
-    </div>
-    <div class="flex gap-x-2">
-        <Circle
-            v-for="circle in circles"
-            class="text-3xl rounded-full bg-blue-500 w-20 h-20 flex justify-center items-center text-white"
-            :circle="circle"
-        >
-            {{ circle }}
-        </Circle>
+        <div class="flex gap-x-2 gap-y-2">
+            <Circle
+                v-for="(circle, index) of circles"
+                @mouseup="checkForIntersection"
+                class="`mr-[${index}px]` text-3xl rounded-full bg-blue-500 w-20 h-20 flex justify-center items-center text-white"
+                :style="{ marginRight: `${index * 10}rem` }"
+                :circle="circle"
+            >
+                {{ circle.answer }}
+            </Circle>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, provide } from "vue";
+import { ref, reactive, provide } from "vue";
 import Circle from "./Circle.vue";
 
 const imageSrc =
@@ -40,13 +45,19 @@ const imageWrapper = ref(null);
 const circles = [
     {
         id: 1,
-        title: 2,
+        answer: 3,
     },
     {
         id: 3,
-        title: 2,
+        answer: 2,
+    },
+    {
+        id: 3,
+        answer: 1,
     },
 ];
+const dropzoneRefs = ref(null);
+
 const draggedCircleId = ref(0);
 provide("draggedCircleId", draggedCircleId);
 const image = ref(null);
@@ -56,26 +67,33 @@ const dropZones = reactive([
     { id: 3, xPos: 75, yPos: 75 },
 ]);
 
-const onImageLoad = () => {
-    const imageWidth = image.value.width;
-    const imageHeight = image.value.height;
-    dropZones.forEach((circle) => {
-        circle.xPos = (circle.xPos / imageWidth) * 100;
-        circle.yPos = (circle.yPos / imageHeight) * 100;
-    });
-};
+function isIntersecting(circle, dropzone) {
+    const circleCenterX = circle.left + circle.width / 2;
+    const circleCenterY = circle.top + circle.height / 2;
+    const dropzoneCenterX = dropzone.left + dropzone.width / 2;
+    const dropzoneCenterY = dropzone.top + dropzone.height / 2;
+    const distanceX = circleCenterX - dropzoneCenterX;
+    const distanceY = circleCenterY - dropzoneCenterY;
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    return (
+        distance >= 0 && distance <= circle.width && distance <= circle.height
+    );
+}
 
-onMounted(() => {
-    const imageWrapperWidth = imageWrapper.value.offsetWidth;
-    const imageWrapperHeight = imageWrapper.value.offsetHeight;
-    dropZones.forEach((circle) => {
-        circle.xPos = (circle.xPos / 100) * imageWrapperWidth;
-        circle.yPos = (circle.yPos / 100) * imageWrapperHeight;
-    });
-});
+const checkForIntersection = ({ event, circle }) => {
+    const dropzones = dropzoneRefs.value;
+    const circleRect = circle.getBoundingClientRect();
 
-const onCircleMouseDown = (circle, event) => {
-    event.dataTransfer.setData("circleId", circle.id);
+    for (let j = 0; j < dropzones.length; j++) {
+        const dropzone = dropzones[j];
+        const dropzoneRect = dropzone?.getBoundingClientRect();
+
+        if (isIntersecting(circleRect, dropzoneRect)) {
+            // update the position of the circle to that of the dropzone
+            circle.style.left = `${dropzoneRect.left}px`;
+            circle.style.top = `${dropzoneRect.top}px`;
+        }
+    }
 };
 
 const onCircleDrop = (event) => {
@@ -88,25 +106,6 @@ const onCircleDrop = (event) => {
         circle.yPos = ((event.clientY - rect.top) / rect.height) * 100;
     }
 };
-
-onMounted(() => {
-    const options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1.0,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                console.log(`Box 1 and Box 2 intersect!`);
-            }
-        });
-    }, options);
-
-    observer.observe(box1.value);
-    observer.observe(box2.value);
-});
 </script>
 
 <style scoped>
