@@ -51,8 +51,14 @@ export const useExamStore = defineStore("exam", () => {
             // Otherwise, add a new response to the array
             const newResponse = {
                 question_id: questionId,
-                option_id: selectedOptionId,
             };
+            
+            if (currentQuestion.value?.dropzones?.length) {
+                newResponse.type = "dropzones";
+                newResponse.options = selectedOption.value || [];
+            } else {
+                newResponse.option_id = selectedOptionId;
+            }
             answers.value[currentSubExamIndex.value].response.push(newResponse);
         }
     }

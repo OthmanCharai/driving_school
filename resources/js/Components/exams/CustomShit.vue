@@ -32,13 +32,15 @@
                 :style="{ marginRight: `${index * 10}rem` }"
                 :circle="circle"
             >
-                {{ circle.answer }}
+                {{ index + 1 || circle.answer }}
             </Circle>
         </div>
     </div>
 </template>
 
 <script setup>
+import { useExamStore } from "@/stores/exam";
+import { storeToRefs } from "pinia";
 import { ref, reactive, provide } from "vue";
 import Circle from "./Circle.vue";
 
@@ -46,25 +48,10 @@ const props = defineProps({
     question: Object,
 });
 
-const { dropzones, options } = props.question;
+const { dropzones, options, image:imageSrc } = props.question;
+const { selectedOption } = storeToRefs(useExamStore());
 
-const imageSrc =
-    "https://ig.sudinfo.be/i/0/0.05861/1x0.88278/d-20190623-3UNEN0.jpg?auth=a48f0";
 const imageWrapper = ref(null);
-const circles = [
-    {
-        id: 1,
-        answer: 3,
-    },
-    {
-        id: 3,
-        answer: 2,
-    },
-    {
-        id: 3,
-        answer: 1,
-    },
-];
 const dropzoneRefs = ref(null);
 
 const draggedCircleId = ref(0);
@@ -84,25 +71,70 @@ function isIntersecting(circle, dropzone) {
     );
 }
 
-const checkForIntersection = ({ event, circle }) => {
-    const dropzones = dropzoneRefs.value;
+// function to add an option to selectedOption array
+function addOption(option_id, dropzone_id) {
+    // if selectedOption is null, create an array and set it as the new value
+    if (!selectedOption.value) {
+        selectedOption.value = [];
+    }
+
+    // find the index of the option with the matching dropzone_id
+    const index = selectedOption.value.findIndex(
+        (opt) => opt.dropzone_id === dropzone_id || opt.option_id === option_id
+    );
+    // if no option was found, return
+    if (index !== -1) {
+        return;
+    }
+    // push the new option to the array
+    selectedOption.value.push({ option_id, dropzone_id });
+}
+
+// function to remove an option from selectedOption array
+function removeOption(option_id, dropzone_id) {
+    // if selectedOption is null or empty, return
+    if (!selectedOption.value || selectedOption.value.length === 0) {
+        return;
+    }
+    // find the index of the option with the matching dropzone_id
+    const index = selectedOption.value.findIndex(
+        (opt) => opt.dropzone_id === dropzone_id && opt.option_id === option_id
+    );
+    // if no option was found, return
+    if (index === -1) {
+        return;
+    }
+    // remove the option from the array
+    selectedOption.value.splice(index, 1);
+}
+
+const fillDropzone = (dropzone, option_id) => {
+    const dropzone_id = dropzone.id;
+    addOption(option_id, dropzone_id);
+};
+
+const checkForIntersection = ({ event, circle, circleID }) => {
+    const dropzonesDivs = dropzoneRefs.value;
     const circleRect = circle.getBoundingClientRect();
 
-    for (let j = 0; j < dropzones.length; j++) {
-        const dropzone = dropzones[j];
+    for (let j = 0; j < dropzonesDivs.length; j++) {
+        const dropzone = dropzonesDivs[j];
         const dropzoneRect = dropzone?.getBoundingClientRect();
 
         if (isIntersecting(circleRect, dropzoneRect)) {
             // update the position of the circle to that of the dropzone
             circle.style.left = `${dropzoneRect.left}px`;
             circle.style.top = `${dropzoneRect.top}px`;
+            fillDropzone(dropzones[j], circleID);
+        } else {
+            removeOption(circleID, dropzones[j].id, circleRect, dropzoneRect);
         }
     }
+    draggedCircleId.value = null;
 };
 
 const onCircleDrop = (event) => {
     const circleId = draggedCircleId.value;
-    alert(circleId);
     const circle = dropzones.find((c) => c.id == circleId);
     if (circle) {
         const rect = event.target.getBoundingClientRect();

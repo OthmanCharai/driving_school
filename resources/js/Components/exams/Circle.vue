@@ -38,7 +38,6 @@ const dragMouseDown = (event) => {
 
 const elementDrag = (event) => {
     draggedCircleId.value = circle.id;
-    // alert(event.dataTransfer);
     event.preventDefault();
     positions.movementX = positions.clientX - event.clientX;
     positions.movementY = positions.clientY - event.clientY;
@@ -54,10 +53,13 @@ const elementDrag = (event) => {
 };
 
 const closeDragElement = (event) => {
-    draggedCircleId.value = null;
     document.onmouseup = null;
     document.onmousemove = null;
-    emit("mouseup", { event, circle: draggableContainer.value });
+    emit("mouseup", {
+        event,
+        circle: draggableContainer.value,
+        circleID: circle.id,
+    });
 };
 </script>
 <style scoped>

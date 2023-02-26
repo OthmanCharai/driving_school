@@ -7,9 +7,9 @@ const { currentQuestionIndex, currentSubExam } = storeToRefs(useExamStore());
 </script>
 <template>
     <footer
-        class="left-0 question w-full fixed bottom-0 flex items-center justify-between h-10 px-10"
+        class="left-0 question w-full fixed bottom-0 flex items-center justify-between h-10 px-10 py-20"
     >
-        <div class="">
+        <div class="mt-12">
             <button @click="showNextQuestion" class="btn btn-secondary w-full">
                 {{ $t("words.landing.next-question") }}
             </button>
@@ -22,7 +22,7 @@ const { currentQuestionIndex, currentSubExam } = storeToRefs(useExamStore());
             {{ currentQuestionIndex + 1 }}
             question
         </div>
-        <div class="w-[33%]">
+        <div class="w-[33%] mt-12">
             <button
                 v-if="currentQuestionIndex > 0"
                 @click="showPreviousQuestion"
