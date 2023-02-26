@@ -19,7 +19,8 @@ class QuestionResource extends JsonResource
             'question' => $this->question,
             'voice' => $this->voice,
             'sub_exam_id' => $this->sub_exam_id,
-            'options' =>$this->options,
+            'options' =>OptionCollection::make($this->whenLoaded('options')),
+            'dropzones' =>DropzonCollection::make($this->whenLoaded('dropzons')),
             'image'=>$this->image
         ];
     }
