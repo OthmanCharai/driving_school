@@ -18,8 +18,8 @@ class DropzonFactory extends Factory
     {
         return [
             //
-            'x_position'=>$this->faker->randomFloat(2,1,100),
-            'y_position'=>$this->faker->randomFloat(2,1,100),
+            'x_position'=>$this->faker->randomFloat(2,30,80),
+            'y_position'=>$this->faker->randomFloat(2,30,80),
         ];
     }
 }
