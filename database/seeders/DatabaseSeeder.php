@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
                 ->has(Question::factory()
                     ->has(Option::factory()
                         ->has(Dropzon::factory(['question_id'=>Question::latest()->first()->pluck('id')[0]]))
-                        ->count(4))
-                    ->count(2))
+                        ->count(1))
+                    ->count(1))
                 ->count(2))
             ->create();
         // has both
@@ -46,8 +46,8 @@ class DatabaseSeeder extends Seeder
                 ->has(Question::factory()
                     ->has(Option::factory()
                         ->has(Dropzon::factory(['question_id'=>Question::query()->latest()->first()->pluck('id')[0]]))
-                        ->count(4))
-                    ->count(2))
+                        ->count(1))
+                    ->count(1))
                 ->count(2))
             ->create();
 
