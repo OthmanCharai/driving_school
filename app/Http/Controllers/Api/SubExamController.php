@@ -82,7 +82,7 @@ class SubExamController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function score(Request $request): JsonResponse
+    public function score(Request $request)
     {
         $counter=0;
         $displayed_data=[];
@@ -92,40 +92,47 @@ class SubExamController extends Controller
             try {
                 $sub_exam=SubExam::with(['questions.options','questions.dropzons'])->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                    if(isset($response['option_id'])&&$response['option_id']==null){
-                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
-                            "false"
-                        ];
-                    }
 
-                    if(isset($response['option_id'])&&$response['option_id']!=null){
-                        $question= $sub_exam->questions->filter(function ($item) use ($response){
-                            return $item->options->where('id',$response['option_id'])->first();
-                        })->first();
-
-                        $option=$question->options->where('id',$response['option_id'])->first();
-                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
-                            ($option->status)?"true":"false"
-                        ];
-                        if($option->status){
-                            $counter++;
-                            $min_score++;
-                        }
-                    }
 
                     if(isset($response['type']) && $response['type']=='dropzones'){
                         $question= $sub_exam->questions->where('id',$response['question_id'])->first();
                         $sub_score=false;
-                        foreach ($response['options'] as $item){
-                            $dropzone=$question->dropzons->where('id',$item['dropzone_id'])->first();
-                            ($dropzone->option_id==$item['option_id'])?$sub_score=true:$sub_score=false;
+                        if(count($response['options'])){
+                            foreach ($response['options'] as $item){
+                                $dropzone=$question->dropzons->where('id',$item['dropzone_id'])->first();
+                                ($dropzone->option_id==$item['option_id'])?$sub_score=true:$sub_score=false;
+                            }
+                            if($sub_score){
+                                $counter++;
+                                $min_score++;
+                            }
+                        }else{
+                            $sub_score=false;
                         }
-                        if($sub_score){
-                            $counter++;
-                            $min_score++;
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+                            $sub_score
+                        ];
+                    }else{
+                        if($response['option_id']==null){
 
+                            $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+                                "false"
+                            ];
                         }
+                        if($response['option_id']!=null){
+                            $question= $sub_exam->questions->filter(function ($item) use ($response){
+                                return $item->options->where('id',$response['option_id'])->first();
+                            })->first();
 
+                            $option=$question->options->where('id',$response['option_id'])->first();
+                            $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+                                ($option->status)?"true":"false"
+                            ];
+                            if($option->status){
+                                $counter++;
+                                $min_score++;
+                            }
+                        }
                     }
                 }
                 $displayed_data['subExams'][$sub_exam->name]['minScore']= $min_score;
@@ -135,6 +142,7 @@ class SubExamController extends Controller
         }
         $displayed_data['score']=$counter;
         $displayed_data['created_at']=now()->toDateString();
+       
         $score=Score::create(['score'=>json_encode($displayed_data)]);
         return response()->json(['data'=>$score],200);
     }
