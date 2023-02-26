@@ -12,9 +12,12 @@
                 ref="dropzoneRefs"
                 @dragover.prevent
                 @drop="onCircleDrop($event)"
-                v-for="circle in dropZones"
+                v-for="circle in dropzones"
                 :key="circle.id"
-                :style="{ left: circle.xPos + '%', top: circle.yPos + '%' }"
+                :style="{
+                    left: circle.x_position + '%',
+                    top: circle.y_position + '%',
+                }"
             >
                 <div
                     class="circle-outline border border-dashed border-white rounded-full"
@@ -23,7 +26,7 @@
         </div>
         <div class="flex gap-x-2 gap-y-2">
             <Circle
-                v-for="(circle, index) of circles"
+                v-for="(circle, index) of options"
                 @mouseup="checkForIntersection"
                 class="`mr-[${index}px]` text-3xl rounded-full bg-blue-500 w-20 h-20 flex justify-center items-center text-white"
                 :style="{ marginRight: `${index * 10}rem` }"
@@ -38,6 +41,12 @@
 <script setup>
 import { ref, reactive, provide } from "vue";
 import Circle from "./Circle.vue";
+
+const props = defineProps({
+    question: Object,
+});
+
+const { dropzones, options } = props.question;
 
 const imageSrc =
     "https://ig.sudinfo.be/i/0/0.05861/1x0.88278/d-20190623-3UNEN0.jpg?auth=a48f0";
@@ -61,11 +70,6 @@ const dropzoneRefs = ref(null);
 const draggedCircleId = ref(0);
 provide("draggedCircleId", draggedCircleId);
 const image = ref(null);
-const dropZones = reactive([
-    { id: 1, xPos: 25, yPos: 25 },
-    { id: 2, xPos: 50, yPos: 50 },
-    { id: 3, xPos: 75, yPos: 75 },
-]);
 
 function isIntersecting(circle, dropzone) {
     const circleCenterX = circle.left + circle.width / 2;
@@ -99,7 +103,7 @@ const checkForIntersection = ({ event, circle }) => {
 const onCircleDrop = (event) => {
     const circleId = draggedCircleId.value;
     alert(circleId);
-    const circle = dropZones.find((c) => c.id == circleId);
+    const circle = dropzones.find((c) => c.id == circleId);
     if (circle) {
         const rect = event.target.getBoundingClientRect();
         circle.xPos = ((event.clientX - rect.left) / rect.width) * 100;
