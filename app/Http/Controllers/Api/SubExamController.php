@@ -86,17 +86,19 @@ class SubExamController extends Controller
     {
         $counter=0;
         $displayed_data=[];
+
         foreach ($request->data as $data){
             $min_score=0;
             try {
-                $sub_exam=SubExam::with('questions.options')->findOrFail($data['sub_exam_id']);
+                $sub_exam=SubExam::with(['questions.options','questions.dropzons'])->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                    if($response['option_id']==null){
+                    if(isset($response['option_id'])&&$response['option_id']==null){
                         $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
                             "false"
                         ];
                     }
-                    if($response['option_id']!=null){
+
+                    if(isset($response['option_id'])&&$response['option_id']!=null){
                         $question= $sub_exam->questions->filter(function ($item) use ($response){
                             return $item->options->where('id',$response['option_id'])->first();
                         })->first();
@@ -109,6 +111,21 @@ class SubExamController extends Controller
                             $counter++;
                             $min_score++;
                         }
+                    }
+
+                    if(isset($response['type']) && $response['type']=='dropzones'){
+                        $question= $sub_exam->questions->where('id',$response['question_id'])->first();
+                        $sub_score=false;
+                        foreach ($response['options'] as $item){
+                            $dropzone=$question->dropzons->where('id',$item['dropzone_id'])->first();
+                            ($dropzone->option_id==$item['option_id'])?$sub_score=true:$sub_score=false;
+                        }
+                        if($sub_score){
+                            $counter++;
+                            $min_score++;
+
+                        }
+
                     }
                 }
                 $displayed_data['subExams'][$sub_exam->name]['minScore']= $min_score;
