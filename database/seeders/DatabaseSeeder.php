@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Dropzon;
 use App\Models\Exam;
 use App\Models\Option;
 use App\Models\Question;
 use App\Models\SubExam;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         \App\Models\User::factory(10)->create();
+        // make options
+         User::factory(10)->create();
          Exam::factory()
              ->has(SubExam::factory()
                  ->has(Question::factory()
@@ -26,6 +29,28 @@ class DatabaseSeeder extends Seeder
                      ->count(2))
                  ->count(2))
              ->create();
+
+         // make dropzons
+        Exam::factory()
+            ->has(SubExam::factory()
+                ->has(Question::factory()
+                    ->has(Option::factory()
+                        ->has(Dropzon::factory(['question_id'=>Question::latest()->first()->pluck('id')[0]]))
+                        ->count(4))
+                    ->count(2))
+                ->count(2))
+            ->create();
+        // has both
+        Exam::factory()
+            ->has(SubExam::factory()
+                ->has(Question::factory()
+                    ->has(Option::factory()
+                        ->has(Dropzon::factory(['question_id'=>Question::query()->latest()->first()->pluck('id')[0]]))
+                        ->count(4))
+                    ->count(2))
+                ->count(2))
+            ->create();
+
 
 
     }

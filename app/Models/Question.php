@@ -50,4 +50,12 @@ class Question extends Model
     {
         return $this->hasMany(Option::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function dropzons(): HasMany
+    {
+        return $this->hasMany(Dropzon::class);
+    }
 }

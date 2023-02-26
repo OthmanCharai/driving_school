@@ -29,8 +29,6 @@ class SubExamController extends Controller
     {
         $subExams = SubExam::with(["questions",'exam'])->get();
 
-
-
         return new SubExamCollection($subExams);
     }
 
@@ -84,7 +82,7 @@ class SubExamController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function score(Request $request)
+    public function score(Request $request): JsonResponse
     {
         $counter=0;
         $displayed_data=[];

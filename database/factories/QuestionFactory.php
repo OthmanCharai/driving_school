@@ -27,7 +27,8 @@ class QuestionFactory extends Factory
             'question' => $this->faker->sentence(4),
             'voice' => $this->faker->sentence(4),
             'sub_exam_id' => SubExam::factory(),
-            'image'=>$this->faker->imageUrl('500','500')
+            'image'=>$this->faker->imageUrl('500','500'),
+
         ];
     }
 }
