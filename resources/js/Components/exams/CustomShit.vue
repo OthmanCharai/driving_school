@@ -1,5 +1,8 @@
 <template>
     <div class="items-center flex flex-col d gap-4">
+        <div class="bg-primary w-[60%] h-28 rounded-lg flex justify-center items-center text-3xl">
+            ما هو التسلسل الصحيح لإعطاء الأسبقية هنا؟
+        </div>
         <div class="relative w-[50%] !bg-red-200 h-[30rem]" ref="imageWrapper">
             <img
                 class="w-full h-full"
@@ -24,8 +27,9 @@
                 ></div>
             </div>
         </div>
-        <div class="flex gap-x-2 gap-y-2">
+        <div class="flex gap-x-2 gap-y-2 mt-10">
             <Circle
+                ref="circlesRefs"
                 v-for="(circle, index) of question.options"
                 @mouseup="checkForIntersection"
                 class="`mr-[${index}px]` text-3xl rounded-full bg-blue-500 w-20 h-20 flex justify-center items-center text-white"
@@ -41,7 +45,7 @@
 <script setup>
 import { useExamStore } from "@/stores/exam";
 import { storeToRefs } from "pinia";
-import { ref, reactive, provide } from "vue";
+import { ref, watch, provide, onMounted } from "vue";
 import Circle from "./Circle.vue";
 
 const props = defineProps({
@@ -53,7 +57,7 @@ const { selectedOption } = storeToRefs(useExamStore());
 
 const imageWrapper = ref(null);
 const dropzoneRefs = ref(null);
-
+const circlesRefs = ref(null);
 const draggedCircleId = ref(0);
 provide("draggedCircleId", draggedCircleId);
 const image = ref(null);
@@ -144,6 +148,26 @@ const onCircleDrop = (event) => {
         circle.yPos = ((event.clientY - rect.top) / rect.height) * 100;
     }
 };
+
+const resetCircles = () => {
+    circlesRefs.value.forEach((circleRef) => {
+        const circleElement = circleRef.value;
+        circleElement.style.left = circleElement.dataset.left;
+        circleElement.style.top = circleElement.dataset.top;
+    });
+};
+
+onMounted(() => {
+    // circlesRefs.value = document.querySelectorAll(".circles > div");
+    circlesRefs.value.forEach((circleRef) => {
+        console.log(circleRef.value);
+        const circleElement = circleRef.value;
+        circleElement.dataset.left = circleElement.style.left;
+        circleElement.dataset.top = circleElement.style.top;
+    });
+});
+
+watch(() => props.question, resetCircles);
 </script>
 
 <style scoped>

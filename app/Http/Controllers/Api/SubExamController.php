@@ -98,7 +98,6 @@ class SubExamController extends Controller
                         $question= $sub_exam->questions->where('id',$response['question_id'])->first();
                         $sub_score=false;
                         if(count($response['options'])){
-                            // dd($response);
                             foreach ($response['options'] as $item){
                                 $dropzone=$question->dropzons->where('id',$item['dropzone_id'])->first();
                                 ($dropzone->option_id==$item['option_id'])?$sub_score=true:$sub_score=false;

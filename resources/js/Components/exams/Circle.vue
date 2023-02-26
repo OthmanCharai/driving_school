@@ -61,6 +61,7 @@ const closeDragElement = (event) => {
         circleID: circle.id,
     });
 };
+defineExpose(draggableContainer);
 </script>
 <style scoped>
 #draggable-container {
