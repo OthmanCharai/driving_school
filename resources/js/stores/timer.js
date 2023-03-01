@@ -6,7 +6,7 @@ export const useTimerStore = defineStore("timer", () => {
     let timeInterval = null;
 
     function resetTimer() {
-        timeLeft.value = 8
+        timeLeft.value = 8;
         if (timeInterval) {
             clearInterval(timeInterval);
         }
@@ -14,12 +14,12 @@ export const useTimerStore = defineStore("timer", () => {
 
     function startTimer(callback) {
         timeInterval = setInterval(() => {
-            timeLeft.value--;
-            if (timeLeft.value === 0) {
+            timeLeft.value -= 0.01;
+            if (timeLeft.value <= 0) {
                 clearInterval(timeInterval); // Stop the interval
                 callback();
             }
-        }, 1000); // 1s
+        }, 10); // 1s
     }
 
     return {

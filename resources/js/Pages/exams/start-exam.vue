@@ -1,8 +1,8 @@
 <template lang="">
-    <div class="exam-page">
+    <div class="exam-page h-screen overflow-hidden">
         <exam-nav-barre></exam-nav-barre>
         <!-- Main content -->
-        <main class="px-[20rem] py-32">
+        <main class="px-[20rem] py-32 overflow-hidden">
             <sub-exam :exam="currentSubExam" :examIndex="currentSubExamIndex" />
         </main>
     </div>
@@ -31,5 +31,4 @@ onMounted(async () => {
     const subExamsList = exam.value.sub_exams;
     subExams.value = subExamsList;
 });
-
 </script>

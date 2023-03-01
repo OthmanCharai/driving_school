@@ -13,7 +13,7 @@
                     :isActive="selectedOption === item.id"
                     :value="item.answer"
                     :key="item.id"
-                    
+
                 />
             </div>
         </div>
