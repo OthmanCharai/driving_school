@@ -436,13 +436,13 @@ const database = [
     title: 'Select',
     category: 'formsTables',
   },
-  {
-    id: 82,
-    url: { name: 'forms-checkbox' },
-    icon: 'tabler-checkbox',
-    title: 'Checkbox',
-    category: 'formsTables',
-  },
+//   {
+//     id: 82,
+//     url: { name: 'forms-checkbox' },
+//     icon: 'tabler-checkbox',
+//     title: 'Checkbox',
+//     category: 'formsTables',
+//   },
   {
     id: 83,
     url: { name: 'forms-radio' },
@@ -544,6 +544,7 @@ const database = [
 ]
 
 
+
 // ** GET Search Data
 // eslint-disable-next-line sonarjs/cognitive-complexity
 mock.onGet('/app-bar/search').reply(config => {
@@ -600,6 +601,6 @@ mock.onGet('/app-bar/search').reply(config => {
       mergedData.push(...r)
     }
   })
-  
+
   return [200, [...mergedData]]
 })
