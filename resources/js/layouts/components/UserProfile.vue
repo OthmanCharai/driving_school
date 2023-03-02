@@ -12,7 +12,7 @@ const logout = () => {
 
     // Remove "accessToken" from localStorage
     localStorage.removeItem("accessToken");
-    router.push("/login").then(() => {
+    router.push("/admin/login").then(() => {
         // Remove "userAbilities" from localStorage
         localStorage.removeItem("userAbilities");
 
