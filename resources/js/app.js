@@ -25,27 +25,26 @@ const setupApp = async () => {
     const app = createApp(
         window.location.pathname.startsWith("/admin") ? AdminApp : App
     )
-        .use(i18nVue, {
-            resolve: async (lang) => {
-                const langs = import.meta.glob("../../lang/*.json");
-                return await langs[`../../lang/${lang}.json`]();
-            },
-        })
         .use(router)
         .use(pinia)
         .use(createPinia())
         .use(router)
         .use(layoutsPlugin)
-        .use(i18n)
         .use(abilitiesPlugin, ability, {
             useGlobalProperties: true,
         });
 
     if (window.location.pathname.startsWith("/admin")) {
+        app.use(i18n);
         app.use(vuetify);
-    } else if (window.location.pathname != "/examResult") {
+    } else {
+        app.use(i18nVue, {
+            resolve: async (lang) => {
+                const langs = import.meta.glob("../../lang/*.json");
+                return await langs[`../../lang/${lang}.json`]();
+            },
+        });
     }
-
     app.mount("#app");
 };
 

@@ -99,7 +99,7 @@ router.beforeEach((to) => {
 
     const isLoggedIn = isUserLoggedIn();
 
-    if (to.path.startsWith("/admin")) {
+    if (!to.path.startsWith("/admin")) {
         // Do nothing if route starts with "/admin"
         return;
     }
@@ -124,15 +124,15 @@ router.beforeEach((to) => {
     return next()
 
     */
-    // if (canNavigate(to)) {
-    //     if (to.meta.redirectIfLoggedIn && isLoggedIn) return "/";
-    // } else {
-    //     if (isLoggedIn) return { name: "not-authorized" };
-    //     else
-    //         return {
-    //             name: "admin-login",
-    //             query: { to: to.name !== "index" ? to.fullPath : undefined },
-    //         };
-    // }
+    if (canNavigate(to)) {
+        if (to.meta.redirectIfLoggedIn && isLoggedIn) return "/";
+    } else {
+        if (isLoggedIn) return { name: "not-authorized" };
+        else
+            return {
+                name: "admin-login",
+                query: { to: to.name !== "index" ? to.fullPath : undefined },
+            };
+    }
 });
 export default router;
