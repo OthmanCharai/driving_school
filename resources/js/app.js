@@ -4,6 +4,7 @@ import "./bootstrap";
 import "@/@fake-db/db";
 import "@/@iconify/icons-bundle";
 import App from "@/App.vue";
+import AdminApp from "@/AdminApp.vue";
 import ability from "@/plugins/casl/ability";
 import i18n from "@/plugins/i18n";
 import layoutsPlugin from "@/plugins/layouts";
@@ -11,24 +12,20 @@ import vuetify from "@/plugins/vuetify";
 import { loadFonts } from "@/plugins/webfontloader";
 import router from "@/router";
 import { abilitiesPlugin } from "@casl/vue";
-import "@/@core/scss/template/index.scss";
-import "@/styles/styles.scss";
 import { createPinia } from "pinia";
 import { createApp } from "vue";
-import I18nVue from "./@core/components/I18n.vue";
+import { i18nVue } from "laravel-vue-i18n";
+// import I18nVue from "./@core/components/I18n.vue";
 
 loadFonts();
 const pinia = createPinia();
 
 const setupApp = async () => {
-    if (window.location.href === "examResult") {
-        // await import("@/helpers/style");
-    }
-
-
     // Use plugins
-    createApp(App)
-        .use(I18nVue, {
+    const app = createApp(
+        window.location.pathname.startsWith("/admin") ? AdminApp : App
+    )
+        .use(i18nVue, {
             resolve: async (lang) => {
                 const langs = import.meta.glob("../../lang/*.json");
                 return await langs[`../../lang/${lang}.json`]();
@@ -36,15 +33,20 @@ const setupApp = async () => {
         })
         .use(router)
         .use(pinia)
-        .use(vuetify)
         .use(createPinia())
         .use(router)
         .use(layoutsPlugin)
         .use(i18n)
         .use(abilitiesPlugin, ability, {
             useGlobalProperties: true,
-        })
-        .mount("#app");
+        });
+
+    if (window.location.pathname.startsWith("/admin")) {
+        app.use(vuetify);
+    } else if (window.location.pathname != "/examResult") {
+    }
+
+    app.mount("#app");
 };
 
 setupApp();

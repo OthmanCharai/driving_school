@@ -55,7 +55,9 @@ const login = () => {
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
 
             // Redirect to `to` query if exist or redirect to index route
-            router.replace(route.query.to ? String(route.query.to) : "/");
+            router.replace(
+                route.query.to ? String(route.query.to) : "/admin/invoice/list" // TODO : CHANGE
+            );
         })
         .catch((e) => {
             const { errors: formErrors } = e.response.data;

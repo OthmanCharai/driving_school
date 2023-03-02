@@ -1,7 +1,7 @@
 <template>
     <div class="relative pt-1">
         <div
-            class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 flex-row-reverse"
+            class="overflow-hidden h-2  text-xs flex rounded bg-transparent flex-row-reverse"
         >
             <div
                 :class="[progressBarColor]"

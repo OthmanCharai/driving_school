@@ -33,7 +33,7 @@ const { timeLeft } = storeToRefs(useTimerStore());
         </button>
         <progressBar
             v-if="currentQuestionIndex !== -1"
-            class="!absolute w-full p-0 m-0 left-0 bottom-[-2rem]"
+            class="!absolute w-full p-0 m-0 left-0 bottom-[-1rem]"
             :value="timeLeft"
             :max="8"
         />
