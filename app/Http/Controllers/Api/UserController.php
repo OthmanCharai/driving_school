@@ -8,7 +8,9 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
@@ -60,12 +62,12 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @param User $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, User $user): Response
+    public function destroy(Request $request, User $user):JsonResponse
     {
         $user->delete();
-
-        return response()->noContent();
+        
+        return response()->json('user was deleted with success',200);
     }
 }

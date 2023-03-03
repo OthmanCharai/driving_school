@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -24,7 +25,15 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            "email" => [
+                'required',
+                'email',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->where('id', '<>', auth()->id());
+                })
+            ],
+            "name" => "required"
+
         ];
     }
 }

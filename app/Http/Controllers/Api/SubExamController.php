@@ -27,7 +27,7 @@ class SubExamController extends Controller
      */
     public function index(Request $request): SubExamCollection
     {
-        $subExams = SubExam::with(["questions",'exam'])->get();
+        $subExams = SubExam::with(["questions"])->get();
 
         return new SubExamCollection($subExams);
     }
@@ -142,7 +142,7 @@ class SubExamController extends Controller
         }
         $displayed_data['score']=$counter;
         $displayed_data['created_at']=now()->toDateString();
-       
+
         $score=Score::create(['score'=>json_encode($displayed_data)]);
         return response()->json(['data'=>$score],200);
     }

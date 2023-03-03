@@ -24,7 +24,9 @@ class ExamUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required'],
+            'image'=>"required|mimes:jpg,png,jpeg",
+            'is_free'=>'required'
         ];
     }
 }

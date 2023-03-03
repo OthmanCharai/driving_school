@@ -11,6 +11,7 @@ use App\Models\Exam;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ExamController extends Controller
@@ -34,8 +35,14 @@ class ExamController extends Controller
      */
     public function store(ExamStoreRequest $request): ExamResource
     {
-        $exam = Exam::create($request->validated());
 
+        $file=$request->file('image');
+        $path=Storage::disk('public')->putFile('exams',$file);
+        $exam = Exam::create([
+            'name'=>$request->name,
+            "is_free"=>$request->is_free,
+            "image"=>$path
+        ]);
         return new ExamResource($exam);
     }
 
@@ -46,8 +53,10 @@ class ExamController extends Controller
      */
     public function show(Request $request, Exam $exam): ExamResource
     {
+        $exam->image=Storage::disk('public')->url(
+            $exam->image
+        );
         $exam->load(['subExam.questions.options','subExam.questions.dropzons']);
-
 
         return new ExamResource($exam);
     }
@@ -59,7 +68,14 @@ class ExamController extends Controller
      */
     public function update(ExamUpdateRequest $request, Exam $exam): ExamResource
     {
-        $exam->update($request->validated());
+
+        $file = $request->file("image");
+
+        $path=Storage::disk('public')->putFile('exams', $file);
+
+        Storage::disk('public')->delete($exam->image);
+
+        $exam->update(array_merge($request->validated(),['image'=>$path]));
 
         return new ExamResource($exam);
     }

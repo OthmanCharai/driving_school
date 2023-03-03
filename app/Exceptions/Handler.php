@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 
+use http\Env\Request;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -48,13 +49,13 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-      /*  $this->renderable(static function (ModelNotFoundException $e, $request) {
+       /* $this->renderable(static function (ModelNotFoundException $e, $request) {
             if ($request->wantsJson() || $request->is('api/*')) {
                 return response()->json(['message' => 'Item Not Found'], 404);
             }
-        });
+        });*/
 
-        $this->renderable(static function (AuthenticationException $e, $request) {
+        /*$this->renderable(static function (AuthenticationException $e, $request) {
             if ($request->wantsJson() || $request->is('api/*')) {
                 return response()->json(['message' => 'unAuthenticated'], 401);
             }
@@ -69,5 +70,11 @@ class Handler extends ExceptionHandler
                 return response()->json(['message' => 'The requested link does not exist'], 400);
             }
         });*/
+        $this->renderable(function (NotFoundHttpException $e, $request){
+            if($request->is('api/*')){
+                return response()->json(['message'=>"model not found"],404);
+
+            }
+        });
     }
 }
