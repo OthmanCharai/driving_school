@@ -39,9 +39,15 @@ const deleteOption = (optionIndex) => {
 };
 const addAnOption = (optionIndex) => {
     props.data.options.push({
-        answer: "hell",
+        answer: "",
     });
 };
+
+const getRightAnswer = () =>
+    props.data.options.find((option) => option.status === true) ||
+    props.data.options[0];
+
+const selectedOption = computed(() => getRightAnswer());
 
 const changeImage = (file) => {
     const fileReader = new FileReader();
@@ -69,6 +75,14 @@ const changeImage = (file) => {
                     :rules="[requiredValidator]"
                 />
             </VCol>
+            <VCol cols="1" mdd="6">
+                <VTextField
+                    v-model="data.score"
+                    type="number"
+                    label="Question Score"
+                    :rules="[requiredValidator]"
+                />
+            </VCol>
             <VCol cols="3">
                 <VSelect
                     v-model="data.type"
@@ -90,7 +104,10 @@ const changeImage = (file) => {
                         @input="changeImage"
                     />
                 </VCol>
-                <img class="h-[20rem] !w-[70%] rounded" :src="data.image" />
+                <img
+                    class="h-[20rem] !w-[70%] rounded object-cover"
+                    :src="data.image"
+                />
                 <!-- </VRow> -->
 
                 <!-- <VDivider /> -->
@@ -114,8 +131,26 @@ const changeImage = (file) => {
             <div class="mt-4">
                 <VBtn @click="addAnOption"> Add an Option </VBtn>
             </div>
+            <VCol cols="3" class="m-0 p-0">
+                <VSelect
+                    v-model="selectedOption"
+                    class="p-0 m-0 mt-4"
+                    :items="data.options"
+                    label="Choose the right answer"
+                    item-title="answer"
+                    item-value="id"
+                />
+            </VCol>
         </VForm>
 
         <VDivider />
     </VCard>
 </template>
+
+<style>
+input,
+input:focus {
+    border: none;
+    outline: none;
+}
+</style>
