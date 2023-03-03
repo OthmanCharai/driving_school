@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -13,9 +16,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-class Exam extends Model
+class Exam extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory,InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +41,19 @@ class Exam extends Model
     ];
 
     /**
+     * @return void
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('exams')
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(300)
+                    ->height(300);
+            });
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function users(): BelongsToMany
@@ -52,4 +68,6 @@ class Exam extends Model
     {
         return $this->hasMany(SubExam::class);
     }
+
+
 }

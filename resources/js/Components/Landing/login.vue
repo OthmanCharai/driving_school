@@ -68,7 +68,6 @@ const login = async () => {
         user.name = response.data.name;
         user.email = response.data.email;
         localStorage.setItem("loggedIn", JSON.stringify(response.data.token));
-        
         console.log(localStorage.getItem("loggedIn"));
     }
 };
