@@ -1,6 +1,7 @@
 <script setup>
 import { useInvoiceStore } from "./useInvoiceStore";
 import { requiredValidator } from "@validators";
+import DropzonesQuestion from './DropzonesQuestion.vue'
 
 const props = defineProps({
     data: {
@@ -9,20 +10,22 @@ const props = defineProps({
     },
 });
 
-const invoiceListStore = useInvoiceStore();
+// const { data } = toRefs(props);
+
+// const invoiceListStore = useInvoiceStore();
 
 // 👉 Clients
-const clients = ref([]);
+// const clients = ref([]);
 
-// 👉 fetchClients
-invoiceListStore
-    .fetchClients()
-    .then((response) => {
-        clients.value = response.data;
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+// // 👉 fetchClients
+// invoiceListStore
+//     .fetchClients()
+//     .then((response) => {
+//         clients.value = response.data;
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
 
 const refForm = ref();
 
@@ -47,7 +50,23 @@ const getRightAnswer = () =>
     props.data.options.find((option) => option.status === true) ||
     props.data.options[0];
 
-const selectedOption = computed(() => getRightAnswer());
+const updateOptionStatus = (optionId, newStatusValue) => {
+    const optionToUpdate = props.data.options.find(
+        (option) => option.id === optionId
+    );
+
+    if (optionToUpdate) {
+        optionToUpdate.status = newStatusValue;
+    }
+};
+
+const selectedOption = computed({
+    get: () => getRightAnswer(),
+    set: (newOptionID) => {
+        updateOptionStatus(getRightAnswer().id, false);
+        updateOptionStatus(newOptionID, true);
+    },
+});
 
 const changeImage = (file) => {
     const fileReader = new FileReader();
@@ -57,7 +76,6 @@ const changeImage = (file) => {
         fileReader.onload = () => {
             if (typeof fileReader.result === "string")
                 props.data.image = fileReader.result;
-            // accountDataLocal.value.avatarImg = fileReader.result;
         };
     }
 };
@@ -92,7 +110,7 @@ const changeImage = (file) => {
                 />
             </VCol>
             <VDivider />
-            <div v-if="data.type !== 'dropzones'" class="p-4d">
+            <div v-if="data.type !== 'dropzones'">
                 <!-- <VRow> -->
                 <VCol cols="12" md="6">
                     <VFileInput
@@ -127,20 +145,28 @@ const changeImage = (file) => {
                         />
                     </VCol>
                 </VRow>
+                <div class="mt-4">
+                    <VBtn @click="addAnOption"> Add an Option </VBtn>
+                </div>
+                <VCol cols="3" class="m-0 p-0">
+                    <VSelect
+                        v-model="selectedOption"
+                        class="p-0 m-0 mt-4"
+                        :items="data.options"
+                        label="Choose the right answer"
+                        item-title="answer"
+                        item-value="id"
+                    />
+                </VCol>
             </div>
-            <div class="mt-4">
-                <VBtn @click="addAnOption"> Add an Option </VBtn>
-            </div>
-            <VCol cols="3" class="m-0 p-0">
-                <VSelect
-                    v-model="selectedOption"
-                    class="p-0 m-0 mt-4"
-                    :items="data.options"
-                    label="Choose the right answer"
-                    item-title="answer"
-                    item-value="id"
+            <!-- <div class="pt-4" v-else>
+                <h2> Click on the image to add a dropzone</h2>
+                <img
+                    class="h-[20rem] !w-[70%] rounded object-cover"
+                    :src="data.image"
                 />
-            </VCol>
+            </div> -->
+            <DropzonesQuestion v-else />
         </VForm>
 
         <VDivider />
