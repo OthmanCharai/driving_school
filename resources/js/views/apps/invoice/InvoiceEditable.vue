@@ -129,7 +129,7 @@ const changeImage = (file) => {
                 <!-- </VRow> -->
 
                 <!-- <VDivider /> -->
-                <h4 class="my-4">Answers</h4>
+                <h4 class="my-4">Options</h4>
                 <VRow>
                     <VCol
                         v-for="(option, index) of data.options"

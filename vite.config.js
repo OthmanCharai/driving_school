@@ -89,6 +89,10 @@ export default defineConfig({
                 "pinia",
             ],
             vueTemplate: true,
+            // targets to transform
+            // include: [
+            //     /\.vue\??/, // .vue
+            // ],
         }),
         VueI18n({
             runtimeOnly: true,

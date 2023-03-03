@@ -1,29 +1,31 @@
 <template>
-    <div class="pt-4 relative h-[20rem] !w-[70%]">
-        <h2 v-if="!dropzones.length">Click on the image to add a dropzone</h2>
-        <img
-            class="rounded object-cover w-full h-full"
-            :src="data.image"
-            @click="addDropzone"
-        />
-        <!-- <div class="relative"> -->
-        <template v-for="(dropzone, index) in dropzones" :key="index">
-            <div
-                class="absolute rounded-full bg-blue-500 w-10 h-10 text-xl items-center justify-center text-white flex"
-                :style="{
-                    top: `${dropzone.y}%`,
-                    left: `${dropzone.x}%`,
-                }"
-            >
-                {{ index + 1 }}
-            </div>
-        </template>
-        <!-- </div> -->
-        <div v-if="dropzones.length" class="flex gap-y-4">
-            <VBtn @click="undo"> undo </VBtn>
-            <VBtn @click="clearAll"> Clear All </VBtn>
+    <h2 class="my-2 pl-3">Click on the image to add a dropzone</h2>
+    <VRow class="gap-8 mb-6 items-center justify-center">
+        <div class="pt-4 relative h-[20rem] !w-[70%]">
+            <img
+                class="rounded object-cover w-full h-full"
+                :src="data.image"
+                @click="addDropzone"
+            />
+            <template v-for="(dropzone, index) in dropzones" :key="index">
+                <div
+                    class="absolute rounded-full bg-blue-500 w-10 h-10 text-xl items-center justify-center text-white flex"
+                    :style="{
+                        top: `${dropzone.y}%`,
+                        left: `${dropzone.x}%`,
+                    }"
+                >
+                    {{ index + 1 }}
+                </div>
+            </template>
         </div>
-    </div>
+        <div class="flex gap-4 my-4 flex-row w-[20%]">
+            <template v-if="dropzones.length">
+                <VBtn @click="undo"> undo </VBtn>
+                <VBtn @click="clearAll"> Clear All </VBtn></template
+            >
+        </div>
+    </VRow>
 </template>
 
 <script>
