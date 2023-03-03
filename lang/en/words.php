@@ -15,6 +15,7 @@ return [
         'free'=>'free',
         'not-free'=>'not free',
         "next-question"=>"Next Question",
+        "prev-question"=>"Prev Question",
         "end-exam"=>"End Exam",
        
     ],

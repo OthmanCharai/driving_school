@@ -7,7 +7,7 @@ const config = {
     },
 };
 
-export const submitAnswers = (answers) =>
+const submitAnswers = (answers) =>
     axios.post(
         "/api/score",
         {
@@ -15,3 +15,10 @@ export const submitAnswers = (answers) =>
         },
         config
     );
+
+const getExamResult = (id) => axios.get(`/api/score/${id}`, config);
+
+export default {
+    submitAnswers,
+    getExamResult,
+};

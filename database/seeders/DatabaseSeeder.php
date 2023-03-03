@@ -22,34 +22,16 @@ class DatabaseSeeder extends Seeder
     {
         // make options
          User::factory(10)->create();
-         Exam::factory()
-             ->has(SubExam::factory()
-                 ->has(Question::factory()
-                     ->has(Option::factory()->count(4))
-                     ->count(2))
-                 ->count(2))
-             ->create();
+         $this->call([
+             DropzonSeeder::class,
 
-         // make dropzons
-        Exam::factory()
-            ->has(SubExam::factory()
-                ->has(Question::factory()
-                    ->has(Option::factory()
-                        ->has(Dropzon::factory(['question_id'=>Question::latest()->first()->pluck('id')[0]]))
-                        ->count(1))
-                    ->count(1))
-                ->count(2))
-            ->create();
-        // has both
-        Exam::factory()
-            ->has(SubExam::factory()
-                ->has(Question::factory()
-                    ->has(Option::factory()
-                        ->has(Dropzon::factory(['question_id'=>Question::query()->latest()->first()->pluck('id')[0]]))
-                        ->count(1))
-                    ->count(1))
-                ->count(2))
-            ->create();
+             ExamDropzonesSeeder::class,
+
+         ]);
+
+
+
+
 
 
 

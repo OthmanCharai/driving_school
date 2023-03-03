@@ -5,11 +5,11 @@ Main Style Stylesheet
         Primary use:	Multi-Purpose, Business, Coporate, Creative, Gallery
 -------------------------------------------------------------------*/
 /*------------------------------------------------------------------
-body 
- + HOME 
- + COURSES 
+body
+ + HOME
+ + COURSES
  + ABOUT US
- + GALLERY 
+ + GALLERY
  + BLOG
  + FOOTER
  + INTRESTORS
@@ -20,7 +20,7 @@ body
                         THEME STYLING START
 ========================================================*/
 body {
-    background: #FFF;   
+    background: #FFF;
     direction: rtl;
     font-weight: normal;
     margin: 0px;
@@ -40,7 +40,7 @@ body {
     width: 100%;
     height: 100%;
     text-align: center;
-    vertical-align: middle;   
+    vertical-align: middle;
     z-index: 200000;
     background-color: #FFFFFF;
 }
@@ -209,11 +209,11 @@ body {
 
 #wrap.boxed {
     width: 1200px;
-    margin: 0 auto;    
+    margin: 0 auto;
 }
 .boxed header{
     width: 1200px;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 /*=======================================================
                         HEADINGS
@@ -315,7 +315,7 @@ a:hover, a:focus{
 }
 @media(max-width:767px){
     #productModal .modal-dialog{
-        width: auto;        
+        width: auto;
     }
 }
 .owl-carousel .owl-item img {
@@ -701,7 +701,7 @@ header .navbar-nav {
 }
 #banner .text-slider {
     position: relative;
-    z-index: 2;    
+    z-index: 2;
     display: inline-block;
     /*    min-height: 500px;
         width: 100%;*/
@@ -3052,7 +3052,7 @@ iframe {
     left: -40px;
 }
 /*=======================================================
-                        Courses			
+                        Courses
 ========================================================*/
 .courses {
     padding: 80px 0;
@@ -3417,7 +3417,7 @@ select {
 .billing-tittle {
 }
 /*=======================================================
-                404 PAGE	
+                404 PAGE
 ========================================================*/
 #missing {
     background: url(../images/slide/slide-bg-3.jpg) center center no-repeat;
@@ -3974,7 +3974,7 @@ select {
 }
 
 /*=======================================================
-                      New Edit Css 
+                      New Edit Css
 ========================================================*/
 .top-bar ul {
     margin-bottom: 0;
@@ -4645,7 +4645,7 @@ header .navbar-default li:last-child.dropdown:hover .dropdown-menu{
 }
 
 .exam-nav {
-    border-bottom: 5px solid var(--dark);
+    /* border-bottom: 5px solid var(--dark); */
 }
 
 .exam .ask input[type="radio"] {

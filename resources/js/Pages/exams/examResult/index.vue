@@ -1,4 +1,20 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import examService from "@/services/exam";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+
+const examResult = ref(null);
+
+onMounted(async () => {
+    let { data } = await examService.getExamResult(route.query.id);
+    examResult.value = data;
+});
+
+const getCorrectAnswersCount = (subExam) =>
+    subExam.answers.filter((answer) => answer == "true").length;
+</script>
 <template>
     <link href="img/favicon.ico" rel="icon" />
 
@@ -36,7 +52,7 @@
 
     <!-- Navbar Start -->
 
-    <div class="exam-page">
+    <div v-if="examResult" class="exam-page">
         <div class="exam-header p-5" id="exam_result">
             <div class="container">
                 <div class="row border-bottom">
@@ -47,11 +63,11 @@
                         </h1>
                     </div>
                     <div class="col-6">
-                        <img
+                        <!-- <img
                             src="images/1670206666638d54cac0ff3.png"
                             alt="Rijschoolmajed  :              Kvk nr : 60475048"
                             class="float-end"
-                        />
+                        /> -->
                     </div>
                 </div>
 
@@ -83,7 +99,9 @@
                                 <li class="fs-5">
                                     <span class="fw-bold me-4 text-primary"
                                         >تاريخ: </span
-                                    ><span class="">2023-02-18</span>
+                                    ><span class="">
+                                        {{ examResult.created_at }}</span
+                                    >
                                 </li>
                             </ul>
                         </div>
@@ -104,165 +122,45 @@
             <div class="container" id="print_content">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="widget p-4 mb-3">
+                        <div
+                            v-for="(
+                                subExam, subExamName
+                            ) in examResult.subExams"
+                            class="widget p-4 mb-3"
+                        >
                             <div class="widget-head">
                                 <h4>
-                                    <span>1/6</span> التعرف على الخطر
+                                    <span>
+                                        {{ getCorrectAnswersCount(subExam) }}
+                                        / {{ subExam.answers.length }}</span
+                                    >
+                                    {{ subExamName }}
                                     <span
                                         class="float-end h6 text-muted"
                                         style="direction: rtl"
-                                        >الاجابات للنجاح: 13</span
+                                        >الاجابات للنجاح:
+                                        {{ subExam.minScore }}</span
                                     >
                                 </h4>
                                 <hr />
                             </div>
                             <div class="widget-content">
                                 <ul class="result">
-                                    <li class="bg-success mb-3">
+                                    <li
+                                        v-for="(
+                                            answer, index
+                                        ) in subExam.answers"
+                                        class="mb-3 mr-2"
+                                        :class="[
+                                            answer == 'true'
+                                                ? 'bg-success'
+                                                : 'bg-red-50',
+                                        ]"
+                                    >
                                         <a
                                             href="exam-question.php?result_id=9280&question_id=1957"
                                             title="ماذا يجب ان تفعل هنا ؟"
-                                            >1</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1958"
-                                            title="ماذا يجب ان تفعل هنا ؟"
-                                            >2</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1959"
-                                            title="ماذا يجب ان تفعل هنا ؟"
-                                            >3</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1960"
-                                            title="ماذا يجب ان تفعل هنا ؟"
-                                            >4</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1961"
-                                            title="ماذا يجب ان تفعل هنا ؟"
-                                            >5</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1962"
-                                            title="ماذا يجب ان تفعل هنا ؟"
-                                            >6</a
-                                        >
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="widget p-4 mb-3">
-                            <div class="widget-head">
-                                <h4>
-                                    <span>0/4</span> اسئلة المعرفة
-                                    <span
-                                        class="float-end h6 text-muted"
-                                        style="direction: rtl"
-                                        >الاجابات للنجاح: 10</span
-                                    >
-                                </h4>
-                                <hr />
-                            </div>
-                            <div class="widget-content">
-                                <ul class="result">
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1963"
-                                            title="توقفت هنا لقراءة  خريطة  الطريق  هل  هذا  مسموح؟"
-                                            >1</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1964"
-                                            title="هل تقود سيارتك بالوضع  الصحيح  على  الطريق؟"
-                                            >2</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1965"
-                                            title="هل مسموح لك  التوقف  هنا  لا  نزال  أحد  الراكبين؟"
-                                            >3</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1966"
-                                            title="ترغب في الذهاب إلى  جهة  اليسار  هل  مكانك  هنا  على  الطريق  صحيح؟"
-                                            >4</a
-                                        >
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="widget p-4 mb-3">
-                            <div class="widget-head">
-                                <h4>
-                                    <span>0/6</span> البصيرة المرورية (المعرفة
-                                    المتقدمة)
-                                    <span
-                                        class="float-end h6 text-muted"
-                                        style="direction: rtl"
-                                        >الاجابات للنجاح: 25</span
-                                    >
-                                </h4>
-                                <hr />
-                            </div>
-                            <div class="widget-content">
-                                <ul class="result">
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1967"
-                                            title="ترغب  في  الالتفاف  والرجوع  بهذا  الطريق.  هل  هذا  مسموح؟"
-                                            >1</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1968"
-                                            title="ترغب  في  الذهاب  إلى الأمام،  هل  يجب  عليك  أن  تدع  جميع  سيارات  الجيش  أن  تمر  أولا؟"
-                                            >2</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1969"
-                                            title="ما هو التسلسل الصحيح لإعطاء الأسبقية هنا؟"
-                                            >3</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1970"
-                                            title="هل  تتوقع  قدوم  البروم  فيتس  أمامك؟"
-                                            >4</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1971"
-                                            title="عند  أي  علامة  مسموح  لك  إنزال  راكب  من  السيارة؟"
-                                            >5</a
-                                        >
-                                    </li>
-                                    <li class="bg-dark mb-3">
-                                        <a
-                                            href="exam-question.php?result_id=9280&question_id=1972"
-                                            title="ما هو التسلسل الصحيح لإعطاء الأسبقية هنا؟"
-                                            >6</a
+                                            >{{ index + 1 }}</a
                                         >
                                     </li>
                                 </ul>

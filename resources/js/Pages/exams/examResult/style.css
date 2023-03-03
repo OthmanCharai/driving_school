@@ -602,7 +602,7 @@
 }
 
 .exam-nav {
-    border-bottom: 5px solid var(--dark);
+    /* border-bottom: 5px solid var(--dark); */
 }
 
 .exam .ask input[type="radio"] {
