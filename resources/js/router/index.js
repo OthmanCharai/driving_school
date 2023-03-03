@@ -11,7 +11,7 @@ import ExamStart from "./../Pages/exams/start-exam.vue";
 import Question from "./../Pages/exams/question.vue";
 import Contact from "@/Pages/Contact/index.vue";
 
-const clientRoutes = [
+const clientRoutes = [  
     {
         path: "/",
         name: "home",

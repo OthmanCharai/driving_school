@@ -1,11 +1,13 @@
-import axios from 'axios'
+import axios from "axios";
 
-const axiosIns = axios.create({
-// You can add your headers here
-// ================================
-// baseURL: 'https://some-domain.com/api/',
-// timeout: 1000,
-// headers: {'X-Custom-Header': 'foobar'}
-})
+const config = {
+    headers: {
+        Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMC4wLjAuMC9hcGkvcmVnaXN0ZXIiLCJpYXQiOjE2NzYzMzU0MDMsImV4cCI6MTY3NjMzOTAwMywibmJmIjoxNjc2MzM1NDAzLCJqdGkiOiJnM2lDZFVRdENmemUzZjFqIiwic3ViIjoiMTIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.zpZRH7pXIaxY7H4z19QnTip0MJQfC2EBkuzSRaJNACs",
+    },
+    baseURL: "/api",
+};
 
-export default axiosIns
+const axiosIns = axios.create(config);
+
+export default axiosIns;

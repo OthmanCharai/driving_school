@@ -929,13 +929,13 @@ mock.onGet('/apps/invoices').reply(config => {
       const start = new Date(startDate).getTime()
       const end = new Date(endDate).getTime()
       const issuedDate = new Date(invoiceObj.issuedDate).getTime()
-      
+
       return issuedDate >= start && issuedDate <= end
     })
   }
   const totalPage = Math.ceil(filteredInvoices.length / perPage) ? Math.ceil(filteredInvoices.length / perPage) : 1
   const totalInvoices = filteredInvoices.length
-  
+
   return [200, { invoices: paginateArray(filteredInvoices, perPage, currentPage), totalPage, totalInvoices }]
 })
 
@@ -967,6 +967,6 @@ mock.onGet(/\/apps\/invoices\/\d+/).reply(config => {
 // 👉 Get Client
 mock.onGet('/apps/invoice/clients').reply(() => {
   const clients = database.map(invoice => invoice.client)
-  
+
   return [200, clients.slice(0, 5)]
 })

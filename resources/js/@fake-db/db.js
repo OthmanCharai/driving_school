@@ -16,4 +16,4 @@ import './apps/invoice'
 import './dashboard/analytics'
 
 // forwards the matched request over network
-mock.onAny().passThrough()
+// mock.onAny().passThrough()

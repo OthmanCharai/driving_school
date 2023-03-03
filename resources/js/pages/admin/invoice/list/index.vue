@@ -14,6 +14,7 @@ const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
 watchEffect(() => {
+    console.log("s");
     invoiceListStore
         .fetchInvoices({
             q: searchQuery.value,
@@ -22,9 +23,10 @@ watchEffect(() => {
             currentPage: currentPage.value,
         })
         .then((response) => {
-            invoices.value = response.data.invoices;
-            totalPage.value = response.data.totalPage;
-            totalInvoices.value = response.data.totalInvoices;
+            console.log(response);
+            // invoices.value = response.data.invoices;
+            // totalPage.value = response.data.totalPage;
+            // totalInvoices.value = response.data.totalInvoices;
         })
         .catch((error) => {
             console.log(error);

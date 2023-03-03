@@ -1,7 +1,7 @@
 import "./bootstrap";
 
 /* eslint-disable import/order */
-import "@/@fake-db/db";
+// import "@/@fake-db/db";
 import "@/@iconify/icons-bundle";
 import App from "@/App.vue";
 import AdminApp from "@/AdminApp.vue";
@@ -25,7 +25,6 @@ const setupApp = async () => {
     const app = createApp(
         window.location.pathname.startsWith("/admin") ? AdminApp : App
     )
-        .use(router)
         .use(pinia)
         .use(createPinia())
         .use(router)
@@ -37,13 +36,13 @@ const setupApp = async () => {
     if (window.location.pathname.startsWith("/admin")) {
         app.use(i18n);
         app.use(vuetify);
-    } else {
+    }else{
         app.use(i18nVue, {
             resolve: async (lang) => {
                 const langs = import.meta.glob("../../lang/*.json");
                 return await langs[`../../lang/${lang}.json`]();
             },
-        });
+        })
     }
     app.mount("#app");
 };

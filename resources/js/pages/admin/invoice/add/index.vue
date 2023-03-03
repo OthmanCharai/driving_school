@@ -2,43 +2,29 @@
 import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
 
 const invoiceData = ref({
-    invoice: {
-        id: 5037,
-        issuedDate: "",
-        service: "",
-        total: 0,
-        avatar: "",
-        invoiceStatus: "",
-        balance: "",
-        dueDate: "",
-        client: {
-            address: "",
-            company: "",
-            companyEmail: "",
-            contact: "",
-            country: "",
-            name: "",
-        },
-    },
-    paymentDetails: {
-        totalDue: "$12,110.55",
-        bankName: "American Bank",
-        country: "United States",
-        iban: "ETD95476213874685",
-        swiftCode: "BR91905",
-    },
-    purchasedProducts: [
+    type: "options",
+    question: "Suscipit cumque vel et.",
+    voice: "Quod voluptatem accusamus aut cum.",
+    sub_exam_id: 20,
+    options: [
         {
-            title: "",
-            cost: 0,
-            hours: 0,
-            description: "",
+            id: 413,
+            answer: "Et quia facere.",
+        },
+        {
+            id: 414,
+            answer: "Ut odit odio id.",
+        },
+        {
+            id: 415,
+            answer: "Qui ut sit.",
+        },
+        {
+            id: 416,
+            answer: "Saepe non.",
         },
     ],
-    note: "",
-    paymentMethod: "",
-    salesperson: "",
-    thanksNote: "",
+    image: "https:\/\/via.placeholder.com\/500x500.png\/00eecc?text=inventore",
 });
 
 const paymentTerms = ref(true);
@@ -60,11 +46,6 @@ const paymentMethods = ["Bank Account", "PayPal", "UPI Transfer"];
         <VCol cols="12" md="3">
             <VCard class="mb-8">
                 <VCardText>
-                    <!-- 👉 Send Invoice -->
-                    <VBtn block prepend-icon="tabler-send" class="mb-2">
-                        Send Invoice
-                    </VBtn>
-
                     <!-- 👉 Preview -->
                     <VBtn
                         block
@@ -83,38 +64,6 @@ const paymentMethods = ["Bank Account", "PayPal", "UPI Transfer"];
                     <VBtn block color="default" variant="tonal"> Save </VBtn>
                 </VCardText>
             </VCard>
-
-            <!-- 👉 Select payment method -->
-            <VSelect
-                v-model="selectedPaymentMethod"
-                :items="paymentMethods"
-                label="Accept Payment Via"
-                class="mb-6"
-            />
-
-            <!-- 👉 Payment Terms -->
-            <div class="d-flex align-center justify-space-between">
-                <VLabel for="payment-terms"> Payment Terms </VLabel>
-                <div>
-                    <VSwitch id="payment-terms" v-model="paymentTerms" />
-                </div>
-            </div>
-
-            <!-- 👉  Client Notes -->
-            <div class="d-flex align-center justify-space-between">
-                <VLabel for="client-notes"> Client Notes </VLabel>
-                <div>
-                    <VSwitch id="client-notes" v-model="clientNotes" />
-                </div>
-            </div>
-
-            <!-- 👉  Payment Stub -->
-            <div class="d-flex align-center justify-space-between">
-                <VLabel for="payment-stub"> Payment Stub </VLabel>
-                <div>
-                    <VSwitch id="payment-stub" v-model="paymentStub" />
-                </div>
-            </div>
         </VCol>
     </VRow>
 </template>
