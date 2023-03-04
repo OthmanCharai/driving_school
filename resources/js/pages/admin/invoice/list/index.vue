@@ -1,8 +1,8 @@
 <script setup>
 import { useInvoiceStore } from "@/views/apps/invoice/useInvoiceStore";
 import { avatarText } from "@core/utils/formatters";
+import axios from "@axios";
 
-const invoiceListStore = useInvoiceStore();
 const searchQuery = ref("");
 const selectedStatus = ref();
 const rowPerPage = ref(10);
@@ -13,24 +13,11 @@ const invoices = ref([]);
 const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
-watchEffect(() => {
-    console.log("s");
-    invoiceListStore
-        .fetchInvoices({
-            q: searchQuery.value,
-            status: selectedStatus.value,
-            perPage: rowPerPage.value,
-            currentPage: currentPage.value,
-        })
-        .then((response) => {
-            console.log(response);
-            // invoices.value = response.data.invoices;
-            // totalPage.value = response.data.totalPage;
-            // totalInvoices.value = response.data.totalInvoices;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+watchEffect(async () => {
+    let { data } = await axios.get("/question", { params: {} });
+    invoices.value = data;
+    totalPage.value = 10;
+    totalInvoices.value = 10;
 });
 
 // 👉 Fetch Invoices
@@ -106,6 +93,11 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
         icon: "tabler-x",
     };
 };
+
+const deleteQuestion = (id, index) => {
+    invoices.value.splice(index, 1);
+    axios.delete(`/question/${id}`);
+};
 </script>
 
 <template>
@@ -122,12 +114,12 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
             </div>
 
             <div class="me-3">
-                <!-- 👉 Create invoice -->
+                <!-- 👉 Create Question -->
                 <VBtn
                     prepend-icon="tabler-plus"
                     :to="{ name: 'admin-invoice-add' }"
                 >
-                    Create invoice
+                    Create Question
                 </VBtn>
             </div>
 
@@ -176,13 +168,13 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                         <VIcon icon="tabler-trending-up" />
                     </th>
 
-                    <th scope="col">CLIENT</th>
+                    <th scope="col">Title</th>
 
-                    <th scope="col" class="text-center">TOTAL</th>
+                    <th scope="col" class="text-center">Score</th>
 
-                    <th scope="col">Issued Date</th>
+                    <th scope="col">Creation Date</th>
 
-                    <th scope="col" class="text-center">BALANCE</th>
+                    <th scope="col" class="text-center">Update Date</th>
 
                     <th scope="col">ACTIONS</th>
                 </tr>
@@ -191,7 +183,7 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
             <!-- 👉 Table Body -->
             <tbody>
                 <tr
-                    v-for="invoice in invoices"
+                    v-for="(invoice, index) of invoices"
                     :key="invoice.id"
                     style="height: 3.75rem"
                 >
@@ -243,38 +235,28 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                     <!-- 👉 Client Avatar and Email -->
                     <td>
                         <div class="d-flex align-center">
-                            <VAvatar
-                                size="34"
-                                :color="
-                                    resolveInvoiceStatusVariantAndIcon(
-                                        invoice.invoiceStatus
-                                    ).variant
-                                "
-                                variant="tonal"
-                                class="me-3"
-                            >
-                                <VImg
-                                    v-if="invoice.avatar.length"
-                                    :src="invoice.avatar"
-                                />
-                                <span v-else>{{
+                            <VAvatar size="34" variant="tonal" class="me-3">
+                                <VImg :src="invoice.avatar" />
+                                <!-- v-if="invoice.avatar.length" -->
+                                <!-- <span v-else>{{
                                     avatarText(invoice.client.name)
-                                }}</span>
+                                }}</span> -->
                             </VAvatar>
 
                             <div class="d-flex flex-column">
-                                <h6 class="text-base font-weight-medium mb-0">
+                                <!-- <h6 class="text-base font-weight-medium mb-0">
                                     {{ invoice.client.name }}
-                                </h6>
+                                </h6> -->
                                 <span class="text-disabled text-sm">{{
-                                    invoice.client.companyEmail
+                                    invoice.question
                                 }}</span>
                             </div>
                         </div>
                     </td>
 
                     <!-- 👉 total -->
-                    <td class="text-center">${{ invoice.total }}</td>
+                    <td class="text-center">{{ invoice.score || 10 }}</td>
+                    <!-- TODO REMOVE -->
 
                     <!-- 👉 Date -->
                     <td>{{ invoice.issuedDate }}</td>
@@ -307,8 +289,9 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                             variant="text"
                             color="default"
                             size="x-small"
+                            @click="deleteQuestion(invoice.id, index)"
                         >
-                            <VIcon icon="tabler-mail" :size="22" />
+                            <VIcon icon="tabler-mail" :size="22" />D
                         </VBtn>
 
                         <VBtn
@@ -383,11 +366,11 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                     </td>
                 </tr>
             </tbody>
-
             <!-- 👉 table footer  -->
             <tfoot v-show="!invoices.length">
                 <tr>
                     <td colspan="8" class="text-center text-body-1">
+                        {{ invoices.length }}
                         No data available
                     </td>
                 </tr>
