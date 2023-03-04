@@ -1,10 +1,10 @@
 <script setup>
 import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
+import axios from "@axios";
 
-const invoiceData = ref({
+const questionData = ref({
     type: "dropzones",
     question: "Suscipit cumque vel et.",
-    voice: "Quod voluptatem accusamus aut cum.",
     sub_exam_id: 20,
     score: 1,
     options: [
@@ -32,19 +32,17 @@ const invoiceData = ref({
     image: null,
 });
 
-const paymentTerms = ref(true);
-const clientNotes = ref(false);
-const paymentStub = ref(false);
-const selectedPaymentMethod = ref("Bank Account");
-
-const paymentMethods = ["Bank Account", "PayPal", "UPI Transfer"];
+const saveQuestion = async () => {
+    // apiClient.
+    axios.post("/question", questionData.value);
+};
 </script>
 
 <template>
     <VRow>
         <!-- 👉 InvoiceEditable -->
         <VCol cols="12" md="9">
-            <InvoiceEditable :data="invoiceData" />
+            <InvoiceEditable :data="questionData" />
         </VCol>
 
         <!-- 👉 Right Column: Invoice Action -->
@@ -66,7 +64,14 @@ const paymentMethods = ["Bank Account", "PayPal", "UPI Transfer"];
                     </VBtn>
 
                     <!-- 👉 Save -->
-                    <VBtn block color="default" variant="tonal"> Save </VBtn>
+                    <VBtn
+                        block
+                        color="default"
+                        variant="tonal"
+                        @click="saveQuestion"
+                    >
+                        Save
+                    </VBtn>
                 </VCardText>
             </VCard>
         </VCol>
