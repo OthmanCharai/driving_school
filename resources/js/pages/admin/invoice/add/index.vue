@@ -33,7 +33,7 @@ const questionData = ref({
 });
 
 const saveQuestion = async () => {
-    // apiClient.
+    router.push({ name: "admin-invoice-list" });
     axios.post("/question", questionData.value);
 };
 </script>

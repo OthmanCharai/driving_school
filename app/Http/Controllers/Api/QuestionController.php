@@ -19,16 +19,26 @@ class QuestionController extends Controller
     {
         // $this->middleware('auth:api');
     }
-    /**
+   /**
      * @param Request $request
      * @return QuestionCollection
      */
     public function index(Request $request): QuestionCollection
     {
-        $questions = Question::with('options')->get();
+        $perPage = $request->input('perPage', 10); // number of items per page, default 10
+        $currentPage = $request->input('page', 1); // current page number, default 1
+        $searchTerm = $request->input('q', ''); // search term, default empty string
+        $query = Question::with('options');
+
+        if ($searchTerm) {
+            $query->where('question', 'like', '%' . $searchTerm . '%');
+        }
+
+        $questions = $query->paginate($perPage, ['*'], 'page', $currentPage);
 
         return new QuestionCollection($questions);
     }
+
 
     /**
      * @param QuestionStoreRequest $request

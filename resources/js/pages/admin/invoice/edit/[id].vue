@@ -9,13 +9,13 @@ const questionData = ref(null);
 
 onMounted(async () => {
     let { data: question } = await axios.get(
-        `/question/${1 || route.params.id}` //TODO CHANGE
+        `/question/${route.params.id}`
     );
     //TODO CHANGE
     questionData.value = {
         ...question,
         score: question.score || 1,
-        type: "dropzones",
+        type: question?.dropzones ? "dropzones" : "options",
     };
 });
 

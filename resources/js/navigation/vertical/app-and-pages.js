@@ -5,17 +5,17 @@ export default [
         icon: { icon: "tabler-file" },
         children: [
             { title: "List", to: "admin-invoice-list" },
-            {
-                title: "Preview",
-                to: {
-                    name: "admin-invoice-preview-id",
-                    params: { id: "5036" },
-                },
-            },
-            {
-                title: "Edit",
-                to: { name: "admin-invoice-edit-id", params: { id: "5036" } },
-            },
+            // {
+            //     title: "Preview",
+            //     to: {
+            //         name: "admin-invoice-edit-id",
+            //         params: { id: "5036" },
+            //     },
+            // },
+            // {
+            //     title: "Edit",
+            //     to: { name: "admin-invoice-edit-id", params: { id: "5036" } },
+            // },
             { title: "Add", to: "admin-invoice-add" },
         ],
     },

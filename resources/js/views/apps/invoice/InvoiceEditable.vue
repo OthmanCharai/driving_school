@@ -78,7 +78,7 @@ const changeImage = (file) => {
                     :rules="[requiredValidator]"
                 />
             </VCol>
-            <VCol cols="1" mdd="6">
+            <VCol cols="3" mdd="6">
                 <VTextField
                     v-model="data.score"
                     type="number"
@@ -89,7 +89,7 @@ const changeImage = (file) => {
             <VCol cols="3">
                 <VSelect
                     v-model="data.type"
-                    :items="['order', 'dropzones']"
+                    :items="['options', 'dropzones']"
                     label="Type"
                     persistent-placeholder
                 />

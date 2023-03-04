@@ -4,7 +4,6 @@ import { avatarText } from "@core/utils/formatters";
 import axios from "@axios";
 
 const searchQuery = ref("");
-const selectedStatus = ref();
 const rowPerPage = ref(10);
 const currentPage = ref(1);
 const totalPage = ref(1);
@@ -14,10 +13,18 @@ const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
 watchEffect(async () => {
-    let { data } = await axios.get("/question", { params: {} });
-    invoices.value = data;
-    totalPage.value = 10;
-    totalInvoices.value = 10;
+    let { data } = await axios.get("/question", {
+        params: {
+            page: currentPage.value,
+            perPage: rowPerPage.value,
+            q: searchQuery.value,
+        },
+    });
+    const { data: questions, meta } = data;
+    invoices.value = questions;
+    console.log(meta);
+    totalPage.value = meta.last_page;
+    totalInvoices.value = meta.total;
 });
 
 // 👉 Fetch Invoices
@@ -36,63 +43,6 @@ const paginationData = computed(() => {
 
     return `Showing ${firstIndex} to ${lastIndex} of ${totalInvoices.value} entries`;
 });
-
-// 👉 Invoice balance variant resolver
-const resolveInvoiceBalanceVariant = (balance, total) => {
-    if (balance === total)
-        return {
-            status: "Unpaid",
-            chip: { color: "error" },
-        };
-    if (balance === 0)
-        return {
-            status: "Paid",
-            chip: { color: "success" },
-        };
-
-    return {
-        status: balance,
-        chip: { variant: "text" },
-    };
-};
-
-const resolveInvoiceStatusVariantAndIcon = (status) => {
-    if (status === "Partial Payment")
-        return {
-            variant: "success",
-            icon: "tabler-circle-half-2",
-        };
-    if (status === "Paid")
-        return {
-            variant: "warning",
-            icon: "tabler-chart-pie",
-        };
-    if (status === "Downloaded")
-        return {
-            variant: "info",
-            icon: "tabler-arrow-down-circle",
-        };
-    if (status === "Draft")
-        return {
-            variant: "primary",
-            icon: "tabler-device-floppy",
-        };
-    if (status === "Sent")
-        return {
-            variant: "secondary",
-            icon: "tabler-circle-check",
-        };
-    if (status === "Past Due")
-        return {
-            variant: "error",
-            icon: "tabler-alert-circle",
-        };
-
-    return {
-        variant: "secondary",
-        icon: "tabler-x",
-    };
-};
 
 const deleteQuestion = (id, index) => {
     invoices.value.splice(index, 1);
@@ -136,7 +86,7 @@ const deleteQuestion = (id, index) => {
                 </div>
 
                 <!-- 👉 Select status -->
-                <div class="invoice-list-filter">
+                <!-- <div class="invoice-list-filter">
                     <VSelect
                         v-model="selectedStatus"
                         label="Select Status"
@@ -152,7 +102,7 @@ const deleteQuestion = (id, index) => {
                             'Past Due',
                         ]"
                     />
-                </div>
+                </div> -->
             </div>
         </VCardText>
 
@@ -164,17 +114,10 @@ const deleteQuestion = (id, index) => {
             <thead class="text-uppercase">
                 <tr>
                     <th scope="col">#ID</th>
-                    <th scope="col" class="text-center">
-                        <VIcon icon="tabler-trending-up" />
-                    </th>
 
                     <th scope="col">Title</th>
 
                     <th scope="col" class="text-center">Score</th>
-
-                    <th scope="col">Creation Date</th>
-
-                    <th scope="col" class="text-center">Update Date</th>
 
                     <th scope="col">ACTIONS</th>
                 </tr>
@@ -199,49 +142,16 @@ const deleteQuestion = (id, index) => {
                         </RouterLink>
                     </td>
 
-                    <!-- 👉 Trending -->
-                    <td class="text-center">
-                        <VTooltip>
-                            <template #activator="{ props }">
-                                <VAvatar
-                                    :size="30"
-                                    v-bind="props"
-                                    :color="
-                                        resolveInvoiceStatusVariantAndIcon(
-                                            invoice.invoiceStatus
-                                        ).variant
-                                    "
-                                    variant="tonal"
-                                >
-                                    <VIcon
-                                        :size="20"
-                                        :icon="
-                                            resolveInvoiceStatusVariantAndIcon(
-                                                invoice.invoiceStatus
-                                            ).icon
-                                        "
-                                    />
-                                </VAvatar>
-                            </template>
-
-                            <p class="mb-0">
-                                {{ invoice.invoiceStatus }}
-                            </p>
-                            <p class="mb-0">Balance: {{ invoice.balance }}</p>
-                            <p class="mb-0">Due date: {{ invoice.dueDate }}</p>
-                        </VTooltip>
-                    </td>
-
                     <!-- 👉 Client Avatar and Email -->
                     <td>
                         <div class="d-flex align-center">
-                            <VAvatar size="34" variant="tonal" class="me-3">
-                                <VImg :src="invoice.avatar" />
-                                <!-- v-if="invoice.avatar.length" -->
-                                <!-- <span v-else>{{
+                            <!-- <VAvatar size="34" variant="tonal" class="me-3"> -->
+                            <!-- <VImg :src="invoice.avatar" /> -->
+                            <!-- v-if="invoice.avatar.length" -->
+                            <!-- <span v-else>{{
                                     avatarText(invoice.client.name)
                                 }}</span> -->
-                            </VAvatar>
+                            <!-- </VAvatar> -->
 
                             <div class="d-flex flex-column">
                                 <!-- <h6 class="text-base font-weight-medium mb-0">
@@ -258,30 +168,6 @@ const deleteQuestion = (id, index) => {
                     <td class="text-center">{{ invoice.score || 10 }}</td>
                     <!-- TODO REMOVE -->
 
-                    <!-- 👉 Date -->
-                    <td>{{ invoice.issuedDate }}</td>
-
-                    <!-- 👉 Balance -->
-                    <td class="text-center">
-                        <VChip
-                            label
-                            v-bind="
-                                resolveInvoiceBalanceVariant(
-                                    invoice.balance,
-                                    invoice.total
-                                ).chip
-                            "
-                            size="small"
-                        >
-                            {{
-                                resolveInvoiceBalanceVariant(
-                                    invoice.balance,
-                                    invoice.total
-                                ).status
-                            }}
-                        </VChip>
-                    </td>
-
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
                         <VBtn
@@ -289,22 +175,24 @@ const deleteQuestion = (id, index) => {
                             variant="text"
                             color="default"
                             size="x-small"
-                            @click="deleteQuestion(invoice.id, index)"
+                            :to="{
+                                name: 'admin-invoice-edit-id',
+                                params: { id: invoice.id },
+                            }"
                         >
-                            <VIcon icon="tabler-mail" :size="22" />D
+                            <VIcon :size="22" icon="tabler-eye" />
                         </VBtn>
-
                         <VBtn
                             icon
                             variant="text"
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-preview-id',
+                                name: 'admin-invoice-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
-                            <VIcon :size="22" icon="tabler-eye" />
+                            <VIcon :size="22" icon="tabler-pencil" />
                         </VBtn>
 
                         <VBtn
@@ -312,56 +200,9 @@ const deleteQuestion = (id, index) => {
                             variant="text"
                             color="default"
                             size="x-small"
+                            @click="deleteQuestion(invoice.id, index)"
                         >
-                            <VIcon :size="22" icon="tabler-dots-vertical" />
-
-                            <VMenu activator="parent">
-                                <VList>
-                                    <VListItem value="download">
-                                        <template #prepend>
-                                            <VIcon
-                                                size="24"
-                                                class="me-3"
-                                                icon="tabler-download"
-                                            />
-                                        </template>
-
-                                        <VListItemTitle
-                                            >Download</VListItemTitle
-                                        >
-                                    </VListItem>
-
-                                    <VListItem
-                                        :to="{
-                                            name: 'admin-invoice-edit-id',
-                                            params: { id: invoice.id },
-                                        }"
-                                    >
-                                        <template #prepend>
-                                            <VIcon
-                                                size="24"
-                                                class="me-3"
-                                                icon="tabler-pencil"
-                                            />
-                                        </template>
-
-                                        <VListItemTitle>Edit</VListItemTitle>
-                                    </VListItem>
-                                    <VListItem value="duplicate">
-                                        <template #prepend>
-                                            <VIcon
-                                                size="24"
-                                                class="me-3"
-                                                icon="tabler-stack"
-                                            />
-                                        </template>
-
-                                        <VListItemTitle
-                                            >Duplicate</VListItemTitle
-                                        >
-                                    </VListItem>
-                                </VList>
-                            </VMenu>
+                            <VIcon icon="mdi-delete" :size="22" />
                         </VBtn>
                     </td>
                 </tr>
