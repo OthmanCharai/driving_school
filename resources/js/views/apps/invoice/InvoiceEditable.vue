@@ -1,7 +1,7 @@
 <script setup>
 import { useInvoiceStore } from "./useInvoiceStore";
 import { requiredValidator } from "@validators";
-import DropzonesQuestion from './DropzonesQuestion.vue'
+import DropzonesQuestion from "./DropzonesQuestion.vue";
 
 const props = defineProps({
     data: {
@@ -122,13 +122,14 @@ const changeImage = (file) => {
                         @input="changeImage"
                     />
                 </VCol>
-                <img
-                    class="h-[20rem] !w-[70%] rounded object-cover"
-                    :src="data.image"
-                />
-                <!-- </VRow> -->
+                <div class="h-[25rem] !w-[70%]">
+                    <img
+                        v-if="data.image"
+                        :src="data.image"
+                        class="h-full w-full rounded-md"
+                    />
+                </div>
 
-                <!-- <VDivider /> -->
                 <h4 class="my-4">Options</h4>
                 <VRow>
                     <VCol
@@ -159,14 +160,7 @@ const changeImage = (file) => {
                     />
                 </VCol>
             </div>
-            <!-- <div class="pt-4" v-else>
-                <h2> Click on the image to add a dropzone</h2>
-                <img
-                    class="h-[20rem] !w-[70%] rounded object-cover"
-                    :src="data.image"
-                />
-            </div> -->
-            <DropzonesQuestion v-else />
+            <DropzonesQuestion :question="data" v-else />
         </VForm>
 
         <VDivider />

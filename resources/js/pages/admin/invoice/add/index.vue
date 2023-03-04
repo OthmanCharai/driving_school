@@ -2,7 +2,7 @@
 import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
 
 const invoiceData = ref({
-    type: "options",
+    type: "dropzones",
     question: "Suscipit cumque vel et.",
     voice: "Quod voluptatem accusamus aut cum.",
     sub_exam_id: 20,
@@ -11,25 +11,25 @@ const invoiceData = ref({
         {
             id: 413,
             answer: "Et quia facere.",
-            status:false
+            status: false,
         },
         {
             id: 414,
             answer: "Ut odit odio id.",
-            status:false
+            status: false,
         },
         {
             id: 415,
             answer: "Qui ut sit.",
-            status:true
+            status: true,
         },
         {
             id: 416,
             answer: "Saepe non.",
-            status:false
+            status: false,
         },
     ],
-    image: "https:\/\/via.placeholder.com\/500x500.png\/00eecc?text=inventore",
+    image: null,
 });
 
 const paymentTerms = ref(true);
