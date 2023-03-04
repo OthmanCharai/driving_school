@@ -79,7 +79,6 @@ const changeImage = (file) => {
                 />
             </VCol>
             <VCol cols="1" mdd="6">
-                {{ data.score + 1 }}
                 <VTextField
                     v-model="data.score"
                     type="number"
@@ -135,7 +134,7 @@ const changeImage = (file) => {
                 <div class="mt-4">
                     <VBtn @click="addAnOption"> Add an Option </VBtn>
                 </div>
-                <VCol cols="3" class="m-0 p-0">
+                <VCol cols="6" class="m-0 p-0">
                     <VSelect
                         v-model="selectedOption"
                         class="p-0 m-0 mt-4"
