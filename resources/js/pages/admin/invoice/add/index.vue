@@ -54,6 +54,7 @@ const saveQuestion = async () => {
                         block
                         color="default"
                         variant="tonal"
+                        disabled="true"
                         class="mb-2"
                         :to="{
                             name: 'admin-invoice-preview-id',
@@ -64,14 +65,7 @@ const saveQuestion = async () => {
                     </VBtn>
 
                     <!-- 👉 Save -->
-                    <VBtn
-                        block
-                        color="default"
-                        variant="tonal"
-                        @click="saveQuestion"
-                    >
-                        Save
-                    </VBtn>
+                    <VBtn block @click="saveQuestion"> Save </VBtn>
                 </VCardText>
             </VCard>
         </VCol>

@@ -12,21 +12,6 @@ const props = defineProps({
 
 // const { data } = toRefs(props);
 
-// const invoiceListStore = useInvoiceStore();
-
-// 👉 Clients
-// const clients = ref([]);
-
-// // 👉 fetchClients
-// invoiceListStore
-//     .fetchClients()
-//     .then((response) => {
-//         clients.value = response.data;
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
-
 const refForm = ref();
 
 const iamgeRules = [
@@ -94,6 +79,7 @@ const changeImage = (file) => {
                 />
             </VCol>
             <VCol cols="1" mdd="6">
+                {{ data.score + 1 }}
                 <VTextField
                     v-model="data.score"
                     type="number"
