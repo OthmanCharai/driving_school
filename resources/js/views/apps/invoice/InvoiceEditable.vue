@@ -1,6 +1,7 @@
 <script setup>
 import { useInvoiceStore } from "./useInvoiceStore";
 import { requiredValidator } from "@validators";
+import axios from "@axios";
 import DropzonesQuestion from "./DropzonesQuestion.vue";
 
 const props = defineProps({
@@ -64,6 +65,20 @@ const changeImage = (file) => {
         };
     }
 };
+
+const subExamsList = ref([]);
+
+onMounted(async () => {
+    const { data } = await axios.get("/sub-exam");
+    subExamsList.value = data;
+});
+
+const selectedSubExam = computed({
+    get: () => subExamsList.value.find(subExam => subExam.id === props.data.id) || null,
+    set: (newOptionID) => {
+        props.data.id = newOptionID
+    },
+});
 </script>
 
 <template>
@@ -78,7 +93,7 @@ const changeImage = (file) => {
                     :rules="[requiredValidator]"
                 />
             </VCol>
-            <VCol cols="3" mdd="6">
+            <VCol cols="6" mdd="6">
                 <VTextField
                     v-model="data.score"
                     type="number"
@@ -86,12 +101,23 @@ const changeImage = (file) => {
                     :rules="[requiredValidator]"
                 />
             </VCol>
-            <VCol cols="3">
+            <VCol cols="6">
                 <VSelect
                     v-model="data.type"
                     :items="['options', 'dropzones']"
                     label="Type"
                     persistent-placeholder
+                />
+            </VCol>
+            <VCol cols="6">
+                <VSelect
+                    v-model="selectedSubExam"
+                    :items="subExamsList"
+                    item-title="name"
+                    item-value="id"
+                    label="Attach to a sub Exam"
+                    persistent-placeholder
+                    :menu-props="{ maxHeight: '200' }"
                 />
             </VCol>
             <VDivider />
