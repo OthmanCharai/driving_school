@@ -1,33 +1,37 @@
 <script setup>
 import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
 import axios from "@axios";
+import { onMounted } from "vue";
 
-const questionData = ref({
-    type: "dropzones",
-    question: "",
-    sub_exam_id: null,
-    options: [
-        {
-            id: 413,
-            answer: "",
-        },
-    ],
-    image: null,
+const route = useRoute();
+const router = useRouter();
+const questionData = ref(null);
+
+onMounted(async () => {
+    let { data: question } = await axios.get(`/question/${route.params.id}`);
+    //TODO CHANGE
+    questionData.value = {
+        ...question,
+        type: question?.dropzones ? "dropzones" : "options",
+    };
 });
 
-const saveQuestion = async () => {
-    router.push({ name: "admin-invoice-list" });
-    axios.post("/question", questionData.value);
+const updateQuestion = async () => {
+    try {
+        await axios.put(
+            `/question/${route.params.id}` //TODO CHANGE
+        );
+    } catch (e) {}
+    router.push({ name: "admin-question-list" });
 };
 </script>
 
 <template>
-    <VRow>
-        <!-- 👉 InvoiceEditable -->
+    <VRow v-if="questionData">
+        <!-- 👉 InvoiceEditable   -->
         <VCol cols="12" md="9">
             <InvoiceEditable :data="questionData" />
         </VCol>
-
         <!-- 👉 Right Column: Invoice Action -->
         <VCol cols="12" md="3">
             <VCard class="mb-8">
@@ -35,12 +39,12 @@ const saveQuestion = async () => {
                     <!-- 👉 Preview -->
                     <VBtn
                         block
-                        color="default"
+                        color="secondary"
                         variant="tonal"
                         disabled="true"
                         class="mb-2"
                         :to="{
-                            name: 'admin-invoice-preview-id',
+                            name: 'admin-question-preview-id',
                             params: { id: '5036' },
                         }"
                     >
@@ -48,7 +52,9 @@ const saveQuestion = async () => {
                     </VBtn>
 
                     <!-- 👉 Save -->
-                    <VBtn block @click="saveQuestion"> Save </VBtn>
+                    <VBtn block ariant="tonal" @click="updateQuestion">
+                        Save
+                    </VBtn>
                 </VCardText>
             </VCard>
         </VCol>

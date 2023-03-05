@@ -67,7 +67,7 @@ const deleteQuestion = (id, index) => {
                 <!-- 👉 Create Question -->
                 <VBtn
                     prepend-icon="tabler-plus"
-                    :to="{ name: 'admin-invoice-add' }"
+                    :to="{ name: 'admin-question-add' }"
                 >
                     Create Question
                 </VBtn>
@@ -134,7 +134,7 @@ const deleteQuestion = (id, index) => {
                     <td>
                         <RouterLink
                             :to="{
-                                name: 'admin-invoice-preview-id',
+                                name: 'admin-question-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -175,7 +175,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-edit-id',
+                                name: 'admin-question-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -187,7 +187,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-edit-id',
+                                name: 'admin-question-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >

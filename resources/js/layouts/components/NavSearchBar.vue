@@ -27,7 +27,7 @@ const suggestionGroups = [
             {
                 icon: "tabler-file",
                 title: "Invoice List",
-                url: { name: "admin-invoice-list" },
+                url: { name: "admin-question-list" },
             },
             {
                 icon: "tabler-users",
@@ -47,7 +47,7 @@ const suggestionGroups = [
             {
                 icon: "tabler-file-plus",
                 title: "Invoice Add",
-                url: { name: "admin-invoice-add" },
+                url: { name: "admin-question-add" },
             },
             {
                 icon: "tabler-currency-dollar",

@@ -11,8 +11,6 @@ const props = defineProps({
     },
 });
 
-// const { data } = toRefs(props);
-
 const refForm = ref();
 
 const iamgeRules = [
@@ -95,14 +93,6 @@ const selectedSubExam = computed({
                     :rules="[requiredValidator]"
                 />
             </VCol>
-            <!-- <VCol cols="6" mdd="6">
-                <VTextField
-                    v-model="data.score"
-                    type="number"
-                    label="Question Score"
-                    :rules="[requiredValidator]"
-                />
-            </VCol> -->
             <VCol cols="6">
                 <VSelect
                     v-model="data.type"

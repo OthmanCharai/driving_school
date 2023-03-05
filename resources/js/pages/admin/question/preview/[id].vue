@@ -322,7 +322,7 @@ const printInvoice = () => {
                             variant="tonal"
                             class="mb-2"
                             :to="{
-                                name: 'admin-invoice-edit-id',
+                                name: 'admin-question-edit-id',
                                 params: { id: route.params.id },
                             }"
                         >

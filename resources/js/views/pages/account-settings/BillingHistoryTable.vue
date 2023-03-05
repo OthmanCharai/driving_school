@@ -121,7 +121,7 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
             <!-- 👉 Create invoice -->
             <VBtn
                 prepend-icon="tabler-plus"
-                :to="{ name: 'admin-invoice-add' }"
+                :to="{ name: 'admin-question-add' }"
                 class="me-3"
             >
                 Create invoice
@@ -185,7 +185,7 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                     <td>
                         <RouterLink
                             :to="{
-                                name: 'admin-invoice-preview-id',
+                                name: 'admin-question-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -299,7 +299,7 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-preview-id',
+                                name: 'admin-question-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -331,7 +331,7 @@ const resolveInvoiceStatusVariantAndIcon = (status) => {
 
                                     <VListItem
                                         :to="{
-                                            name: 'admin-invoice-edit-id',
+                                            name: 'admin-question-edit-id',
                                             params: { id: invoice.id },
                                         }"
                                     >
