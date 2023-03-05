@@ -74,9 +74,11 @@ onMounted(async () => {
 });
 
 const selectedSubExam = computed({
-    get: () => subExamsList.value.find(subExam => subExam.id === props.data.id) || null,
+    get: () =>
+        subExamsList.value.find((subExam) => subExam.id === props.data.id) ||
+        null,
     set: (newOptionID) => {
-        props.data.id = newOptionID
+        props.data.id = newOptionID;
     },
 });
 </script>
@@ -150,7 +152,7 @@ const selectedSubExam = computed({
                     >
                         <VTextField
                             v-model="data.options[index].answer"
-                            label="Answer"
+                            label="Option"
                             :rules="[requiredValidator]"
                             append-inner-icon="tabler-x"
                             @click:append-inner="deleteOption(index)"

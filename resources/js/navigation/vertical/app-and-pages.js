@@ -1,7 +1,7 @@
 export default [
     { heading: "Apps & Pages" },
     {
-        title: "Invoice",
+        title: "Question",
         icon: { icon: "tabler-file" },
         children: [
             { title: "List", to: "admin-invoice-list" },

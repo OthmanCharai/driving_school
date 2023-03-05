@@ -11,7 +11,7 @@ import ExamStart from "./../Pages/exams/start-exam.vue";
 import Question from "./../Pages/exams/question.vue";
 import Contact from "@/Pages/Contact/index.vue";
 
-const clientRoutes = [  
+const clientRoutes = [
     {
         path: "/",
         name: "home",
@@ -99,11 +99,10 @@ router.beforeEach((to) => {
     }
 
     const isLoggedIn = isUserLoggedIn();
-
-    if (!to.path.startsWith("/admin")) {
+    // if (!to.path.startsWith("/admin")) {
         // Do nothing if route starts with "/admin"
         return;
-    }
+    // }
     /*
 
     ℹ️ Commented code is legacy code
@@ -125,15 +124,15 @@ router.beforeEach((to) => {
     return next()
 
     */
-    if (canNavigate(to)) {
-        if (to.meta.redirectIfLoggedIn && isLoggedIn) return "/";
-    } else {
-        if (isLoggedIn) return { name: "not-authorized" };
-        else
-            return {
-                name: "admin-login",
-                query: { to: to.name !== "index" ? to.fullPath : undefined },
-            };
-    }
+    // if (canNavigate(to)) {
+    //     if (to.meta.redirectIfLoggedIn && isLoggedIn) return to.path;
+    // } else {
+    //     if (isLoggedIn) return { name: "not-authorized" };
+    //     else
+    //         return {
+    //             name: "admin-login",
+    //             query: { to: to.name !== "index" ? to.fullPath : undefined },
+    //         };
+    // }
 });
 export default router;
