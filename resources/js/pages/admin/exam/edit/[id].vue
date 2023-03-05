@@ -1,0 +1,62 @@
+<script setup>
+import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
+import axios from "@axios";
+import { onMounted } from "vue";
+
+const route = useRoute();
+const router = useRouter();
+const questionData = ref(null);
+
+onMounted(async () => {
+    let { data: question } = await axios.get(`/question/${route.params.id}`);
+    //TODO CHANGE
+    questionData.value = {
+        ...question,
+        type: question?.dropzones ? "dropzones" : "options",
+    };
+});
+
+const updateQuestion = async () => {
+    try {
+        await axios.put(
+            `/question/${route.params.id}` //TODO CHANGE
+        );
+    } catch (e) {}
+    router.push({ name: "admin-question-list" });
+};
+</script>
+
+<template>
+    <VRow v-if="questionData">
+        <!-- 👉 InvoiceEditable   -->
+        <VCol cols="12" md="9">
+            <InvoiceEditable :data="questionData" />
+        </VCol>
+        <!-- 👉 Right Column: Invoice Action -->
+        <VCol cols="12" md="3">
+            <VCard class="mb-8">
+                <VCardText>
+                    <!-- 👉 Preview -->
+                    <VBtn
+                        block
+                        color="secondary"
+                        variant="tonal"
+                        disabled="true"
+                        class="mb-2"
+                        :to="{
+                            name: 'admin-question-preview-id',
+                            params: { id: '5036' },
+                        }"
+                    >
+                        Preview
+                    </VBtn>
+
+                    <!-- 👉 Save -->
+                    <VBtn block ariant="tonal" @click="updateQuestion">
+                        Save
+                    </VBtn>
+                </VCardText>
+            </VCard>
+        </VCol>
+    </VRow>
+</template>

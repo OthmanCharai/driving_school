@@ -128,7 +128,6 @@ const deleteQuestion = (id, index) => {
 
             <!-- 👉 Table Body -->
             <tbody>
-              
                 <tr
                     v-for="(invoice, index) of invoices"
                     :key="invoice.id"
@@ -136,68 +135,60 @@ const deleteQuestion = (id, index) => {
                 >
                     <!-- 👉 Id -->
                     <td>
-                        <RouterLink
+                        <!--  <RouterLink
                             :to="{
-                                name: 'admin-exam-preview-id',
+                                name: 'admin-question-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
                             #{{ invoice.id }}
-                        </RouterLink> 
+                        </RouterLink> -->
+                        #{{ invoice.id }}
                     </td>
 
                     <!-- 👉 Client Avatar and Email -->
                     <td>
                         <div class="d-flex align-center">
                             <!-- <VAvatar size="34" variant="tonal" class="me-3"> -->
-                            <!-- <VImg :src="invoice.avatar" /> -->
+                            <VImg :src="invoice.image" />
                             <!-- v-if="invoice.avatar.length" -->
                             <!-- <span v-else>{{
                                     avatarText(invoice.client.name)
                                 }}</span> -->
                             <!-- </VAvatar> -->
-
-                            <div class="d-flex flex-column">
-                                <!-- <h6 class="text-base font-weight-medium mb-0">
-                                    {{ invoice.client.name }}
-                                </h6> -->
-                                <span class="text-disabled text-sm">{{
-                                    invoice.question
-                                }}</span>
-                            </div>
                         </div>
                     </td>
 
                     <!-- 👉 total -->
-                    <td class="text-center">{{ invoice.score || 10 }}</td>
+                    <td class="text-center">{{ invoice.name }}</td>
                     <!-- TODO REMOVE -->
 
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
-                        <VBtn
+                        <!-- <VBtn
                             icon
                             variant="text"
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-edit-id',
+                                name: 'admin-question-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
                             <VIcon :size="22" icon="tabler-eye" />
-                        </VBtn>
-                        <VBtn
+                        </VBtn> -->
+                        <!--   <VBtn
                             icon
                             variant="text"
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-invoice-edit-id',
+                                name: 'admin-question-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
                             <VIcon :size="22" icon="tabler-pencil" />
-                        </VBtn>
+                        </VBtn> -->
 
                         <VBtn
                             icon
