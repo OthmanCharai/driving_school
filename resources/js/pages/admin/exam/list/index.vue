@@ -13,16 +13,16 @@ const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
 watchEffect(async () => {
-    let { data } = await axios.get("/question", {
+    let { data } = await axios.get("/exam", {
         params: {
             page: currentPage.value,
             perPage: rowPerPage.value,
             q: searchQuery.value,
         },
     });
-   
-    const { data: questions, meta } = data;
-    invoices.value = questions;
+    console.log(data);
+    const { data: exams, meta } = data;
+    invoices.value = exams;
     console.log(meta);
     totalPage.value = meta.last_page;
     totalInvoices.value = meta.total;
@@ -68,7 +68,7 @@ const deleteQuestion = (id, index) => {
                 <!-- 👉 Create Question -->
                 <VBtn
                     prepend-icon="tabler-plus"
-                    :to="{ name: 'admin-question-add' }"
+                    :to="{ name: 'admin-exam-add' }"
                 >
                     Create Question
                 </VBtn>
@@ -116,9 +116,11 @@ const deleteQuestion = (id, index) => {
                 <tr>
                     <th scope="col">#ID</th>
 
-                    <th scope="col">Title</th>
+                    <th scope="col">Image</th>
 
-                    <th scope="col" class="text-center">Score</th>
+                    <th scope="col">Name</th>
+
+                    <th scope="col" class="text-center">Users</th>
 
                     <th scope="col">ACTIONS</th>
                 </tr>
@@ -126,6 +128,7 @@ const deleteQuestion = (id, index) => {
 
             <!-- 👉 Table Body -->
             <tbody>
+              
                 <tr
                     v-for="(invoice, index) of invoices"
                     :key="invoice.id"
@@ -135,12 +138,12 @@ const deleteQuestion = (id, index) => {
                     <td>
                         <RouterLink
                             :to="{
-                                name: 'admin-question-preview-id',
+                                name: 'admin-exam-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
                             #{{ invoice.id }}
-                        </RouterLink>
+                        </RouterLink> 
                     </td>
 
                     <!-- 👉 Client Avatar and Email -->
@@ -166,7 +169,8 @@ const deleteQuestion = (id, index) => {
                     </td>
 
                     <!-- 👉 total -->
-                    <td class="text-center">1</td>
+                    <td class="text-center">{{ invoice.score || 10 }}</td>
+                    <!-- TODO REMOVE -->
 
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
@@ -176,7 +180,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-question-edit-id',
+                                name: 'admin-invoice-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -188,7 +192,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-question-edit-id',
+                                name: 'admin-invoice-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
