@@ -26,7 +26,6 @@ class SubExamUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'note' => ['numeric'],
-            'exam_id' => ['required', 'integer', 'exists:exams,id'],
         ];
     }
 }

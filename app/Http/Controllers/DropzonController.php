@@ -4,83 +4,82 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDropzonRequest;
 use App\Http\Requests\UpdateDropzonRequest;
+use App\Http\Resources\DropzonCollection;
+use App\Http\Resources\DropzonResource;
 use App\Models\Dropzon;
+use App\Models\Option;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class DropzonController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return DropzonCollection
      */
-    public function index()
+    public function index(): DropzonCollection
     {
-        //
+        $dropzones = Dropzon::all();
+
+        return new DropzonCollection($dropzones);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDropzonRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreDropzonRequest $request
+     * @return DropzonResource
      */
-    public function store(StoreDropzonRequest $request)
+    public function store(StoreDropzonRequest $request): DropzonResource
     {
-        //
+        $dropzone=Dropzon::create($request->validated());
+        return new DropzonResource($dropzone);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dropzon  $dropzon
-     * @return \Illuminate\Http\Response
+     * @param Dropzon $dropzon
+     * @return DropzonResource
      */
-    public function show(Dropzon $dropzon)
+    public function show(Dropzon $dropzon): DropzonResource
     {
-        //
+        return new DropzonResource($dropzon);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Dropzon  $dropzon
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dropzon $dropzon)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDropzonRequest  $request
-     * @param  \App\Models\Dropzon  $dropzon
-     * @return \Illuminate\Http\Response
+     * @param UpdateDropzonRequest $request
+     * @param Dropzon $dropzon
+     * @return DropzonResource
      */
-    public function update(UpdateDropzonRequest $request, Dropzon $dropzon)
+    public function update(UpdateDropzonRequest $request, $dropzon): DropzonResource
     {
-        //
+        $dropzon=Dropzon::findOrFail($dropzon);
+
+        $dropzon->update($request->validated());
+
+        return new DropzonResource($dropzon);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dropzon  $dropzon
-     * @return \Illuminate\Http\Response
+     * @param Dropzon $dropzon
+     * @return JsonResponse
      */
-    public function destroy(Dropzon $dropzon)
+    public function destroy($dropzon): JsonResponse
     {
         //
+        $dropzon=Dropzon::findOrFail($dropzon);
+        $dropzon->delete();
+        return \response()->json('dropzone was deleted with success',200);
+
+
     }
 }

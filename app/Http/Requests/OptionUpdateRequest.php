@@ -26,7 +26,7 @@ class OptionUpdateRequest extends FormRequest
         return [
             'answer' => ['required', 'string'],
             'status' => ['required'],
-            'question_id' => ['required', 'integer', 'exists:questions,id'],
+
         ];
     }
 }

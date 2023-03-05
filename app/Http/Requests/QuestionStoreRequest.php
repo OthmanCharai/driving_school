@@ -25,7 +25,8 @@ class QuestionStoreRequest extends FormRequest
     {
         return [
             'question' => ['required', 'string'],
-            'voice' => ['required', 'string'],
+            'image'=>['required','mimes:png,jpeg,jpg'],
+            "type"=>['required'],
             'sub_exam_id' => ['required', 'exists:sub_exams,id'],
         ];
     }

@@ -69,5 +69,12 @@ class Handler extends ExceptionHandler
                 return response()->json(['message' => 'The requested link does not exist'], 400);
             }
         });*/
+        $this->renderable(function (NotFoundHttpException $e, $request){
+            if($request->is('api/*')){
+                return response()->json(['message'=>"model not found"],404);
+
+            }
+        });
     }
+
 }

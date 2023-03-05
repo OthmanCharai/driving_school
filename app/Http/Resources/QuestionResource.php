@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionResource extends JsonResource
 {
@@ -21,7 +22,9 @@ class QuestionResource extends JsonResource
             'sub_exam_id' => $this->sub_exam_id,
             'options' =>OptionCollection::make($this->whenLoaded('options')),
             'dropzones' =>DropzonCollection::make($this->whenLoaded('dropzons')),
-            'image'=>$this->image
+            'image'=>Storage::disk('public')->url(
+                $this->image
+            ),
         ];
     }
 }
