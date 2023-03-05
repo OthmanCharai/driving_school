@@ -24,8 +24,10 @@ class UpdateDropzonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'x_position'=>'required | number ',
-            'y_position'=>'required | number ',
+            "question_id"=>  ['required', 'exists:questions,id'],
+            'x_position'=>'required',
+            'y_position'=>'required',
+            'option_id'=> ['required', 'exists:questions,id'],
         ];
     }
 }

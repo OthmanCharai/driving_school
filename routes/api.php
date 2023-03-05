@@ -39,6 +39,8 @@ Route::apiResource('question', App\Http\Controllers\Api\QuestionController::clas
 
 Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
 
+Route::apiResource('dropzone',\App\Http\Controllers\DropzonController::class);
+
 Route::post('score',[SubExamController::class,'score']);
 
 Route::post('contact',[\App\Http\Controllers\HomeController::class,'contact']);

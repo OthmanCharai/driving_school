@@ -17,7 +17,7 @@ class OptionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+       /* $this->middleware('auth:api');*/
     }
     /**
      * @param Request $request
@@ -72,6 +72,6 @@ class OptionController extends Controller
     {
         $option->delete();
 
-        return response()->json('question deleted with success',200)->setStatusCode(200);
+        return response()->json('option deleted with success',200)->setStatusCode(200);
     }
 }

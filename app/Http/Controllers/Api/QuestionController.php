@@ -121,7 +121,7 @@ class QuestionController extends Controller
                 ]);
                 $question->load('dropzons');
             }
-            
+
         }
         $question->load('options');
         return new QuestionResource($question);
