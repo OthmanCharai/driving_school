@@ -25,6 +25,8 @@ class ExamStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'image'=>'required|mimes:jpg,png,jpeg',
+            "is_free"=>'required',
         ];
     }
 }

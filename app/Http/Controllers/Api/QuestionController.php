@@ -11,6 +11,8 @@ use App\Models\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionController extends Controller
 {
@@ -46,6 +48,27 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
+        // create question fist
+        $file=$request->file('image');
+        $path=Storage::disk('public')->putFile('questions',$file);
+        $question=Question::create(array_merge(['image'=>$path],$request->validated()));
+
+        // options
+        if($request->type=='options'){
+            $options=[];
+            foreach (json_decode($request->options) as $option){
+                $options[]=[
+                    'answer'=>$option->answer,
+                    'status'=>$option->status,
+                    'question_id'=>$question->id
+                ];
+            }
+            Db::table('options')->insert($options);
+        }
+        //dropzone
+        if($request->type=='options'){
+
+        }
         $question = Question::create($request->validated());
 
         return new QuestionResource($question);

@@ -40,14 +40,13 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
-        
-
 
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+
         ])->setStatusCode(200);
 
     }
