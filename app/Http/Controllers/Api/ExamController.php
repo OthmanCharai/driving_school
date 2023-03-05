@@ -8,6 +8,7 @@ use App\Http\Requests\ExamUpdateRequest;
 use App\Http\Resources\ExamCollection;
 use App\Http\Resources\ExamResource;
 use App\Models\Exam;
+use App\Models\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,7 +23,17 @@ class ExamController extends Controller
      */
     public function index(Request $request): ExamCollection
     {
-        $exams = Exam::with('users')->get();
+
+        $perPage = $request->input('perPage', 10); // number of items per page, default 10
+        $currentPage = $request->input('page', 1); // current page number, default 1
+        $searchTerm = $request->input('q', ''); // search term, default empty string
+        $query = Exam::with('users');
+
+        if ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        $exams = $query->paginate($perPage, ['*'], 'page', $currentPage);
 
         return new ExamCollection($exams);
     }

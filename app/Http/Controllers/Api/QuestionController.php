@@ -54,9 +54,13 @@ class QuestionController extends Controller
         $file=$request->file('image');
         $path=Storage::disk('public')->putFile('questions',$file);
 
-        $question=Question::create(array_merge(['image'=>$path],$request->validated()));
+        $question=Question::create([
+            'question'=>$request->question,
+            "image"=>$path,
+            'sub_exam_id'=>$request->sub_exam_id
+        ]);
 
-        $items=($request->type=="options")?$request->options:$request->dropzones;
+        $items=($request->type=="options")?json_decode($request->options):json_decode($request->dropzones);
 
         foreach ($items as $item){
             $item= (object)$item;
@@ -86,6 +90,7 @@ class QuestionController extends Controller
     public function show(Request $request, Question $question): QuestionResource
     {
         $question->load('options');
+
         return new QuestionResource($question);
     }
 
@@ -94,14 +99,18 @@ class QuestionController extends Controller
      * @param Question $question
      * @return QuestionResource
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, Question $question): QuestionResource
     {
 
         $file = $request->file("image");
        $path=Storage::disk('public')->putFile('questions', $file);
         Storage::disk('public')->delete($question->image);
 
-        $question->update(array_merge($request->validated(),['image'=>$path]));
+        $question->update([
+            'question'=>$request->question,
+            "image"=>$path,
+            'sub_exam_id'=>$request->sub_exam_id
+        ]);
 
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as  $item){

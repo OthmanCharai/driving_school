@@ -13,16 +13,16 @@ const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
 watchEffect(async () => {
-    let { data } = await axios.get("/question", {
+    let { data } = await axios.get("/exam", {
         params: {
             page: currentPage.value,
             perPage: rowPerPage.value,
             q: searchQuery.value,
         },
     });
-   
-    const { data: questions, meta } = data;
-    invoices.value = questions;
+    console.log(data);
+    const { data: exams, meta } = data;
+    invoices.value = exams;
     console.log(meta);
     totalPage.value = meta.last_page;
     totalInvoices.value = meta.total;
@@ -68,7 +68,7 @@ const deleteQuestion = (id, index) => {
                 <!-- 👉 Create Question -->
                 <VBtn
                     prepend-icon="tabler-plus"
-                    :to="{ name: 'admin-question-add' }"
+                    :to="{ name: 'admin-exam-add' }"
                 >
                     Create Question
                 </VBtn>
@@ -116,9 +116,11 @@ const deleteQuestion = (id, index) => {
                 <tr>
                     <th scope="col">#ID</th>
 
-                    <th scope="col">Title</th>
+                    <th scope="col">Image</th>
 
-                    <th scope="col" class="text-center">Score</th>
+                    <th scope="col">Name</th>
+
+                    <th scope="col" class="text-center">Users</th>
 
                     <th scope="col">ACTIONS</th>
                 </tr>
@@ -133,44 +135,37 @@ const deleteQuestion = (id, index) => {
                 >
                     <!-- 👉 Id -->
                     <td>
-                        <RouterLink
+                        <!--  <RouterLink
                             :to="{
                                 name: 'admin-question-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
                             #{{ invoice.id }}
-                        </RouterLink>
+                        </RouterLink> -->
+                        #{{ invoice.id }}
                     </td>
 
                     <!-- 👉 Client Avatar and Email -->
                     <td>
                         <div class="d-flex align-center">
                             <!-- <VAvatar size="34" variant="tonal" class="me-3"> -->
-                            <!-- <VImg :src="invoice.avatar" /> -->
+                            <VImg :src="invoice.image" />
                             <!-- v-if="invoice.avatar.length" -->
                             <!-- <span v-else>{{
                                     avatarText(invoice.client.name)
                                 }}</span> -->
                             <!-- </VAvatar> -->
-
-                            <div class="d-flex flex-column">
-                                <!-- <h6 class="text-base font-weight-medium mb-0">
-                                    {{ invoice.client.name }}
-                                </h6> -->
-                                <span class="text-disabled text-sm">{{
-                                    invoice.question
-                                }}</span>
-                            </div>
                         </div>
                     </td>
 
                     <!-- 👉 total -->
-                    <td class="text-center">1</td>
+                    <td class="text-center">{{ invoice.name }}</td>
+                    <!-- TODO REMOVE -->
 
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
-                        <VBtn
+                        <!-- <VBtn
                             icon
                             variant="text"
                             color="default"
@@ -181,8 +176,8 @@ const deleteQuestion = (id, index) => {
                             }"
                         >
                             <VIcon :size="22" icon="tabler-eye" />
-                        </VBtn>
-                        <VBtn
+                        </VBtn> -->
+                        <!--   <VBtn
                             icon
                             variant="text"
                             color="default"
@@ -193,7 +188,7 @@ const deleteQuestion = (id, index) => {
                             }"
                         >
                             <VIcon :size="22" icon="tabler-pencil" />
-                        </VBtn>
+                        </VBtn> -->
 
                         <VBtn
                             icon
