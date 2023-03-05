@@ -7,6 +7,8 @@ use App\Http\Requests\QuestionStoreRequest;
 use App\Http\Requests\QuestionUpdateRequest;
 use App\Http\Resources\QuestionCollection;
 use App\Http\Resources\QuestionResource;
+use App\Models\Dropzon;
+use App\Models\Option;
 use App\Models\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,26 +53,28 @@ class QuestionController extends Controller
         // create question fist
         $file=$request->file('image');
         $path=Storage::disk('public')->putFile('questions',$file);
+
         $question=Question::create(array_merge(['image'=>$path],$request->validated()));
 
-        // options
-        if($request->type=='options'){
-            $options=[];
-            foreach (json_decode($request->options) as $option){
-                $options[]=[
-                    'answer'=>$option->answer,
-                    'status'=>$option->status,
+        $items=($request->type=="options")?$request->options:$request->dropzones;
+
+        foreach ($items as $item){
+            $item= (object)$item;
+            $option=Option::create([
+                'answer'=>$item->answer,
+                'status'=>(isset($item->status)&& $item->status!=null)?$item->status:false,
+                'question_id'=>$question->id
+            ]);
+            if($request->type=='dropzones'){
+                $option->dropzon()->save(new Dropzon([
+                    'x_position'=>$item->x_position,
+                    'y_position'=>$item->y_position,
                     'question_id'=>$question->id
-                ];
+                ]));
+                $question->load('dropzons');
             }
-            Db::table('options')->insert($options);
         }
-        //dropzone
-        if($request->type=='options'){
-
-        }
-        $question = Question::create($request->validated());
-
+        $question->load('options');
         return new QuestionResource($question);
     }
 
@@ -90,10 +94,36 @@ class QuestionController extends Controller
      * @param Question $question
      * @return QuestionResource
      */
-    public function update(QuestionUpdateRequest $request, Question $question): QuestionResource
+    public function update(Request $request, Question $question)
     {
-        $question->update($request->validated());
 
+        $file = $request->file("image");
+       $path=Storage::disk('public')->putFile('questions', $file);
+        Storage::disk('public')->delete($question->image);
+
+        $question->update(array_merge($request->validated(),['image'=>$path]));
+
+        $items=($request->type=="options")?$request->options:$request->dropzones;
+        foreach ($items as  $item){
+            $item= (object)$item;
+            $option=Option::findOrFail($item->option_id);
+
+            $option->update([
+                'answer'=>$item->answer,
+                'status'=>(isset($item->status))?$item->status:false,
+            ]);
+
+            if($request->type=="dropzones"){
+                $dropzone=Dropzon::findOrFail($item->dropzone_id);
+                $dropzone->update([
+                    'x_position'=>$item->x_position,
+                    'y_position'=>$item->y_position
+                ]);
+                $question->load('dropzons');
+            }
+            
+        }
+        $question->load('options');
         return new QuestionResource($question);
     }
 
@@ -109,4 +139,6 @@ class QuestionController extends Controller
         return response()->json('question deleted with success',200)->setStatusCode(200);
 
     }
+
+
 }

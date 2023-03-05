@@ -38,7 +38,7 @@ const password = ref("admin");
 const rememberMe = ref(false);
 
 const login = () => {
-  axios
+  /*   axios
     .post("login", {
       email: email.value,
       password: password.value,
@@ -59,9 +59,13 @@ const login = () => {
     })
     .catch((e) => {
       const { errors: formErrors } = e.response.data;
+
       errors.value = formErrors;
       console.error(e.response.data);
-    });
+    }); */
+  router.replace(
+    route.query.to ? String(route.query.to) : "/admin/invoice/list" // TODO : CHANGE
+  );
 };
 
 const onSubmit = () => {
