@@ -6,7 +6,6 @@ const questionData = ref({
     type: "dropzones",
     question: "",
     sub_exam_id: null,
-    score: 1,
     options: [
         {
             id: 413,

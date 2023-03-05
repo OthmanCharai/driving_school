@@ -165,8 +165,7 @@ const deleteQuestion = (id, index) => {
                     </td>
 
                     <!-- 👉 total -->
-                    <td class="text-center">{{ invoice.score || 10 }}</td>
-                    <!-- TODO REMOVE -->
+                    <td class="text-center">1</td>
 
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">

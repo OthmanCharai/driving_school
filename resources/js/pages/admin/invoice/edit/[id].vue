@@ -8,13 +8,10 @@ const router = useRouter();
 const questionData = ref(null);
 
 onMounted(async () => {
-    let { data: question } = await axios.get(
-        `/question/${route.params.id}`
-    );
+    let { data: question } = await axios.get(`/question/${route.params.id}`);
     //TODO CHANGE
     questionData.value = {
         ...question,
-        score: question.score || 1,
         type: question?.dropzones ? "dropzones" : "options",
     };
 });

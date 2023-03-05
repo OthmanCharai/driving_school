@@ -54,17 +54,17 @@ const login = () => {
     //         localStorage.setItem("userData", JSON.stringify(userData));
     //         localStorage.setItem("accessToken", JSON.stringify(accessToken));
 
-            // Redirect to `to` query if exist or redirect to index route
-            router.replace(
-                route.query.to ? String(route.query.to) : "/admin/invoice/list" // TODO : CHANGE
-            );
-        // })
-        // .catch((e) => {
-        //     const { errors: formErrors } = e.response.data;
+    // Redirect to `to` query if exist or redirect to index route
+    router.replace(
+        route.query.to ? String(route.query.to) : "/admin/invoice/list" // TODO : CHANGE
+    );
+    // })
+    // .catch((e) => {
+    //     const { errors: formErrors } = e.response.data;
 
-        //     errors.value = formErrors;
-        //     console.error(e.response.data);
-        // });
+    //     errors.value = formErrors;
+    //     console.error(e.response.data);
+    // });
 };
 
 const onSubmit = () => {
