@@ -81,7 +81,7 @@ class QuestionController extends Controller
      */
     public function destroy(Request $request, Question $question): JsonResponse
     {
-        // $question->delete(); // TODO UNCOMMENT
+        $question->delete(); // TODO UNCOMMENT
 
         return response()->json('question deleted with success',200)->setStatusCode(200);
 

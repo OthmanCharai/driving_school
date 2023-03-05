@@ -10,7 +10,7 @@ const shortcuts = [
         icon: "tabler-file",
         title: "Invoice App",
         subtitle: "Manage Accounts",
-        to: { name: "admin-invoice-list" },
+        to: { name: "admin-question-list" },
     },
     {
         icon: "tabler-user",

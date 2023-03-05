@@ -4,19 +4,19 @@ export default [
         title: "Question",
         icon: { icon: "tabler-file" },
         children: [
-            { title: "List", to: "admin-invoice-list" },
+            { title: "List", to: "admin-question-list" },
             // {
             //     title: "Preview",
             //     to: {
-            //         name: "admin-invoice-edit-id",
+            //         name: "admin-question-edit-id",
             //         params: { id: "5036" },
             //     },
             // },
             // {
             //     title: "Edit",
-            //     to: { name: "admin-invoice-edit-id", params: { id: "5036" } },
+            //     to: { name: "admin-question-edit-id", params: { id: "5036" } },
             // },
-            { title: "Add", to: "admin-invoice-add" },
+            { title: "Add", to: "admin-question-add" },
         ],
     },
     {
