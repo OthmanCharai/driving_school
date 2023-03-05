@@ -4,29 +4,13 @@ import axios from "@axios";
 
 const questionData = ref({
     type: "dropzones",
-    question: "Suscipit cumque vel et.",
-    sub_exam_id: 20,
+    question: "",
+    sub_exam_id: null,
     score: 1,
     options: [
         {
             id: 413,
-            answer: "Et quia facere.",
-            status: false,
-        },
-        {
-            id: 414,
-            answer: "Ut odit odio id.",
-            status: false,
-        },
-        {
-            id: 415,
-            answer: "Qui ut sit.",
-            status: true,
-        },
-        {
-            id: 416,
-            answer: "Saepe non.",
-            status: false,
+            answer: "",
         },
     ],
     image: null,
