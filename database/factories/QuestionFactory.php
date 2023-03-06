@@ -28,6 +28,7 @@ class QuestionFactory extends Factory
             'voice' => $this->faker->sentence(4),
             'sub_exam_id' => SubExam::factory(),
             'image'=>$this->faker->imageUrl('500','500'),
+            'type'=>$this->faker->randomElement(['dropzones','options']),
 
         ];
     }

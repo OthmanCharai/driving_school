@@ -57,10 +57,11 @@ class QuestionController extends Controller
         $question=Question::create([
             'question'=>$request->question,
             "image"=>$path,
-            'sub_exam_id'=>$request->sub_exam_id
+            'sub_exam_id'=>$request->sub_exam_id,
+            'type'=>$request->type
         ]);
 
-        $items=($request->type=="options")?json_decode($request->options):json_decode($request->dropzones);
+        $items=($request->type=="options")?$request->options:$request->dropzones;
 
         foreach ($items as $item){
             $item= (object)$item;
@@ -100,21 +101,20 @@ class QuestionController extends Controller
      * @param Question $question
      * @return QuestionResource
      */
-    public function update(Request $request, Question $question): QuestionResource
+    public function update(QuestionUpdateRequest $request, Question $question): QuestionResource
     {
-
         if($request->hasFile('image')){
             $file = $request->file("image");
             $path=Storage::disk('public')->putFile('questions', $file);
             Storage::disk('public')->delete($question->image);
         }
-        
+
         $question->update([
             'question'=>$request->question,
             "image"=>$path,
-            'sub_exam_id'=>$request->sub_exam_id
+            'sub_exam_id'=>$request->sub_exam_id,
+            'type'=>$request->type
         ]);
-
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as  $item){
             $item= (object)$item;

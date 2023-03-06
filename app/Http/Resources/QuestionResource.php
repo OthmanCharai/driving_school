@@ -22,7 +22,8 @@ class QuestionResource extends JsonResource
             'sub_exam_id' => $this->sub_exam_id,
             'options' =>OptionCollection::make($this->whenLoaded('options')),
             'dropzones' =>DropzonCollection::make($this->whenLoaded('dropzons')),
-            'image'=>Storage::url($this->image)
+            'image'=>Storage::url($this->image),
+            'type'=>$this->type
         ];
     }
 }
