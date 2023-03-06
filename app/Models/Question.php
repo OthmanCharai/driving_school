@@ -29,7 +29,8 @@ class Question extends Model
         'question',
         'voice',
         'sub_exam_id',
-        'image'
+        'image',
+        'type'
     ];
 
 
