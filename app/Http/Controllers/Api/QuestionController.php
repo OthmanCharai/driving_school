@@ -90,6 +90,7 @@ class QuestionController extends Controller
     public function show(Request $request, Question $question): QuestionResource
     {
         $question->load('options');
+        $question->load('dropzons');
 
         return new QuestionResource($question);
     }
@@ -102,10 +103,12 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question): QuestionResource
     {
 
-        $file = $request->file("image");
-       $path=Storage::disk('public')->putFile('questions', $file);
-        Storage::disk('public')->delete($question->image);
-
+        if($request->hasFile('image')){
+            $file = $request->file("image");
+            $path=Storage::disk('public')->putFile('questions', $file);
+            Storage::disk('public')->delete($question->image);
+        }
+        
         $question->update([
             'question'=>$request->question,
             "image"=>$path,
