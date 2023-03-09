@@ -8,7 +8,6 @@ import AdminApp from "@/AdminApp.vue";
 import ability from "@/plugins/casl/ability";
 import i18n from "@/plugins/i18n";
 import layoutsPlugin from "@/plugins/layouts";
-import vuetify from "@/plugins/vuetify";
 import { loadFonts } from "@/plugins/webfontloader";
 import router from "@/router";
 import { abilitiesPlugin } from "@casl/vue";
@@ -35,14 +34,16 @@ const setupApp = async () => {
 
     if (window.location.pathname.startsWith("/admin")) {
         app.use(i18n);
-        app.use(vuetify);
-    }else{
+        const vuetify = await import("@/plugins/vuetify");
+        app.use(i18n);
+        app.use(vuetify.default);
+    } else {
         app.use(i18nVue, {
             resolve: async (lang) => {
                 const langs = import.meta.glob("../../lang/*.json");
                 return await langs[`../../lang/${lang}.json`]();
             },
-        })
+        });
     }
     app.mount("#app");
 };

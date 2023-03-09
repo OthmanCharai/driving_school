@@ -2,9 +2,9 @@
     <div class="exam-page h-screen overflow-hidden">
         <exam-nav-barre></exam-nav-barre>
         <!-- Main content -->
-        <main class="px-[20rem] py-32 overflow-hidden">
+        <div class="px-[20rem] py-32 overflow-hidden h-[100rem]">
             <sub-exam :exam="currentSubExam" :examIndex="currentSubExamIndex" />
-        </main>
+        </div>
     </div>
     <exam-footer></exam-footer>
 </template>

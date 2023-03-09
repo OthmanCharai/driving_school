@@ -1,6 +1,6 @@
 <template lang="">
 
-    <div class="flex h-[80%] gap-10 w-full">
+    <div class="flex gap-10 w-full">
         <div class="flex-1 mr-44 h-40 w-full ml-10">
             <div
                 class="row question rounded-lg h-32 mt-2 text-white flex items-center justify-center"

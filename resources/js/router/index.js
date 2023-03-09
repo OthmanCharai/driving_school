@@ -83,7 +83,7 @@ const router = createRouter({
                 params: { tab: "account" },
             }),
         },
-      
+
         ...setupLayouts(routes),
         ...clientRoutes,
     ],

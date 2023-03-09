@@ -27,6 +27,7 @@ const deleteOption = (optionIndex) => {
 const addAnOption = (optionIndex) => {
     props.data.options.push({
         answer: "",
+        status:false
     });
 };
 
@@ -36,7 +37,7 @@ const getRightAnswer = () =>
 
 const updateOptionStatus = (optionId, newStatusValue) => {
     const optionToUpdate = props.data.options.find(
-        (option) => option.id === optionId
+        (option) => option.answer === optionId
     );
 
     if (optionToUpdate) {
@@ -46,9 +47,9 @@ const updateOptionStatus = (optionId, newStatusValue) => {
 
 const selectedOption = computed({
     get: () => getRightAnswer(),
-    set: (newOptionID) => {
-        updateOptionStatus(getRightAnswer().id, false);
-        updateOptionStatus(newOptionID, true);
+    set: (newAnswerTitle) => {
+        updateOptionStatus(getRightAnswer().answer, false);
+        updateOptionStatus(newAnswerTitle, true);
     },
 });
 
@@ -56,10 +57,12 @@ const changeImage = (file) => {
     const fileReader = new FileReader();
     const { files } = file.target;
     if (files && files.length) {
+        const uploadedFile = files[0];
+        props.data.image = uploadedFile;
         fileReader.readAsDataURL(files[0]);
         fileReader.onload = () => {
             if (typeof fileReader.result === "string")
-                props.data.image = fileReader.result;
+                props.data.image_screenshot = fileReader.result;
         };
     }
 };
@@ -73,10 +76,10 @@ onMounted(async () => {
 
 const selectedSubExam = computed({
     get: () =>
-        subExamsList.value.find((subExam) => subExam.id === props.data.id) ||
+        subExamsList.value.find((subExam) => subExam.id === props.data.sub_exam_id) ||
         null,
     set: (newOptionID) => {
-        props.data.id = newOptionID;
+        props.data.sub_exam_id = newOptionID;
     },
 });
 </script>
@@ -127,8 +130,8 @@ const selectedSubExam = computed({
                 </VCol>
                 <div class="h-[25rem] !w-[70%]">
                     <img
-                        v-if="data.image"
-                        :src="data.image"
+                        v-if="data.image_screenshot"
+                        :src="data.image_screenshot"
                         class="h-full w-full rounded-md"
                     />
                 </div>

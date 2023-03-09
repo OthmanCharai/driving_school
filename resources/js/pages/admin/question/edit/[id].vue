@@ -12,17 +12,34 @@ onMounted(async () => {
     //TODO CHANGE
     questionData.value = {
         ...question,
-        type: question?.dropzones ? "dropzones" : "options",
+        image_screenshot: question.image,
     };
 });
 
 const updateQuestion = async () => {
+    // router.push({ name: "admin-question-list" }); // TODO
+    const question = questionData.value;
+    const formData = new FormData();
+    formData.append("question", question.question);
+    formData.append("type", question.type);
+    formData.append("sub_exam_id", question.sub_exam_id);
+    formData.append("image", question.image); // add image file to form data
+    const list = question[question.type];
+    console.log(question, list);
+    list.forEach((option, index) => {
+        for (const key in option) {
+            formData.append(`${question.type}[${index}][${key}]`, option[key]);
+        }
+    });
     try {
-        await axios.put(
-            `/question/${route.params.id}` //TODO CHANGE
-        );
-    } catch (e) {}
-    router.push({ name: "admin-question-list" });
+        await axios.put(`/question/${question.id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+    } catch (e) {
+        console.log(e);
+    }
 };
 </script>
 
