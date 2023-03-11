@@ -30,12 +30,15 @@ const updateQuestion = async () => {
         }
     });
     try {
-        await axios.put(`/question/${question.id}`, formData, {
+        await axios.post(`/question/${question.id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
+            params:{
+                "_method":"PUT"
+            }
         });
-        // router.push({ name: "admin-question-list" }); // TODO
+        router.push({ name: "admin-question-list" });
     } catch (e) {
         console.log(e);
     }

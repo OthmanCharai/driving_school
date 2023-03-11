@@ -19,9 +19,12 @@ const updateQuestion = async () => {
     formData.append("name", question.name);
     formData.append("image", question.image); // add image file to form data
     try {
-        await axios.put(`/exam/${question.id}`, formData, {
+        await axios.post(`/exam/${question.id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
+            },
+            params: {
+                _method: "PUT",
             },
         });
         router.push({ name: "admin-exam-list" });
