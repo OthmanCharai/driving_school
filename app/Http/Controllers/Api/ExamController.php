@@ -44,12 +44,12 @@ class ExamController extends Controller
      */
     public function store(ExamStoreRequest $request): ExamResource
     {
-        // $file=$request->file('image'); //TODO
+        // $file=$request->file('image'); //TODO uncomment
         // $path=Storage::disk('public')->putFile('exams',$file);
         $exam = Exam::create([
             'name'=>$request->name,
             "is_free"=>$request->is_free,
-            "image"=>'wtf'
+            "image"=>'wtf'  //TODO
         ]);
         return new ExamResource($exam);
     }
@@ -75,7 +75,18 @@ class ExamController extends Controller
      */
     public function update(ExamUpdateRequest $request, Exam $exam): ExamResource
     {
-        $exam->update($request->validated());
+        if($request->hasFile('image')){
+            $file = $request->file("image");
+            $path=Storage::disk('public')->putFile('exams', $file);
+            Storage::disk('public')->delete($exam->image);
+        }
+
+        $exam->update([
+            'name'=>$request->name,
+            // "image"=>$path,
+            'image'=>$request->image,
+            'is_free'=>$request->is_free
+        ]);
 
         return new ExamResource($exam);
     }

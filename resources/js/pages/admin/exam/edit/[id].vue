@@ -13,10 +13,21 @@ onMounted(async () => {
 });
 
 const updateQuestion = async () => {
+    const question = questionData.value;
+    const formData = new FormData();
+    formData.append("is_free", question.is_free);
+    formData.append("name", question.name);
+    formData.append("image", question.image); // add image file to form data
     try {
-        await axios.put(`/exam/${route.params.id}`, questionData.value);
-    } catch (e) {}
-    router.push({ name: "admin-exam-list" });
+        await axios.put(`/exam/${question.id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        router.push({ name: "admin-exam-list" });
+    } catch (e) {
+        console.log(e);
+    }
 };
 </script>
 

@@ -49,6 +49,11 @@ const deleteQuestion = (id, index) => {
     invoices.value.splice(index, 1);
     axios.delete(`/exam/${id}`);
 };
+
+const resolveUserStatusVariant = (stat) => {
+    if (stat) return "success";
+    return "primary";
+};
 </script>
 
 <template>
@@ -116,9 +121,8 @@ const deleteQuestion = (id, index) => {
                 <tr>
                     <th scope="col">#ID</th>
 
-                    <!-- <th scope="col">Image</th> -->
-
                     <th scope="col">Name</th>
+                    <th scope="col">IS Paid</th>
 
                     <th scope="col" class="text-center">Users</th>
 
@@ -160,10 +164,21 @@ const deleteQuestion = (id, index) => {
                     <!-- </td> -->
 
                     <!-- 👉 total -->
-                    <td>{{ invoice.name }}</td>
-                    <td class="text-center">{{ invoice.users_count || 0 }}</td>
-                    <!-- TODO REMOVE -->
+                    <td>
+                        {{ invoice.name }}
+                    </td>
 
+                    <td scope="col">
+                        <VChip
+                            label
+                            size="small"
+                            class="text-capitalize"
+                            :color="resolveUserStatusVariant(invoice.is_free)"
+                        >
+                            {{ !invoice.is_free ? "Paid" : "Free" }}
+                        </VChip>
+                    </td>
+                    <td class="text-center">{{ invoice.users_count || 0 }}</td>
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
                         <VBtn

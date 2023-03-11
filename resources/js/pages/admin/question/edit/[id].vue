@@ -9,7 +9,6 @@ const questionData = ref(null);
 
 onMounted(async () => {
     let { data: question } = await axios.get(`/question/${route.params.id}`);
-    //TODO CHANGE
     questionData.value = {
         ...question,
         image_screenshot: question.image,
@@ -17,7 +16,6 @@ onMounted(async () => {
 });
 
 const updateQuestion = async () => {
-    // router.push({ name: "admin-question-list" }); // TODO
     const question = questionData.value;
     const formData = new FormData();
     formData.append("question", question.question);
@@ -37,6 +35,7 @@ const updateQuestion = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
+        // router.push({ name: "admin-question-list" }); // TODO
     } catch (e) {
         console.log(e);
     }

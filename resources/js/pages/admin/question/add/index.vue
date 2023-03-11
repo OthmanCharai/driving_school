@@ -17,7 +17,6 @@ const questionData = ref({
     image_screenshot: null,
 });
 const saveQuestion = async () => {
-    // router.push({ name: "admin-question-list" }); // TODO
     const question = questionData.value;
     const formData = new FormData();
     formData.append("question", question.question);
@@ -37,6 +36,7 @@ const saveQuestion = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
+        router.push({ name: "admin-question-list" });
     } catch (e) {
         console.log(e);
     }

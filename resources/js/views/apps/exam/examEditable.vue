@@ -19,23 +19,10 @@ const iamgeRules = [
         "Image size should be less than 2 MB!",
 ];
 
-const getRightAnswer = () =>
-    props.data.options.find((option) => option.status === true) ||
-    props.data.options[0];
-
-const updateOptionStatus = (optionId, newStatusValue) => {
-    const optionToUpdate = props.data.options.find(
-        (option) => option.answer === optionId
-    );
-
-    if (optionToUpdate) {
-        optionToUpdate.status = newStatusValue;
-    }
-};
 
 const options = [
-    { label: "payed", value: 1 },
-    { label: "free", value: 0 },
+    { label: "payed", value: 0 },
+    { label: "free", value: 1 },
 ];
 
 const selectedOption = computed({
@@ -50,6 +37,7 @@ const changeImage = (file) => {
     const { files } = file.target;
     if (files && files.length) {
         const uploadedFile = files[0];
+        console.log(uploadedFile)
         props.data.image = uploadedFile;
         fileReader.readAsDataURL(files[0]);
         fileReader.onload = () => {
