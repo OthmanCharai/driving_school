@@ -21,8 +21,8 @@ export default defineConfig({
         // //     refresh: ["resources/js/*"],
         // // }),
         laravel({
-            input: "resources/js/app.js",
-            refresh: false,
+            input: ["resources/css/app.css", "resources/js/app.js"],
+            refresh: true,
         }),
         i18n(),
         vue({
@@ -160,4 +160,5 @@ export default defineConfig({
         exclude: ["vuetify", "storage"],
         entries: ["./resources/js/**/*.vue"],
     },
+    watch: ["resources/**/*"],
 });

@@ -70,7 +70,7 @@ const subExamsList = ref([]);
 
 onMounted(async () => {
     const { data } = await axios.get("/sub-exam");
-    subExamsList.value = data;
+    subExamsList.value = data.data;
 });
 
 const selectedSubExam = computed({

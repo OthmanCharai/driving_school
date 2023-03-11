@@ -44,12 +44,12 @@ class ExamController extends Controller
      */
     public function store(ExamStoreRequest $request): ExamResource
     {
-        $file=$request->file('image');
-        $path=Storage::disk('public')->putFile('exams',$file);
+        // $file=$request->file('image'); //TODO
+        // $path=Storage::disk('public')->putFile('exams',$file);
         $exam = Exam::create([
             'name'=>$request->name,
             "is_free"=>$request->is_free,
-            "image"=>$path
+            "image"=>'wtf'
         ]);
         return new ExamResource($exam);
     }

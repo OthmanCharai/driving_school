@@ -2,34 +2,19 @@
 import examEditable from "@/views/apps/exam/examEditable.vue";
 import axios from "@axios";
 
-const questionData = ref({
+const examData = ref({
     name: "",
-    is_free:true,
+    is_free: true,
     image: null,
     image_screenshot: null,
 });
+const router = useRouter();
 
 const saveQuestion = async () => {
-    // router.push({ name: "admin-question-list" }); // TODO
-    const question = questionData.value;
-    const formData = new FormData();
-    formData.append("question", question.question);
-    formData.append("type", question.type);
-    formData.append("sub_exam_id", question.sub_exam_id);
-    formData.append("image", question.image); // add image file to form data
-    const list = question[question.type];
-    console.log(question, list);
-    list.forEach((option, index) => {
-        for (const key in option) {
-            formData.append(`${question.type}[${index}][${key}]`, option[key]);
-        }
-    });
+    router.push({ name: "admin-exam-list" });
+    const exam = examData.value;
     try {
-        await axios.post(`/question`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        await axios.post(`/exam`, exam);
     } catch (e) {
         console.log(e);
     }
@@ -40,7 +25,7 @@ const saveQuestion = async () => {
     <VRow>
         <!-- 👉 InvoiceEditable -->
         <VCol cols="12" md="9">
-            <examEditable :data="questionData" />
+            <examEditable :data="examData" />
         </VCol>
 
         <!-- 👉 Right Column: Invoice Action -->

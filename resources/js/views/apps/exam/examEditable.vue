@@ -33,11 +33,15 @@ const updateOptionStatus = (optionId, newStatusValue) => {
     }
 };
 
+const options = [
+    { label: "payed", value: 1 },
+    { label: "free", value: 0 },
+];
+
 const selectedOption = computed({
-    get: () => getRightAnswer(),
+    get: () => options[props.data.is_free]?.label,
     set: (newAnswerTitle) => {
-        updateOptionStatus(getRightAnswer().answer, false);
-        updateOptionStatus(newAnswerTitle, true);
+        props.data.is_free = newAnswerTitle
     },
 });
 
@@ -61,16 +65,6 @@ onMounted(async () => {
     const { data } = await axios.get("/sub-exam");
     subExamsList.value = data;
 });
-
-const selectedSubExam = computed({
-    get: () =>
-        subExamsList.value.find(
-            (subExam) => subExam.id === props.data.sub_exam_id
-        ) || null,
-    set: (newOptionID) => {
-        props.data.sub_exam_id = newOptionID;
-    },
-});
 </script>
 
 <template>
@@ -80,32 +74,22 @@ const selectedSubExam = computed({
         <VForm ref="refForm" @submit.prevent="() => {}" class="p-8">
             <VCol cols="12" md="6">
                 <VTextField
-                    v-model="data.question"
+                    v-model="data.name"
                     label="Exam Title"
                     :rules="[requiredValidator]"
                 />
             </VCol>
             <VCol cols="6">
                 <VSelect
-                    v-model="data.is_free"
-                    :items="['free', 'payed']"
+                    v-model="selectedOption"
+                    :items="options"
                     label="Type"
+                    item-title="label"
+                    item-value="value"
                     persistent-placeholder
                 />
             </VCol>
-            <!-- <VCol cols="6">
-                <VSelect
-                    v-model="selectedSubExam"
-                    :items="subExamsList"
-                    item-title="name"
-                    item-value="id"
-                    label="Attach to a sub Exam"
-                    persistent-placeholder
-                    :menu-props="{ maxHeight: '200' }"
-                />
-            </VCol> -->
             <VDivider />
-            <!-- <VRow> -->
             <VCol cols="12" md="6">
                 <VFileInput
                     :rules="iamgeRules"

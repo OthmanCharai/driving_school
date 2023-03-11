@@ -70,7 +70,7 @@ const deleteQuestion = (id, index) => {
                     prepend-icon="tabler-plus"
                     :to="{ name: 'admin-exam-add' }"
                 >
-                    Create Question
+                    Create Exam
                 </VBtn>
             </div>
 

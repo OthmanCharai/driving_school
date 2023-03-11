@@ -1,5 +1,5 @@
 <script setup>
-import InvoiceEditable from "@/views/apps/invoice/InvoiceEditable.vue";
+import examEditable from "@/views/apps/exam/examEditable.vue";
 import axios from "@axios";
 import { onMounted } from "vue";
 
@@ -8,21 +8,15 @@ const router = useRouter();
 const questionData = ref(null);
 
 onMounted(async () => {
-    let { data: question } = await axios.get(`/question/${route.params.id}`);
-    //TODO CHANGE
-    questionData.value = {
-        ...question,
-        type: question?.dropzones ? "dropzones" : "options",
-    };
+    let { data: question } = await axios.get(`/exam/${route.params.id}`);
+    questionData.value = question;
 });
 
 const updateQuestion = async () => {
     try {
-        await axios.put(
-            `/question/${route.params.id}` //TODO CHANGE
-        );
+        await axios.put(`/exam/${route.params.id}`, questionData.value);
     } catch (e) {}
-    router.push({ name: "admin-question-list" });
+    router.push({ name: "admin-exam-list" });
 };
 </script>
 
@@ -30,7 +24,7 @@ const updateQuestion = async () => {
     <VRow v-if="questionData">
         <!-- 👉 InvoiceEditable   -->
         <VCol cols="12" md="9">
-            <InvoiceEditable :data="questionData" />
+            <examEditable :data="questionData" />
         </VCol>
         <!-- 👉 Right Column: Invoice Action -->
         <VCol cols="12" md="3">
