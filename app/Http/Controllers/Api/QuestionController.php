@@ -50,7 +50,6 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
-        // dd($request->options);
         // create question fist
         // $file=$request->file('image');
         // $path=Storage::disk('public')->putFile('questions',$file);
@@ -104,7 +103,6 @@ class QuestionController extends Controller
      */
     public function update(QuestionUpdateRequest $request, Question $question): QuestionResource
     {
-        dd($request);
         if($request->hasFile('image')){
             // $file = $request->file("image");
             // $path=Storage::disk('public')->putFile('questions', $file);
@@ -120,7 +118,7 @@ class QuestionController extends Controller
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as  $item){
             $item= (object)$item;
-            $option=Option::findOrFail($item->option_id);
+            $option=Option::findOrFail($item->id);
 
             $option->update([
                 'answer'=>$item->answer,
@@ -128,7 +126,7 @@ class QuestionController extends Controller
             ]);
 
             if($request->type=="dropzones"){
-                $dropzone=Dropzon::findOrFail($item->dropzone_id);
+                $dropzone=Dropzon::findOrFail($item->id);
                 $dropzone->update([
                     'x_position'=>$item->x_position,
                     'y_position'=>$item->y_position

@@ -19,6 +19,7 @@ class DropzonResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'answer' => $this->answer,
             'x_position' => $this->x_position,
             'y_position' => $this->y_position,
         ];

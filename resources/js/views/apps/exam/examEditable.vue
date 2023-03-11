@@ -21,7 +21,7 @@ const iamgeRules = [
 
 
 const options = [
-    { label: "payed", value: 0 },
+    { label: "paid", value: 0 },
     { label: "free", value: 1 },
 ];
 

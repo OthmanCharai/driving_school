@@ -6,10 +6,15 @@ import { onMounted } from "vue";
 const route = useRoute();
 const router = useRouter();
 const questionData = ref(null);
+let originalExam = null
 
 onMounted(async () => {
     let { data: question } = await axios.get(`/exam/${route.params.id}`);
-    questionData.value = question;
+    originalExam = question;
+    questionData.value = {
+        ...question,
+        image_screenshot: question.image,
+    };
 });
 
 const updateQuestion = async () => {
@@ -17,7 +22,9 @@ const updateQuestion = async () => {
     const formData = new FormData();
     formData.append("is_free", question.is_free);
     formData.append("name", question.name);
-    formData.append("image", question.image); // add image file to form data
+    if (question.image !== originalExam.image ){
+        formData.append("image", question.image); // add image file to form data
+    }
     try {
         await axios.post(`/exam/${question.id}`, formData, {
             headers: {

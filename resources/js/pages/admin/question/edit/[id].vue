@@ -6,9 +6,11 @@ import { onMounted } from "vue";
 const route = useRoute();
 const router = useRouter();
 const questionData = ref(null);
+let originalQuestion = null;
 
 onMounted(async () => {
     let { data: question } = await axios.get(`/question/${route.params.id}`);
+    originalQuestion = question;
     questionData.value = {
         ...question,
         image_screenshot: question.image,
@@ -21,7 +23,9 @@ const updateQuestion = async () => {
     formData.append("question", question.question);
     formData.append("type", question.type);
     formData.append("sub_exam_id", question.sub_exam_id);
-    formData.append("image", question.image); // add image file to form data
+    if (question.image !== originalQuestion.image ){
+        formData.append("image", question.image); // add image file to form data
+    }
     const list = question[question.type];
     console.log(question, list);
     list.forEach((option, index) => {

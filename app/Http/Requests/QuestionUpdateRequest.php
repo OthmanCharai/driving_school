@@ -25,7 +25,7 @@ class QuestionUpdateRequest extends FormRequest
     {
         return [
             'question' => ['required', 'string'],
-            'image'=>['required','mimes:png,jpeg,jpg'],
+            'image'=>['mimes:png,jpeg,jpg'],
             "type"=>['required'],
             'sub_exam_id' => ['required', 'exists:sub_exams,id'],
         ];

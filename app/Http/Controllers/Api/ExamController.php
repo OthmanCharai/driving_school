@@ -76,15 +76,15 @@ class ExamController extends Controller
     public function update(ExamUpdateRequest $request, Exam $exam): ExamResource
     {
         if($request->hasFile('image')){
-            $file = $request->file("image");
-            $path=Storage::disk('public')->putFile('exams', $file);
-            Storage::disk('public')->delete($exam->image);
+            // $file = $request->file("image");
+            // $path=Storage::disk('public')->putFile('exams', $file);
+            // Storage::disk('public')->delete($exam->image);
         }
 
         $exam->update([
             'name'=>$request->name,
-            // "image"=>$path,
-            'image'=>$request->image,
+            "image"=>'wtf', // TODO
+            // 'image'=>$request->path,
             'is_free'=>$request->is_free
         ]);
 
