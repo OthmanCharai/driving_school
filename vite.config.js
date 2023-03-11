@@ -14,9 +14,15 @@ import vuetify from "vite-plugin-vuetify";
 
 export default defineConfig({
     plugins: [
+        // laravel(["resources/css/app.css", "resources/js/app.js"]),
+        // // laravel({
+        // //     // ...
+        // //     input : ["resources/css/app.css", "resources/js/app.js"],
+        // //     refresh: ["resources/js/*"],
+        // // }),
         laravel({
             input: "resources/js/app.js",
-            refresh: true,
+            refresh: false,
         }),
         i18n(),
         vue({
@@ -151,7 +157,7 @@ export default defineConfig({
         chunkSizeWarningLimit: 5000,
     },
     optimizeDeps: {
-        exclude: ["vuetify"],
+        exclude: ["vuetify", "storage"],
         entries: ["./resources/js/**/*.vue"],
     },
 });

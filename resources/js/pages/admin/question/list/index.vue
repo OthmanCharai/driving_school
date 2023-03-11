@@ -1,6 +1,4 @@
 <script setup>
-import { useInvoiceStore } from "@/views/apps/invoice/useInvoiceStore";
-import { avatarText } from "@core/utils/formatters";
 import axios from "@axios";
 
 const searchQuery = ref("");
@@ -20,10 +18,9 @@ watchEffect(async () => {
             q: searchQuery.value,
         },
     });
-   
+
     const { data: questions, meta } = data;
     invoices.value = questions;
-    console.log(meta);
     totalPage.value = meta.last_page;
     totalInvoices.value = meta.total;
 });

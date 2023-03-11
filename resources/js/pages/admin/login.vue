@@ -57,7 +57,7 @@ const login = () => {
 
     // Redirect to `to` query if exist or redirect to index route
     router.replace(
-        route.query.to ? String(route.query.to) : "/admin/invoice/list" // TODO : CHANGE
+        route.query.to ? String(route.query.to) : "/admin/exam/list" // TODO : CHANGE
     );
     // })
     // .catch((e) => {

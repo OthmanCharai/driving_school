@@ -21,12 +21,15 @@
                     :src="question.image_screenshot"
                     @click="addDropzone"
                 />
-                <template v-for="(dropzone, index) in question.dropzones" :key="index">
+                <template
+                    v-for="(dropzone, index) in question.dropzones"
+                    :key="index"
+                >
                     <div
                         class="absolute rounded-full bg-blue-500 w-10 h-10 text-xl items-center justify-center text-white flex"
                         :style="{
-                            top: `${dropzone.y}%`,
-                            left: `${dropzone.x}%`,
+                            top: `${dropzone.y_position}%`,
+                            left: `${dropzone.x_position}%`,
                         }"
                     >
                         {{ index + 1 }}
@@ -52,15 +55,17 @@ const props = defineProps({
         required: true,
     },
 });
-const { question } = toRefs(props)
-
+const { question } = toRefs(props);
 
 const addDropzone = (event) => {
     const rect = event.target.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    const dropzone = { x, y };
-    if (!question.value.dropzones) {question.value.dropzones = [];}
+    const x_position = ((event.clientX - rect.left) / rect.width) * 100;
+    const y_position = ((event.clientY - rect.top) / rect.height) * 100;
+    const dropzonesCount = question.value?.dropzones?.length + 1;
+    const dropzone = { x_position, y_position, answer: dropzonesCount };
+    if (!question.value.dropzones) {
+        question.value.dropzones = [];
+    }
     question.value.dropzones?.push(dropzone);
 };
 

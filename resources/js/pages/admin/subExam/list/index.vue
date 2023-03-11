@@ -13,17 +13,15 @@ const selectedRows = ref([]);
 
 // 👉 Fetch Invoices
 watchEffect(async () => {
-    let { data } = await axios.get("/exam", {
+    let { data } = await axios.get("/sub-exam", {
         params: {
             page: currentPage.value,
             perPage: rowPerPage.value,
             q: searchQuery.value,
         },
     });
-    console.log(data);
     const { data: exams, meta } = data;
-    invoices.value = exams.data;
-    console.log(exams);
+    invoices.value = exams;
     totalPage.value = meta.last_page;
     totalInvoices.value = meta.total;
 });
@@ -47,7 +45,7 @@ const paginationData = computed(() => {
 
 const deleteQuestion = (id, index) => {
     invoices.value.splice(index, 1);
-    axios.delete(`/exam/${id}`);
+    axios.delete(`/sub-exam/${id}`);
 };
 </script>
 
@@ -57,7 +55,7 @@ const deleteQuestion = (id, index) => {
             <!-- 👉 Rows per page -->
             <div class="d-flex align-center" style="width: 135px">
                 <span class="text-no-wrap me-3">Show:</span>
-                <Vd
+                <VSelect
                     v-model="rowPerPage"
                     density="compact"
                     :items="[10, 20, 30, 50]"
@@ -65,12 +63,12 @@ const deleteQuestion = (id, index) => {
             </div>
 
             <div class="me-3">
-                <!-- 👉 Create Question -->
+                <!-- 👉 Create Sub Exam -->
                 <VBtn
                     prepend-icon="tabler-plus"
-                    :to="{ name: 'admin-exam-add' }"
+                    :to="{ name: 'admin-subExam-add' }"
                 >
-                    Create Question
+                    Create Sub Exam
                 </VBtn>
             </div>
 
@@ -116,11 +114,9 @@ const deleteQuestion = (id, index) => {
                 <tr>
                     <th scope="col">#ID</th>
 
-                    <!-- <th scope="col">Image</th> -->
-
                     <th scope="col">Name</th>
 
-                    <th scope="col" class="text-center">Users</th>
+                    <th scope="col" class="text-center">Min Score</th>
 
                     <th scope="col">ACTIONS</th>
                 </tr>
@@ -137,7 +133,7 @@ const deleteQuestion = (id, index) => {
                     <td>
                         <!--  <RouterLink
                             :to="{
-                                name: 'admin-exam-preview-id',
+                                name: 'admin-subExam-preview-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -161,9 +157,7 @@ const deleteQuestion = (id, index) => {
 
                     <!-- 👉 total -->
                     <td>{{ invoice.name }}</td>
-                    <td class="text-center">{{ invoice.users_count || 0 }}</td>
-                    <!-- TODO REMOVE -->
-
+                    <td class="text-center">{{ invoice.note || 0 }}</td>
                     <!-- 👉 Actions -->
                     <td style="width: 8rem">
                         <VBtn
@@ -172,7 +166,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-exam-edit-id',
+                                name: 'admin-subExam-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >
@@ -184,7 +178,7 @@ const deleteQuestion = (id, index) => {
                             color="default"
                             size="x-small"
                             :to="{
-                                name: 'admin-exam-edit-id',
+                                name: 'admin-subExam-edit-id',
                                 params: { id: invoice.id },
                             }"
                         >

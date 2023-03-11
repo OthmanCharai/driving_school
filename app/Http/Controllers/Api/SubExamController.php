@@ -27,9 +27,18 @@ class SubExamController extends Controller
      */
     public function index(Request $request): SubExamCollection
     {
-        $subExams = SubExam::with([])->get();
+        $perPage = $request->input('perPage', 10); // number of items per page, default 10
+        $currentPage = $request->input('page', 1); // current page number, default 1
+        $searchTerm = $request->input('q', ''); // search term, default empty string
+        $query = SubExam::with([]);
 
-        return new SubExamCollection($subExams);
+        if ($searchTerm) {
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
+        $exams = $query->paginate($perPage, ['*'], 'page', $currentPage);
+
+        return new SubExamCollection($exams);
     }
 
     /**

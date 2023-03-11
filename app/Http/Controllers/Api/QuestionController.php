@@ -50,13 +50,14 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
+        // dd($request->options);
         // create question fist
-        $file=$request->file('image');
-        $path=Storage::disk('public')->putFile('questions',$file);
+        // $file=$request->file('image');
+        // $path=Storage::disk('public')->putFile('questions',$file);
 
         $question=Question::create([
             'question'=>$request->question,
-            "image"=>$path,
+            "image"=>'wtf',
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
@@ -67,7 +68,7 @@ class QuestionController extends Controller
             $item= (object)$item;
             $option=Option::create([
                 'answer'=>$item->answer,
-                'status'=>(isset($item->status)&& $item->status!=null)?$item->status:false,
+                'status'=>(isset($item->status)&& $item->status!=null)?(int)$item->status:false,
                 'question_id'=>$question->id
             ]);
             if($request->type=='dropzones'){
@@ -103,15 +104,16 @@ class QuestionController extends Controller
      */
     public function update(QuestionUpdateRequest $request, Question $question): QuestionResource
     {
+        dd($request);
         if($request->hasFile('image')){
-            $file = $request->file("image");
-            $path=Storage::disk('public')->putFile('questions', $file);
-            Storage::disk('public')->delete($question->image);
+            // $file = $request->file("image");
+            // $path=Storage::disk('public')->putFile('questions', $file);
+            // Storage::disk('public')->delete($question->image);
         }
 
         $question->update([
             'question'=>$request->question,
-            "image"=>$path,
+            // "image"=>$path,
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);

@@ -1,21 +1,40 @@
+// {
+//     title: "Preview",
+//     to: {
+//         name: "admin-question-edit-id",
+//         params: { id: "5036" },
+//     },
+// },
+// {
+//     title: "Edit",
+//     to: { name: "admin-question-edit-id", params: { id: "5036" } },
+// },
 export default [
     { heading: "Apps & Pages" },
+    {
+        title: "Exam",
+        icon: { icon: "tabler-file" },
+        children: [
+            { title: "List", to: "admin-exam-list" },
+
+            { title: "Add", to: "admin-exam-add" },
+        ],
+    },
+    {
+        title: "SubExam",
+        icon: { icon: "tabler-file" },
+        children: [
+            { title: "List", to: "admin-subExam-list" },
+
+            { title: "Add", to: "admin-subExam-add" },
+        ],
+    },
     {
         title: "Question",
         icon: { icon: "tabler-file" },
         children: [
             { title: "List", to: "admin-question-list" },
-            // {
-            //     title: "Preview",
-            //     to: {
-            //         name: "admin-question-edit-id",
-            //         params: { id: "5036" },
-            //     },
-            // },
-            // {
-            //     title: "Edit",
-            //     to: { name: "admin-question-edit-id", params: { id: "5036" } },
-            // },
+
             { title: "Add", to: "admin-question-add" },
         ],
     },

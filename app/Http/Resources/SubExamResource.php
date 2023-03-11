@@ -19,6 +19,7 @@ class SubExamResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'note' => $this->note,
+            'exam_id' => $this->exam_id,
             'questions' =>QuestionCollection::make($this->whenLoaded('questions')),
         ];
     }
