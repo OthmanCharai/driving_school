@@ -7,6 +7,7 @@ use App\Http\Requests\QuestionStoreRequest;
 use App\Http\Requests\QuestionUpdateRequest;
 use App\Http\Resources\QuestionCollection;
 use App\Http\Resources\QuestionResource;
+use App\Http\Services\Minio\MinioServiceInterface;
 use App\Models\Dropzon;
 use App\Models\Option;
 use App\Models\Question;
@@ -19,11 +20,12 @@ use Illuminate\Support\Facades\Storage;
 class QuestionController extends Controller
 {
 
-    public function __construct()
+
+    public function __construct(public MinioServiceInterface $minioService)
     {
-        // $this->middleware('auth:api');
     }
-   /**
+
+    /**
      * @param Request $request
      * @return QuestionCollection
      */
@@ -50,13 +52,11 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
-        // create question fist
-        // $file=$request->file('image');
-        // $path=Storage::disk('public')->putFile('questions',$file);
+        $data=$this->minioService->storeFile($request,'questions');
 
         $question=Question::create([
             'question'=>$request->question,
-            "image"=>'wtf',
+            "image"=>$data['path'],
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
@@ -80,6 +80,7 @@ class QuestionController extends Controller
             }
         }
         $question->load('options');
+        $question->image=$data['url'];
         return new QuestionResource($question);
     }
 
@@ -103,18 +104,13 @@ class QuestionController extends Controller
      */
     public function update(QuestionUpdateRequest $request, Question $question): QuestionResource
     {
+        $info=$request->validated();
         if($request->hasFile('image')){
-            // $file = $request->file("image");
-            // $path=Storage::disk('public')->putFile('questions', $file);
-            // Storage::disk('public')->delete($question->image);
+           $data=$this->minioService->updateFile($request,$question->image,'questions');
+           $info=array_merge($info,['image'=>$data['path']]);
         }
 
-        $question->update([
-            'question'=>$request->question,
-            // "image"=>$path,
-            'sub_exam_id'=>$request->sub_exam_id,
-            'type'=>$request->type
-        ]);
+        $question->update($info);
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as  $item){
             $item= (object)$item;
@@ -135,6 +131,7 @@ class QuestionController extends Controller
             }
 
         }
+        $question->image=($data['url'])?$data['url']:$question->image;
         $question->load('options');
         return new QuestionResource($question);
     }
@@ -146,6 +143,7 @@ class QuestionController extends Controller
      */
     public function destroy(Request $request, Question $question): JsonResponse
     {
+        $this->minioService->deleteFile($question->image);
         $question->delete(); // TODO UNCOMMENT
 
         return response()->json('question deleted with success',200)->setStatusCode(200);

@@ -7,16 +7,19 @@ use App\Http\Requests\ExamStoreRequest;
 use App\Http\Requests\ExamUpdateRequest;
 use App\Http\Resources\ExamCollection;
 use App\Http\Resources\ExamResource;
+use App\Http\Services\Minio\MinioService;
+use App\Http\Services\Minio\MinioServiceInterface;
 use App\Models\Exam;
-use App\Models\Question;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
-use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class ExamController extends Controller
 {
+    public function __construct(public MinioServiceInterface $minioService)
+    {
+    }
+
     /**
      * @param Request $request
      * @return ExamCollection
@@ -42,15 +45,17 @@ class ExamController extends Controller
      * @param ExamStoreRequest $request
      * @return ExamResource
      */
-    public function store(ExamStoreRequest $request): ExamResource
+    public function store(ExamStoreRequest $request)
     {
-        // $file=$request->file('image'); //TODO uncomment
-        // $path=Storage::disk('public')->putFile('exams',$file);
+
+        $data=$this->minioService->storeFile($request,'exam');
+
         $exam = Exam::create([
             'name'=>$request->name,
             "is_free"=>$request->is_free,
-            "image"=>'wtf'  //TODO
+            "image"=>$data['path']
         ]);
+        $exam->image=$data['url'];
         return new ExamResource($exam);
     }
 
@@ -63,7 +68,8 @@ class ExamController extends Controller
     {
 
         $exam->load(['subExam.questions.options','subExam.questions.dropzons']);
-
+        $data=$this->minioService->getFile($exam->image);
+        $exam->image=$data['url'];
 
         return new ExamResource($exam);
     }
@@ -75,19 +81,14 @@ class ExamController extends Controller
      */
     public function update(ExamUpdateRequest $request, Exam $exam): ExamResource
     {
+        $info=$request->validated();
         if($request->hasFile('image')){
-            // $file = $request->file("image");
-            // $path=Storage::disk('public')->putFile('exams', $file);
-            // Storage::disk('public')->delete($exam->image);
+            $data=$this->minioService->updateFile($request,$exam->image,'exams');
+           $info=array_merge($info,['image'=>$data['path']]);
         }
 
-        $exam->update([
-            'name'=>$request->name,
-            "image"=>'wtf', // TODO
-            // 'image'=>$request->path,
-            'is_free'=>$request->is_free
-        ]);
-
+        $exam->update($info);
+        $exam->image=($data['url'])?$data['url']:$exam->image;
         return new ExamResource($exam);
     }
 
@@ -98,6 +99,7 @@ class ExamController extends Controller
      */
     public function destroy(Request $request, Exam $exam): JsonResponse
     {
+        $this->minioService->deleteFile($exam->image);
         $exam->delete();
         return response()->json('exam deleted with success','200',)->setStatusCode(200);
     }

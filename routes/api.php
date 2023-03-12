@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubExamController;
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +48,34 @@ Route::post('score',[SubExamController::class,'score']);
 Route::post('contact',[\App\Http\Controllers\HomeController::class,'contact']);
 Route::get('score/{score}',[SubExamController::class,'get_score']);
 
+Route::post('file', function (Request $request){
+    $minioClient = new S3Client([
+        'version' => 'latest',
+        'region' => 'us-east-1',
+        'endpoint' => 'http://minio:9000',
+        'use_path_style_endpoint' => true,
+        'credentials' => [
+            'key' =>env('MINIO_ACCESS_KEY_ID'),
+            'secret' =>env('MINIO_SECRET_ACCESS_KEY'),
+        ],
+    ]);
+    $minioClient->putObject([
+        'Bucket' => env('MINIO_BUCKET'),
+        'Key' => 'my-file.txt',
+        'Body' => $request->file('item'),
+    ]);
+    $jResponse = array();
+    $jResponse['success'] = true;
+    $jResponse['message'] = 'OK';
+    $path = Storage::cloud()->putFile('files', $request->file('item'));
+
+
+    $jResponse['data'] = array(
+
+        "path"=>$path
+    );
+
+    return \response()->json($jResponse, 201);
+});
 
 
