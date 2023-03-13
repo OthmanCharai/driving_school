@@ -55,6 +55,7 @@ class ExamController extends Controller
             "is_free"=>$request->is_free,
             "image"=>$data['path']
         ]);
+
         $exam->image=$data['url'];
         return new ExamResource($exam);
     }

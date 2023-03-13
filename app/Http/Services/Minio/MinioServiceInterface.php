@@ -8,7 +8,7 @@ interface MinioServiceInterface
 {
     /**
      * @param Request $request
-     * @param $folder
+     * @param string $folder
      * @return array
      */
     public function storeFile(Request $request,string $folder):array;

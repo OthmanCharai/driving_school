@@ -49,8 +49,8 @@ services:
             retries: 3
             timeout: 5s
     minio:
+        container_name: "driving_school"
         image: 'minio/minio:latest'
-        container_name: minio_driving_school
         ports:
             - '${FORWARD_MINIO_PORT:-9000}:9000'
             - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
@@ -61,6 +61,7 @@ services:
             - 'sail-minio:/data/minio'
         networks:
             - sail
+
         command: 'minio server /data/minio --console-address ":8900"'
         healthcheck:
             test:
@@ -70,6 +71,29 @@ services:
                 - 'http://localhost:9000/minio/health/live'
             retries: 3
             timeout: 5s
+    minio-buckets:
+        image: minio/mc:latest
+        environment:
+            AWS_ACCESS_KEY_ID: '${AWS_ACCESS_KEY_ID}'
+            AWS_SECRET_ACCESS_KEY: '${AWS_SECRET_ACCESS_KEY}'
+            AWS_ENDPOINT: '${AWS_ENDPOINT}'
+        depends_on:
+            - minio
+        networks:
+            - sail
+        entrypoint: >
+            /bin/sh -c "
+            /usr/bin/mc config host add myminio http://127.0.0.1:9000 $MINIO_ACCESS_KEY_ID $MINIO_SECRET_ACCESS_KEY
+            /usr/bin/mc mb -p myminio/${MINIO_BUCKET};
+            /usr/bin/mc policy set download myminio/${MINIO_BUCKET};
+            /usr/bin/mc policy set public download myminio/${MINIO_BUCKET};
+            /usr/bin/mc anonymous set upload myminio/${MINIO_BUCKET};
+            /usr/bin/mc anonymous set download myminio/${MINIO_BUCKET};
+            /usr/bin/mc anonymous set public myminio/${MINIO_BUCKET};
+            /usr/bin/mc alias set laragraph $AWS_ENDPOINT $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY;
+            /usr/bin/mc mb laragraph/laragraph;
+            /usr/bin/mc policy set download laragraph/laragraph;
+            "
 networks:
     sail:
         driver: bridge
