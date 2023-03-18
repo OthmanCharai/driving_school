@@ -56,6 +56,7 @@ class QuestionController extends Controller
         $question=Question::create([
             'question'=>$request->question,
             "image"=>$data['path'],
+            
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
