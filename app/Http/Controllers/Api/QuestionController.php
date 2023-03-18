@@ -52,10 +52,11 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
-      //  $data=$this->minioService->storeFile($request,'questions');
+        $data=$this->minioService->storeFile($request,'questions');
         $question=Question::create([
             'question'=>$request->question,
-            "image"=>"a"/*$data['path']*/,
+            "image"=>$data['path'],
+            
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
