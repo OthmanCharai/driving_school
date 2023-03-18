@@ -59,12 +59,12 @@ class QuestionController extends Controller
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
-        $items=($request->type=="options")?json_decode($request->options):json_decode($request->dropzones);
+        $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as $item){
             $item= (object)$item;
             $option=Option::create([
                 'answer'=>$item->answer,
-                'status'=>(isset($item->status)&& $item->status!=null)?(int)$item->status:false,
+                'status'=>(isset($item->status)&& $item->status!=null)?(int)$item->status:0,
                 'question_id'=>$question->id
             ]);
             if($request->type=='dropzones'){
@@ -77,7 +77,7 @@ class QuestionController extends Controller
             }
         }
         $question->load('options');
-        $question->image=$data['url'];
+
         return new QuestionResource($question);
     }
 
@@ -126,9 +126,7 @@ class QuestionController extends Controller
                 ]);
                 $question->load('dropzons');
             }
-
         }
-        $question->image=($data['url'])?$data['url']:$question->image;
         $question->load('options');
         return new QuestionResource($question);
     }

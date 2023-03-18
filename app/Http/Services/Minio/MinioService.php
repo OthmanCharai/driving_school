@@ -18,8 +18,8 @@ class MinioService implements MinioServiceInterface
     {
         // TODO: Implement storeFile() method.
        $path=Storage::cloud()->putFile($folder,$request->file('image'));
-       $url=Storage::cloud()->temporaryUrl($path,now()->addHour());
-        return ['path'=>$path,'url'=>$url];
+
+        return ['path'=>$path];
     }
 
     /**

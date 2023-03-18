@@ -47,16 +47,12 @@ class ExamController extends Controller
      */
     public function store(ExamStoreRequest $request)
     {
-
         $data=$this->minioService->storeFile($request,'exam');
-
         $exam = Exam::create([
             'name'=>$request->name,
             "is_free"=>$request->is_free,
             "image"=>$data['path']
         ]);
-
-        $exam->image=$data['url'];
         return new ExamResource($exam);
     }
 
@@ -67,11 +63,7 @@ class ExamController extends Controller
      */
     public function show(Request $request, Exam $exam): ExamResource
     {
-
         $exam->load(['subExam.questions.options','subExam.questions.dropzons']);
-        $data=$this->minioService->getFile($exam->image);
-        $exam->image=$data['url'];
-
         return new ExamResource($exam);
     }
 
@@ -87,9 +79,7 @@ class ExamController extends Controller
             $data=$this->minioService->updateFile($request,$exam->image,'exams');
            $info=array_merge($info,['image'=>$data['path']]);
         }
-
         $exam->update($info);
-        $exam->image=($data['url'])?$data['url']:$exam->image;
         return new ExamResource($exam);
     }
 
