@@ -52,7 +52,7 @@ export const useExamStore = defineStore("exam", () => {
             const newResponse = {
                 question_id: questionId,
             };
-            
+
             if (currentQuestion.value?.dropzones?.length) {
                 newResponse.type = "dropzones";
                 newResponse.options = selectedOption.value || [];

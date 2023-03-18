@@ -11,10 +11,18 @@ const examData = ref({
 const router = useRouter();
 
 const saveQuestion = async () => {
-    router.push({ name: "admin-exam-list" });
     const exam = examData.value;
+    const formData = new FormData();
+    formData.append("is_free", exam.is_free);
+    formData.append("name", exam.name);
+    formData.append("image", exam.image); // add image file to form data
     try {
-        await axios.post(`/exam`, exam);
+        await axios.post(`/exam`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        router.push({ name: "admin-exam-list" });
     } catch (e) {
         console.log(e);
     }

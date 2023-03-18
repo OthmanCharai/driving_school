@@ -19,9 +19,7 @@ class ExamResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'is_free'=>$this->is_free,
-            'image'=>Storage::disk('public')->url(
-                $this->image
-            ),
+            'image'=>Storage::cloud()->temporaryUrl($this->image,now()->addHours(23)),
             'users' => UserCollection::make($this->whenLoaded('users')),
             'sub_exams' => SubExamCollection::make($this->whenLoaded('subExam')),
             "users_count"=>$this->whenLoaded('users', function () {

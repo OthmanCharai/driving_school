@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubExamController;
+use App\Http\Controllers\HomeController;
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +46,8 @@ Route::apiResource('dropzone',\App\Http\Controllers\DropzonController::class);
 
 Route::post('score',[SubExamController::class,'score']);
 
-Route::post('contact',[\App\Http\Controllers\HomeController::class,'contact']);
+Route::post('contact',[HomeController::class,'contact']);
+
 Route::get('score/{score}',[SubExamController::class,'get_score']);
 
 

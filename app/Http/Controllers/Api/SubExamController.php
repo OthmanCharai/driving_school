@@ -101,8 +101,6 @@ class SubExamController extends Controller
             try {
                 $sub_exam=SubExam::with(['questions.options','questions.dropzons'])->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-
-
                     if(isset($response['type']) && $response['type']=='dropzones'){
                         $question= $sub_exam->questions->where('id',$response['question_id'])->first();
                         $sub_score=false;
@@ -134,12 +132,15 @@ class SubExamController extends Controller
                             })->first();
 
                             $option=$question->options->where('id',$response['option_id'])->first();
+                            //dd($option);
                             $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+
                                 ($option->status)?"true":"false"
                             ];
                             if($option->status){
-                                $counter++;
-                                $min_score++;
+
+                                $counter++; // total note
+                                $min_score++; //sub exam score
                             }
                         }
                     }
@@ -151,6 +152,7 @@ class SubExamController extends Controller
         }
         $displayed_data['score']=$counter;
         $displayed_data['created_at']=now()->toDateString();
+
 
         $score=Score::create(['score'=>json_encode($displayed_data)]);
         return response()->json(['data'=>$score],200);
