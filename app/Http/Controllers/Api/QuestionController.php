@@ -52,19 +52,24 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request): QuestionResource
     {
-        $data=$this->minioService->storeFile($request,'questions');
+      //  $data=$this->minioService->storeFile($request,'questions');
         $question=Question::create([
             'question'=>$request->question,
-            "image"=>$data['path'],
+            "image"=>"a"/*$data['path']*/,
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as $item){
             $item= (object)$item;
+            $flag=false;
+            if((isset($item->status)&& $item->status!=null)){
+                $flag=($item->status=="true")?1:0;
+            }
+
             $option=Option::create([
                 'answer'=>$item->answer,
-                'status'=>(isset($item->status)&& $item->status!=null)?(int)$item->status:0,
+                'status'=>$flag,
                 'question_id'=>$question->id
             ]);
             if($request->type=='dropzones'){
