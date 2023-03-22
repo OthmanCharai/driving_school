@@ -45,7 +45,7 @@ class ExamController extends Controller
      * @param ExamStoreRequest $request
      * @return ExamResource
      */
-    public function store(ExamStoreRequest $request)
+    public function store(ExamStoreRequest $request): ExamResource
     {
         $data=$this->minioService->storeFile($request,'exam');
         $exam = Exam::create([

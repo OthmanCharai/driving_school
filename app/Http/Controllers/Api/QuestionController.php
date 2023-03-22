@@ -56,11 +56,16 @@ class QuestionController extends Controller
         $question=Question::create([
             'question'=>$request->question,
             "image"=>$data['path'],
-            
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
-        $items=($request->type=="options")?$request->options:$request->dropzones;
+        if($request->type=="options"){
+            $items=$request->options;
+        }elseif ($request->type=="dropzones"){
+            $items=$request->dropzones;
+        }else {
+            $items=$request->images;
+        }
         foreach ($items as $item){
             $item= (object)$item;
             $flag=false;
@@ -148,6 +153,13 @@ class QuestionController extends Controller
         $question->delete(); // TODO UNCOMMENT
 
         return response()->json('question deleted with success',200)->setStatusCode(200);
+
+    }
+
+    private function storeImageType(array $items,Question $question){
+        foreach ($items as $item){
+
+        }
 
     }
 
