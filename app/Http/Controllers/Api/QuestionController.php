@@ -54,6 +54,24 @@ class QuestionController extends Controller
      */
     public function store(QuestionStoreRequest $request)
     {
+
+
+        if($request->type=="options"){
+            $items=$request->options;
+        }elseif ($request->type=="dropzones"){
+            $items=$request->dropzones;
+        }else {
+            $question=Question::create([
+                'question'=>$request->question,
+                "image"=>'',
+                'sub_exam_id'=>$request->sub_exam_id,
+                'type'=>$request->type
+            ]);
+            $data=$this->minioService->bulkStore($request,$request->answer_image_index,'questions/images');
+            $question->images()->saveMany($data);
+            $question->load('images');
+            return new QuestionResource($question);
+        }
         $data=$this->minioService->storeFile($request->file('image'),'questions');
         $question=Question::create([
             'question'=>$request->question,
@@ -61,18 +79,6 @@ class QuestionController extends Controller
             'sub_exam_id'=>$request->sub_exam_id,
             'type'=>$request->type
         ]);
-
-        if($request->type=="options"){
-            $items=$request->options;
-        }elseif ($request->type=="dropzones"){
-            $items=$request->dropzones;
-        }else {
-
-            $data=$this->minioService->bulkStore($request,$request->answer_image_index,'questions/images');
-            $question->images()->saveMany($data);
-            $question->load('images');
-            return new QuestionResource($question);
-        }
         foreach ($items as $item){
             $item= (object)$item;
             $flag=false;
