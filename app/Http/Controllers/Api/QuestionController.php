@@ -24,6 +24,7 @@ class QuestionController extends Controller
 
     public function __construct(public MinioServiceInterface $minioService)
     {
+
     }
 
     /**
