@@ -56,9 +56,9 @@ class QuestionController extends Controller
         $question=Question::create([
             'question'=>$request->question,
             "image"=>$data['path'],
-            
             'sub_exam_id'=>$request->sub_exam_id,
-            'type'=>$request->type
+            'type'=>$request->type,
+            'timer'=>$request->timer
         ]);
         $items=($request->type=="options")?$request->options:$request->dropzones;
         foreach ($items as $item){
