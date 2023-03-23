@@ -28,6 +28,7 @@ export const useExamStore = defineStore("exam", () => {
 
     function saveCurrentQuestionAnswer() {
         const currentQuestionIndexValue = currentQuestionIndex.value;
+        console.log(currentQuestionIndexValue)
         if (currentQuestionIndexValue === -1) {
             const currentExamID = currentSubExam.value.id;
             answers.value.push({
@@ -51,14 +52,15 @@ export const useExamStore = defineStore("exam", () => {
             // Otherwise, add a new response to the array
             const newResponse = {
                 question_id: questionId,
+                type : currentQuestion.value.type
             };
 
             if (currentQuestion.value?.dropzones?.length) {
-                newResponse.type = "dropzones";
                 newResponse.options = selectedOption.value || [];
             } else {
                 newResponse.option_id = selectedOptionId;
             }
+            console.log(newResponse);
             answers.value[currentSubExamIndex.value].response.push(newResponse);
         }
     }
@@ -96,7 +98,7 @@ export const useExamStore = defineStore("exam", () => {
         currentQuestionIndex.value += 1;
 
         if (currentQuestionIndex.value !== -1) {
-            startTimer(showNextQuestion);
+            startTimer(currentQuestion.value?.timer, showNextQuestion);
         }
         selectOption(DEFAULT_OPTION_VALUE);
     }

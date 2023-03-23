@@ -23,6 +23,7 @@ const updateQuestion = async () => {
     formData.append("question", question.question);
     formData.append("type", question.type);
     formData.append("sub_exam_id", question.sub_exam_id);
+    formData.append("timer", question.timer);
     if (question.image !== originalQuestion.image ){
         formData.append("image", question.image); // add image file to form data
     }

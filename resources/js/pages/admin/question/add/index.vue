@@ -4,7 +4,7 @@ import axios from "@axios";
 
 const router = useRouter();
 const questionData = ref({
-    type: "options",
+    type: "images",
     question: "",
     sub_exam_id: 1,
     options: [
@@ -14,6 +14,9 @@ const questionData = ref({
         },
     ],
     image: null,
+    answer_image_index: 0,
+    images: [],
+    timer: 8,
     image_screenshot: null,
 });
 const saveQuestion = async () => {
@@ -23,11 +26,22 @@ const saveQuestion = async () => {
     formData.append("type", question.type);
     formData.append("sub_exam_id", question.sub_exam_id);
     formData.append("image", question.image); // add image file to form data
+    formData.append("timer", question.timer);
+    if (question.type === "images") {
+        formData.append("answer_image_index", question.answer_image_index);
+    }
     const list = question[question.type];
-    console.log(question, list);
     list.forEach((option, index) => {
-        for (const key in option) {
-            formData.append(`${question.type}[${index}][${key}]`, option[key]);
+        if (question.type === "images") {
+            const [File] = option;
+            formData.append(`images[${index}]`, File);
+        } else {
+            for (const key in option) {
+                formData.append(
+                    `${question.type}[${index}][${key}]`,
+                    option[key]
+                );
+            }
         }
     });
     try {

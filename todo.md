@@ -1,7 +1,7 @@
 1. [ ] 1- add an questions type (optional,required,(dropzones,options,drop images)) (both)
 2. [ ] 2- time (hamza)
 3. [ ] 3- login(othman)
-4. [ ] 4- logout,(othman)
+4. [ ] 4- logout,(othman)   
 5. [ ] 5- mange role(spatie role (admin.simple user) and permission),(both)
 7. [ ] 7- score (hamza)
 8. [ ] 0- TEST (both)

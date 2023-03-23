@@ -52,7 +52,6 @@ const props = defineProps({
     question: Object,
 });
 
-// const { dropzones, options, image:imageSrc } = props.question;
 const { selectedOption } = storeToRefs(useExamStore());
 
 const imageWrapper = ref(null);

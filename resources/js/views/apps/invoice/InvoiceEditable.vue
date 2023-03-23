@@ -2,6 +2,7 @@
 import { requiredValidator } from "@validators";
 import axios from "@axios";
 import DropzonesQuestion from "./DropzonesQuestion.vue";
+import ImagesQuestion from "./ImagesQuestion.vue";
 
 const props = defineProps({
     data: {
@@ -26,7 +27,7 @@ const deleteOption = (optionIndex) => {
 const addAnOption = (optionIndex) => {
     props.data.options.push({
         answer: "",
-        status:false
+        status: false,
     });
 };
 
@@ -75,8 +76,9 @@ onMounted(async () => {
 
 const selectedSubExam = computed({
     get: () =>
-        subExamsList.value.find((subExam) => subExam.id === props.data.sub_exam_id) ||
-        null,
+        subExamsList.value.find(
+            (subExam) => subExam.id === props.data.sub_exam_id
+        ) || null,
     set: (newOptionID) => {
         props.data.sub_exam_id = newOptionID;
     },
@@ -95,14 +97,7 @@ const selectedSubExam = computed({
                     :rules="[requiredValidator]"
                 />
             </VCol>
-            <VCol cols="6">
-                <VSelect
-                    v-model="data.type"
-                    :items="['options', 'dropzones']"
-                    label="Type"
-                    persistent-placeholder
-                />
-            </VCol>
+
             <VCol cols="6">
                 <VSelect
                     v-model="selectedSubExam"
@@ -114,8 +109,26 @@ const selectedSubExam = computed({
                     :menu-props="{ maxHeight: '200' }"
                 />
             </VCol>
+            <VCol cols="12" md="6">
+                <VTextField
+                    id="mobile"
+                    v-model="data.timer"
+                    type="number"
+                    placeholder="Timer"
+                    label="Timer"
+                    persistent-placeholder
+                />
+            </VCol>
+            <VCol cols="6">
+                <VSelect
+                    v-model="data.type"
+                    :items="['options', 'dropzones', 'images']"
+                    label="Type"
+                    persistent-placeholder
+                />
+            </VCol>
             <VDivider />
-            <div v-if="data.type !== 'dropzones'">
+            <div v-if="data.type === 'options'">
                 <!-- <VRow> -->
                 <VCol cols="12" md="6">
                     <VFileInput
@@ -165,7 +178,11 @@ const selectedSubExam = computed({
                     />
                 </VCol>
             </div>
-            <DropzonesQuestion :question="data" v-else />
+            <DropzonesQuestion
+                v-else-if="data.type === 'dropzones'"
+                :question="data"
+            />
+            <div v-else><ImagesQuestion :question="data"/></div>
         </VForm>
 
         <VDivider />

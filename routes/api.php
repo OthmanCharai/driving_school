@@ -28,27 +28,30 @@ Route::post('logout', [AuthController::class,"logout"]);
 Route::post('refresh', [AuthController::class,"refresh"]);
 Route::post('register', [AuthController::class,'register']);
 
-Route::middleware(['jwt.verify'])->group(static function (){
+// Route::middleware(['jwt.verify'])->group(static function (){
+    // Route::middleware(['role:admin'])->group(static function (){
+        Route::apiResource('user', App\Http\Controllers\Api\UserController::class);
+
+        Route::apiResource('exam', App\Http\Controllers\Api\ExamController::class);
+
+        Route::apiResource('sub-exam', App\Http\Controllers\Api\SubExamController::class);
+
+        Route::apiResource('question', App\Http\Controllers\Api\QuestionController::class);
+
+        Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
+
+        Route::apiResource('dropzone',\App\Http\Controllers\DropzonController::class);
+
+        Route::post('score',[SubExamController::class,'score']);
+
+        Route::post('contact',[HomeController::class,'contact']);
+
+        Route::get('score/{score}',[SubExamController::class,'get_score']);
+    // });  
 
 
-});
-Route::apiResource('user', App\Http\Controllers\Api\UserController::class);
+// });
 
-Route::apiResource('exam', App\Http\Controllers\Api\ExamController::class);
-
-Route::apiResource('sub-exam', App\Http\Controllers\Api\SubExamController::class);
-
-Route::apiResource('question', App\Http\Controllers\Api\QuestionController::class);
-
-Route::apiResource('option', App\Http\Controllers\Api\OptionController::class);
-
-Route::apiResource('dropzone',\App\Http\Controllers\DropzonController::class);
-
-Route::post('score',[SubExamController::class,'score']);
-
-Route::post('contact',[HomeController::class,'contact']);
-
-Route::get('score/{score}',[SubExamController::class,'get_score']);
 
 
 

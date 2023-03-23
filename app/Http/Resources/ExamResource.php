@@ -15,6 +15,7 @@ class ExamResource extends JsonResource
      */
     public function toArray($request): array
     {
+        // dd(Storage::cloud()->temporaryUrl($this->image,now()->addHours(23)));
         return [
             'id' => $this->id,
             'name' => $this->name,
