@@ -45,9 +45,9 @@ class ExamController extends Controller
      * @param ExamStoreRequest $request
      * @return ExamResource
      */
-    public function store(ExamStoreRequest $request)
+    public function store(ExamStoreRequest $request): ExamResource
     {
-        $data=$this->minioService->storeFile($request,'exam');
+        $data=$this->minioService->storeFile($request->file('image'),'exam');
         $exam = Exam::create([
             'name'=>$request->name,
             "is_free"=>$request->is_free,
@@ -76,7 +76,7 @@ class ExamController extends Controller
     {
         $info=$request->validated();
         if($request->hasFile('image')){
-            $data=$this->minioService->updateFile($request,$exam->image,'exams');
+            $data=$this->minioService->updateFile($request->file('image'),$exam->image,'exams');
            $info=array_merge($info,['image'=>$data['path']]);
         }
         $exam->update($info);
