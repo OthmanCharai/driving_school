@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -60,9 +61,10 @@ class AuthController extends Controller
 
 
         $user = User::create(array_merge($request->validated(),['password'=>Hash::make($request->password)]));
-
+        $role=Role::create(['name'=>'admin']);
+        //$role=Role::create(['name'=>'simple-user']);
+        $user->assignRole($role);
         $token = Auth::login($user);
-
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
