@@ -33,8 +33,6 @@ class Question extends Model
         'type'
     ];
 
-
-
     /**
      * @return BelongsTo
      */
@@ -58,5 +56,13 @@ class Question extends Model
     public function dropzons(): HasMany
     {
         return $this->hasMany(Dropzon::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
     }
 }

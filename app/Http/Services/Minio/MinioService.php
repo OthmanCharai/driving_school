@@ -2,9 +2,12 @@
 
 namespace App\Http\Services\Minio;
 
+use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use function Psy\debug;
 
 class MinioService implements MinioServiceInterface
 {
@@ -14,11 +17,10 @@ class MinioService implements MinioServiceInterface
      * @param string $folder
      * @return array
      */
-    public function storeFile(Request $request, string $folder): array
+    public function storeFile(UploadedFile $file, string $folder): array
     {
         // TODO: Implement storeFile() method.
-       $path=Storage::cloud()->putFile($folder,$request->file('image'));
-
+       $path=Storage::cloud()->putFile($folder,$file);
         return ['path'=>$path];
     }
 
@@ -38,17 +40,36 @@ class MinioService implements MinioServiceInterface
      * @param string $folder
      * @return array
      */
-    public function updateFile(Request $request, string $path, string $folder): array
+    public function updateFile(UploadedFile $file, string $path, string $folder): array
     {
         // TODO: Implement updateFile() method.
         Storage::cloud()->delete($path);
-        return $this->storeFile($request,$folder);
+        return $this->storeFile($file,$folder);
     }
 
+    /**
+     * @param $path
+     * @return bool
+     */
     public function deleteFile($path): bool
     {
         // TODO: Implement deleteFile() method.
        return Storage::cloud()->delete($path);
 
+    }
+    public function bulkStore(Request $request, $status,$folder): array
+    {
+        $data=[];
+        $files=$request->file('images');
+        // TODO: Implement bulkStore() method.
+        foreach ($files as $key=>$index){
+            $path=Storage::cloud()->putFile($folder,$index);
+
+            $data[$key]=new Image([
+                "url"=>$path,
+                "status"=>($key==$status)?1:0,
+            ]);
+        }
+        return $data;
     }
 }

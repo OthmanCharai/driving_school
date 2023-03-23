@@ -24,10 +24,10 @@ class QuestionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => ['required', 'string'],
-            'image'=>['required','mimes:png,jpeg,jpg'],
+          /*  'question' => ['required', 'string'],
+
             "type"=>['required'],
-            'sub_exam_id' => ['required', 'exists:sub_exams,id'],
+            'sub_exam_id' => ['required', 'exists:sub_exams,id'],*/
         ];
     }
 }

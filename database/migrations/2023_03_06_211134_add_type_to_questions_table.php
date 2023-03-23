@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             //
-            $table->enum('type',['dropzones','options']);
+            $table->enum('type',['dropzones','options','images']);
         });
     }
 
