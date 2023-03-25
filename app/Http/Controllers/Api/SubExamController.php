@@ -98,6 +98,7 @@ class SubExamController extends Controller
     {
         $counter=0;
         $displayed_data=[];
+        $passedExam = true;
 
         foreach ($request->data as $data){
             try {

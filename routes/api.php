@@ -28,8 +28,8 @@ Route::post('logout', [AuthController::class,"logout"]);
 Route::post('refresh', [AuthController::class,"refresh"]);
 Route::post('register', [AuthController::class,'register']);
 
-// Route::middleware(['jwt.verify'])->group(static function (){
-    // Route::middleware(['role:admin'])->group(static function (){
+ Route::middleware(['jwt.verify'])->group(static function (){
+     Route::middleware(['role:simple-user'])->group(static function (){
         Route::apiResource('user', App\Http\Controllers\Api\UserController::class);
 
         Route::apiResource('exam', App\Http\Controllers\Api\ExamController::class);
@@ -47,10 +47,10 @@ Route::post('register', [AuthController::class,'register']);
         Route::post('contact',[HomeController::class,'contact']);
 
         Route::get('score/{score}',[SubExamController::class,'get_score']);
-    // });  
+     });
 
 
-// });
+ });
 
 
 
