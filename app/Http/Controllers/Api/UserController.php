@@ -15,6 +15,11 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:simple_user');
+    }
+
     /**
      * @param Request $request
      * @return UserCollection
