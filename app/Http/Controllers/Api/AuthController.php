@@ -64,8 +64,10 @@ class AuthController extends Controller
 
 
         $user = User::create(array_merge($request->validated(),['password'=>Hash::make($request->password)]));
-        // $role=Role::create(['name'=>'admin']);
         $role=Role::where('name', 'admin')->first();
+        if (!$role){
+         $role=Role::create(['name'=>'admin']);
+        }
 
         //$role=Role::create(['name'=>'simple-user']);
         $user->assignRole($role);
