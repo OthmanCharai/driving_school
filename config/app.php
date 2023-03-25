@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Services\Minio\MinioServiceProvider;
+use App\Http\Services\Question\QuestionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -183,6 +184,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         MinioServiceProvider::class,
+        QuestionServiceProvider::class,
 
         /*
          * Package Service Providers...
