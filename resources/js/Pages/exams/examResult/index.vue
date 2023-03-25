@@ -106,7 +106,7 @@ const getCorrectAnswersCount = (subExam) =>
                             </ul>
                         </div>
                         <div class="col-4">
-                            <div v-if="false" class="col-lg-12 ps-5 text-start">
+                            <div v-if="!examResult.passedExam" class="col-lg-12 ps-5 text-start">
                                 <i
                                     class="far fa-thumbs-down text-danger"
                                     style="font-size: 115px"

@@ -97,6 +97,7 @@ class SubExamController extends Controller
     public function score(Request $request)
     {
         $counter=0;
+        $subExamScore= 0;
         $displayed_data=[];
         $passedExam = true;
 
@@ -114,6 +115,7 @@ class SubExamController extends Controller
                         }
                         if ($isRightImage){
                             $counter++;
+                            $subExamScore++;
                         }
                         $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
                             $isRightImage
@@ -129,6 +131,7 @@ class SubExamController extends Controller
                             }
                             if($sub_score){
                                 $counter++;
+                                $subExamScore++;
                             }
                         }else{
                             $sub_score=false;
@@ -155,18 +158,24 @@ class SubExamController extends Controller
                                 ($option->status)?"true":"false"
                             ];
                             if($option->status){
+                                $subExamScore++;
                                 $counter++; // total note
                             }
                         }
                     }
                 }
                 $displayed_data['subExams'][$sub_exam->name]['minScore']= $sub_exam->note;
+                if ($subExamScore < $sub_exam->note){
+                    $passedExam = false;
+                }
+                $subExamScore = 0;
             }catch (NotFoundHttpException $e){
                 return \response()->json($e->getMessage(),404);
             }
         }
         $displayed_data['score']=$counter;
         $displayed_data['created_at']=now()->toDateString();
+        $displayed_data['passedExam']=$passedExam;
 
 
         $score=Score::create(['score'=>json_encode($displayed_data)]);
