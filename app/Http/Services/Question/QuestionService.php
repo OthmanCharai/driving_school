@@ -86,16 +86,15 @@ class QuestionService implements QuestionServiceInterface
         }
         $question->update($info);
         if($request->type=="images"){
-            // dd($question->images);
-            // foreach ($request->images as $newImage){
-            //     $image=Image::firstOrFail($newImage->id);
-            //     if($newImage->hasFile('image')){
-            //         $data=$this->minioService->updateFile($newImage->file('image'),$image->url,'questions/images');
-            //         $image->url=$data['path'];
-            //     }
-            //     $image->status=$newImage->status??$image->status;
-            //     $image->save();
-            // }
+             foreach ($request->images as $newImage){
+                 $image=Image::firstOrFail($newImage->id);
+                 if($newImage->hasFile('image')){
+                     $data=$this->minioService->updateFile($newImage->file('image'),$image->url,'questions/images');
+                     $image->url=$data['path'];
+                 }
+                 $image->status=$newImage->status??$image->status;
+                 $image->save();
+             }
         }else{
             $items=($request->type=="options")?$request->options:$request->dropzones;
             foreach ($items as  $item){

@@ -50,7 +50,8 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
 
-        ])->setStatusCode(200);
+        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 10))
+            ->setStatusCode(200);
 
     }
 
@@ -64,18 +65,19 @@ class AuthController extends Controller
 
         $user = User::create(array_merge($request->validated(),['password'=>Hash::make($request->password)]));
         // $role=Role::create(['name'=>'admin']);
-        $role=Role::where('name','admin')->first();
+        $role=Role::where('name', 'admin')->first();
 
         //$role=Role::create(['name'=>'simple-user']);
         $user->assignRole($role);
         $token = Auth::login($user);
-        cookie('token',$token,10);
+
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
             'token' => $token,
-        ]);
+        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 10));
     }
 
     /**

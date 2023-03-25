@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JwtMiddleware
@@ -21,12 +23,17 @@ class JwtMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
+        if ($request->hasCookie(env('JWT_COOKIE_NAME'))) {
+            $token = $request->cookie(env('JWT_COOKIE_NAME'));
+            $request->headers->add([
+                'Authorization' => 'Bearer ' . $token
+            ]);
+        }
         try {
             $user = JWTAuth::parseToken()->authenticate();
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+        } catch (TokenInvalidException $e) {
             return response()->json(['status' => 'unauthorized'])->setStatusCode(419);
-        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        } catch (TokenExpiredException $e) {
             return response()->json(['status' => 'Token is Expired'])->setStatusCode(419);
         } catch (Exception $e) {
             return response()->json(['status' => 'unauthorized'])->setStatusCode(419);
