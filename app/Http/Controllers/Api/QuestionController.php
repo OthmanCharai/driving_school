@@ -63,7 +63,8 @@ class QuestionController extends Controller
                 'question'=>$request->question,
                 "image"=>'',
                 'sub_exam_id'=>$request->sub_exam_id,
-                'type'=>$request->type
+                'type'=>$request->type,
+                'timer'=>$request->timer
             ]);
             $data=$this->minioService->bulkStore($request,$request->answer_image_index,'questions/images');
             $question->images()->saveMany($data);
@@ -75,7 +76,8 @@ class QuestionController extends Controller
             'question'=>$request->question,
             "image"=>$data['path'],
             'sub_exam_id'=>$request->sub_exam_id,
-            'type'=>$request->type
+            'type'=>$request->type,
+            'timer'=>$request->timer
         ]);
         foreach ($items as $item){
             $item= (object)$item;
@@ -131,15 +133,15 @@ class QuestionController extends Controller
         }
         $question->update($info);
         if($request->type=="images"){
-            foreach ($request->images as $newImage){
-                $image=Image::firstOrFail($newImage->id);
-                if($newImage->hasFile('image')){
-                    $data=$this->minioService->updateFile($newImage->file('image'),$image->url,'questions/images');
-                    $image->url=$data['path'];
-                }
-                $image->status=$newImage->status??$image->status;
-                $image->save();
-            }
+            // foreach ($request->images as $newImage){
+            //     $image=Image::firstOrFail($newImage->id);
+            //     if($newImage->hasFile('image')){
+            //         $data=$this->minioService->updateFile($newImage->file('image'),$image->url,'questions/images');
+            //         $image->url=$data['path'];
+            //     }
+            //     $image->status=$newImage->status??$image->status;
+            //     $image->save();
+            // }
         }else{
             $items=($request->type=="options")?$request->options:$request->dropzones;
             foreach ($items as  $item){

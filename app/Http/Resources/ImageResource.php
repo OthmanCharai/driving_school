@@ -20,6 +20,8 @@ class ImageResource extends JsonResource
     {
 
         return [
+            "id"=>$this->id,
+            "status"=>$this->status,
             "url"=>Storage::cloud()->temporaryUrl($this->url,now()->addHours(23))
         ];
     }

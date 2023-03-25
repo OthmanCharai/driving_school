@@ -57,10 +57,10 @@ const getCorrectAnswersCount = (subExam) =>
             <div class="container">
                 <div class="row border-bottom">
                     <div class="col-6">
-                        <h1>
+                        <!-- <h1>
                             Rijschoolmajed
                             <span class="px-5 d-block h3">ماجد العبيدي</span>
-                        </h1>
+                        </h1> -->
                     </div>
                     <div class="col-6">
                         <!-- <img
@@ -106,12 +106,19 @@ const getCorrectAnswersCount = (subExam) =>
                             </ul>
                         </div>
                         <div class="col-4">
-                            <div class="col-lg-12 ps-5 text-start">
+                            <div v-if="false" class="col-lg-12 ps-5 text-start">
                                 <i
                                     class="far fa-thumbs-down text-danger"
                                     style="font-size: 115px"
                                 ></i>
                                 <h3 class="fw-bold mt-2">حاول مرة اخرى</h3>
+                            </div>
+                            <div v-else class="col-lg-12 ps-5 text-start">
+                                <i
+                                    class="far fa-thumbs-up text-success"
+                                    style="font-size: 115px"
+                                ></i>
+                                <h3 class="fw-bold mt-2">تهنئة</h3>
                             </div>
                         </div>
                     </div>
@@ -139,7 +146,7 @@ const getCorrectAnswersCount = (subExam) =>
                                         class="float-end h6 text-muted"
                                         style="direction: rtl"
                                         >الاجابات للنجاح:
-                                        {{ subExam.minScore }}</span
+                                        {{ Math.floor(subExam.minScore) }}</span
                                     >
                                 </h4>
                                 <hr />

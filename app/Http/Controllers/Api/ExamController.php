@@ -63,7 +63,7 @@ class ExamController extends Controller
      */
     public function show(Request $request, Exam $exam): ExamResource
     {
-        $exam->load(['subExam.questions.options','subExam.questions.dropzons']);
+        $exam->load(['subExam.questions.options','subExam.questions.dropzons','subExam.questions.images']);
         return new ExamResource($exam);
     }
 

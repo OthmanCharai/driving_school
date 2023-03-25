@@ -25,6 +25,7 @@ class QuestionStoreRequest extends FormRequest
     {
         return [
             'question' => ['required', 'string'],
+            "timer"=>['required'],
             "type"=>['required'],
             'sub_exam_id' => ['required', 'exists:sub_exams,id']
         ];

@@ -21,7 +21,7 @@ class MinioService implements MinioServiceInterface
     {
         // TODO: Implement storeFile() method.
        $path=Storage::cloud()->putFile($folder,$file);
-        return ['path'=>$path];
+        return ['path'=>'WTFFF'];
     }
 
     /**

@@ -38,16 +38,13 @@ const selectImage = (avatarInputIndex) => {
 };
 
 const getImg = (avatar) => {
-    if (!avatar.value) {
+    if (!avatar.url) {
         console.log({ avatar });
         let [file] = avatar;
         console.log({ file });
         if (file) return URL.createObjectURL(file);
     } else {
-        let { value } = avatar;
-        let fileName = value;
-
-        return fileName;
+       return avatar.url
     }
 };
 </script>

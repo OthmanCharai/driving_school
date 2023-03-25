@@ -7,12 +7,15 @@ use App\Http\Requests\SubExamStoreRequest;
 use App\Http\Requests\SubExamUpdateRequest;
 use App\Http\Resources\SubExamCollection;
 use App\Http\Resources\SubExamResource;
+use App\Models\Image;
 use App\Models\Score;
 use App\Models\SubExam;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function PHPUnit\Framework\isNull;
 
 class SubExamController extends Controller
 {
@@ -97,11 +100,25 @@ class SubExamController extends Controller
         $displayed_data=[];
 
         foreach ($request->data as $data){
-            $min_score=0;
             try {
                 $sub_exam=SubExam::with(['questions.options','questions.dropzons'])->findOrFail($data['sub_exam_id']);
                 foreach ($data['response'] as $response){
-                    if(isset($response['type']) && $response['type']=='dropzones'){
+                    if($response['type']=='images'){
+                        $imageID = $response['option_id'];
+                        if ($imageID == null){
+                            $isRightImage = false;
+                        }else{
+                            $image=Image::find($imageID);
+                            $isRightImage = $image->status ? true : false;
+                        }
+                        if ($isRightImage){
+                            $counter++;
+                        }
+                        $displayed_data['subExams'][$sub_exam->name]['answers'][]=[
+                            $isRightImage
+                        ];
+                    }
+                    else if(isset($response['type']) && $response['type']=='dropzones'){
                         $question= $sub_exam->questions->where('id',$response['question_id'])->first();
                         $sub_score=false;
                         if(count($response['options'])){
@@ -111,7 +128,6 @@ class SubExamController extends Controller
                             }
                             if($sub_score){
                                 $counter++;
-                                $min_score++;
                             }
                         }else{
                             $sub_score=false;
@@ -138,14 +154,12 @@ class SubExamController extends Controller
                                 ($option->status)?"true":"false"
                             ];
                             if($option->status){
-
                                 $counter++; // total note
-                                $min_score++; //sub exam score
                             }
                         }
                     }
                 }
-                $displayed_data['subExams'][$sub_exam->name]['minScore']= $min_score;
+                $displayed_data['subExams'][$sub_exam->name]['minScore']= $sub_exam->note;
             }catch (NotFoundHttpException $e){
                 return \response()->json($e->getMessage(),404);
             }

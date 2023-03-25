@@ -30,7 +30,8 @@ class Question extends Model
         'voice',
         'sub_exam_id',
         'image',
-        'type'
+        'type',
+        'timer'
     ];
 
     /**

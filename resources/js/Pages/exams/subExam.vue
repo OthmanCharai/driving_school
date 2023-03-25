@@ -23,8 +23,14 @@ const {
         <div class="mt-3 text-end">part {{ currentSubExamIndex }}</div>
     </template>
     <template v-else>
-        <ImagesQuestion v-if="true"/>
-        <custom-shit v-else-if="currentQuestion.dropzones.length" :question="currentQuestion" />
+        <ImagesQuestion
+            v-if="currentQuestion.type === 'images'"
+            :question="currentQuestion"
+        />
+        <custom-shit
+            v-else-if="currentQuestion.dropzones.length"
+            :question="currentQuestion"
+        />
         <Question v-else :question="currentQuestion" />
     </template>
 </template>
