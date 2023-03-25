@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class QuestionService implements QuestionServiceInterface
 {
-    public function __construct(protected MinioServiceInterface $minioService)
+    public function __construct(public MinioServiceInterface $minioService)
     {
     }
 
@@ -77,7 +77,7 @@ class QuestionService implements QuestionServiceInterface
     /**
      * @inheritDoc
      */
-    public function update(Request $request,Question $question): QuestionResource
+    public function update(Request $request, Question $question): QuestionResource
     {
         $info=$request->validated();
         if($request->hasFile('image')){

@@ -24,12 +24,10 @@ class QuestionServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function register(): void
     {
-
         $this->app->bind(
             QuestionServiceInterface::class,
-            fn(Application $app)=>new QuestionService()
+            fn(Application $app)=>new QuestionService(new MinioService())
         );
-
     }
 
 }
