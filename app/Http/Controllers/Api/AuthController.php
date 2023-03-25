@@ -43,6 +43,8 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        cookie('token',$token,10);
+
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -67,6 +69,7 @@ class AuthController extends Controller
         //$role=Role::create(['name'=>'simple-user']);
         $user->assignRole($role);
         $token = Auth::login($user);
+        cookie('token',$token,10);
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
