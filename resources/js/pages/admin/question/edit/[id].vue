@@ -14,6 +14,9 @@ onMounted(async () => {
     questionData.value = {
         ...question,
         image_screenshot: question.image,
+        updatedImages: [],
+        removedImages: [],
+        answer_image_index:0,
     };
 });
 
@@ -24,24 +27,39 @@ const updateQuestion = async () => {
     formData.append("type", question.type);
     formData.append("sub_exam_id", question.sub_exam_id);
     formData.append("timer", question.timer);
-    if (question.image !== originalQuestion.image ){
+    if (question.image !== originalQuestion.image) {
         formData.append("image", question.image); // add image file to form data
     }
-    const list = question[question.type];
-    console.log(question, list);
-    list.forEach((option, index) => {
-        for (const key in option) {
-            formData.append(`${question.type}[${index}][${key}]`, option[key]);
-        }
-    });
+    console.log(question, question.updatedImages);
+    if (question.type === "images") {
+        const updatedImages = question.updatedImages;
+        const removedImages = question.removedImages;
+        formData.append("answer_image_index", question.answer_image_index);
+        removedImages.forEach((removedImage, index) => {
+            formData.append(`removedImage[${index}]`, removedImage);
+        });
+        updatedImages.forEach((updatedImage, index) => {
+            formData.append(`images[${index}]`, updatedImage.image);
+        });
+    } else {
+        const list = question[question.type];
+        list.forEach((option, index) => {
+            for (const key in option) {
+                formData.append(
+                    `${question.type}[${index}][${key}]`,
+                    option[key]
+                );
+            }
+        });
+    }
     try {
         await axios.post(`/question/${question.id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            params:{
-                "_method":"PUT"
-            }
+            params: {
+                _method: "PUT",
+            },
         });
         router.push({ name: "admin-question-list" });
     } catch (e) {

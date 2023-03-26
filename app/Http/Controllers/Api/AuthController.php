@@ -50,7 +50,7 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
 
-        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 10))
+        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 1000))
             ->setStatusCode(200);
 
     }
@@ -79,7 +79,7 @@ class AuthController extends Controller
             'message' => 'User created successfully',
             'user' => $user,
             'token' => $token,
-        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 10));
+        ])->withCookie(cookie(env('JWT_COOKIE_NAME'), $token, 1000));
     }
 
     /**

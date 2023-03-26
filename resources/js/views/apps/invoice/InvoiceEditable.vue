@@ -182,7 +182,7 @@ const selectedSubExam = computed({
                 v-else-if="data.type === 'dropzones'"
                 :question="data"
             />
-            <div v-else><ImagesQuestion :question="data"/></div>
+            <div v-else><ImagesQuestion :question="data" /></div>
         </VForm>
 
         <VDivider />

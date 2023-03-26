@@ -60,6 +60,7 @@ class MinioService implements MinioServiceInterface
     public function bulkStore(Request $request, $status,$folder): array
     {
         $data=[];
+        // dd($request);
         $files=$request->file('images');
         // TODO: Implement bulkStore() method.
         foreach ($files as $key=>$index){

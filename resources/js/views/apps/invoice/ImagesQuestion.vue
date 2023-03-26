@@ -1,4 +1,5 @@
 <script setup>
+import { remove } from "@vue/shared";
 import { ref } from "vue";
 const props = defineProps({
     question: {
@@ -8,28 +9,67 @@ const props = defineProps({
 });
 
 // const question = toRefs(props);
+const originalQuestion = JSON.parse(JSON.stringify(props.question));
 // const images = ref([]);
 const images = computed({
     get: () => props.question.images || [],
     set: (newValue) => {
         if (!props.question.images) props.question.images = [];
         console.log(newValue);
-        props.question.images = newValue; //; props.question.images.concat(newValue);
-        // console.log(props.question.images);
+        props.question.images.push(newValue);
+    },
+});
+
+const updatedImages = computed({
+    get: () => props.question.updatedImages || [],
+    set: (newValue) => {
+        if (!props.question.updatedImages) props.question.updatedImages = [];
+        // console.log(newValue)
+        props.question.updatedImages = newValue;
+        // console.log(newValue, props.question.updatedImages);
     },
 });
 
 const imagesInputs = ref([]);
 
 const uploadAvatar = (avatarInputIndex) => {
-    const uploadedFiles =
-        imagesInputs.value[avatarInputIndex - 1 - images.value.length].files;
+    const index = avatarInputIndex - 1;
+    const uploadedFiles = imagesInputs.value[index]?.files;
+    let [file] = uploadedFiles;
+    const uuid = Date.now() + Math.random().toString(36).substring(2);
+    file.uuid = uuid;
+    console.log({ index, uploadedFiles });
     // images.value =
     images.value.push(uploadedFiles);
+    // const id = originalQuestion.images[avatarInputIndex - 1]?.id;
+    updatedImages.value.push({
+        uuid,
+        status: false,
+        image: uploadedFiles[0],
+    });
     // userService.uploadimages(uploadedFiles);
 };
 
+function removeUploadedImage(avatarInputIndex) {
+    const removedImage = images.value[avatarInputIndex];
+    if (removedImage?.id){
+        props.question.removedImages.push(removedImage.id)
+        return;
+    }
+    const uuid = removedImage[0]?.uuid;
+    console.log(images.value[avatarInputIndex][0]?.uuid, { avatarInputIndex });
+    if (uuid === undefined) {
+        return;
+    }
+    const index = updatedImages.value.findIndex((image) => image.uuid === uuid);
+    console.log({index})
+    if (index !== -1) {
+        updatedImages.value.splice(index, 1);
+    }
+}
+
 const removeImage = (avatarInputIndex) => {
+    removeUploadedImage(avatarInputIndex);
     images.value.splice(avatarInputIndex, 1);
 };
 
@@ -39,12 +79,10 @@ const selectImage = (avatarInputIndex) => {
 
 const getImg = (avatar) => {
     if (!avatar.url) {
-        console.log({ avatar });
         let [file] = avatar;
-        console.log({ file });
         if (file) return URL.createObjectURL(file);
     } else {
-       return avatar.url
+        return avatar.url;
     }
 };
 </script>
@@ -79,7 +117,7 @@ const getImg = (avatar) => {
                 </template>
 
                 <label
-                    v-if="!images[avatarInputIndex - 1]"
+                    v-show="!images[avatarInputIndex - 1]"
                     class="cursor-pointer rounded-md font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2"
                 >
                     <div class="space-y-1 text-center">

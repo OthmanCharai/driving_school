@@ -9,6 +9,7 @@ use App\Models\Dropzon;
 use App\Models\Image;
 use App\Models\Option;
 use App\Models\Question;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -86,15 +87,25 @@ class QuestionService implements QuestionServiceInterface
         }
         $question->update($info);
         if($request->type=="images"){
-             foreach ($request->images as $newImage){
-                 $image=Image::firstOrFail($newImage->id);
-                 if($newImage->hasFile('image')){
-                     $data=$this->minioService->updateFile($newImage->file('image'),$image->url,'questions/images');
-                     $image->url=$data['path'];
-                 }
-                 $image->status=$newImage->status??$image->status;
-                 $image->save();
-             }
+            $removedImages = $request->removedImage;
+            if ($removedImages){
+                foreach($removedImages as $removedImage){
+                    $image=Image::find($removedImage);
+                    if ($image){
+                        try{
+                            $this->minioService->deleteFile($image->url);
+                            $image->delete();
+                        }catch(Exception $e){
+
+                        }
+                    }
+                }
+            }
+            if ($request->images){
+                $data=$this->minioService->bulkStore($request,$request->answer_image_index,'questions/images');
+                $question->images()->saveMany($data);
+            }
+            // $question->load('images');
         }else{
             $items=($request->type=="options")?$request->options:$request->dropzones;
             foreach ($items as  $item){
