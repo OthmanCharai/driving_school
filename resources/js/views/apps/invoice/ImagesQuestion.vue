@@ -52,8 +52,8 @@ const uploadAvatar = (avatarInputIndex) => {
 
 function removeUploadedImage(avatarInputIndex) {
     const removedImage = images.value[avatarInputIndex];
-    if (removedImage?.id){
-        props.question.removedImages.push(removedImage.id)
+    if (removedImage?.id) {
+        props.question.removedImages.push(removedImage.id);
         return;
     }
     const uuid = removedImage[0]?.uuid;
@@ -62,7 +62,7 @@ function removeUploadedImage(avatarInputIndex) {
         return;
     }
     const index = updatedImages.value.findIndex((image) => image.uuid === uuid);
-    console.log({index})
+    console.log({ index });
     if (index !== -1) {
         updatedImages.value.splice(index, 1);
     }
@@ -94,23 +94,20 @@ const getImg = (avatar) => {
         <div class="flex flex-wrap gap-6 max-w-[60rem] mt-4">
             <div
                 v-for="avatarInputIndex in 3"
-                class="relative mt-1 flex-1 h-[20rem] min-w-[30%] flex justify-center items-center rounded-md border-dashed border-slate-300 bg-[#EAEDF6]"
-                :class="{ 'border-2': !images[avatarInputIndex - 1] }"
+                class="cursor-pointer border-[5px] relative mt-1 flex-1 h-[20rem] min-w-[30%] flex justify-center items-center rounded-md border-transparent bg-[#bcbfc8]"
+                :class="{
+                    'border-4 border-dashed': !images[avatarInputIndex - 1],
+                    ' border-[5px] !border-blue-800 !border-solid':
+                    images[avatarInputIndex - 1] && question.answer_image_index == avatarInputIndex - 1,
+                }"
             >
                 <template v-if="images[avatarInputIndex - 1]">
-                    <!-- {{ question.answer_image_index }} -->
-                    <!-- {{ avatarInputIndex - 1 }} -->
                     <div
                         @click="selectImage(avatarInputIndex - 1)"
-                        class="w-full h-full border-6 bordDer-transparent border-blue-700"
-                        :class="{
-                            ' !border-blue-700':
-                                question.answer_image_index ==
-                                avatarInputIndex - 1,
-                        }"
+                        class="w-full h-full border-6 border-blue-700"
                     >
                         <img
-                            class="w-full h-full rounded-md object-cover"
+                            class="w-full h-full rounded-md object-cover border-2 border-blue-400"
                             :src="getImg(images[avatarInputIndex - 1])"
                         />
                     </div>
